@@ -14,7 +14,7 @@ class Car {
     }
 
     status() {
-        console.log(`${this.icon}, pos = ${this.pos}, time =${this.time}`)
+        return `${this.icon}, pos = ${this.pos}, time =${this.time} \n`
     }
 
     render() {
@@ -27,6 +27,8 @@ let pos = 0, time = 0
 const taxi = new Car('🚖')
 const thief = new Car('🚘')
 const police = new Car('🚔')
+
+let result = ''
 
 const interval = setInterval(() => {
     console.clear()
@@ -50,10 +52,20 @@ const interval = setInterval(() => {
         police.time = time
     }
 
-    if (taxi.pos >= 100 && thief.pos >= 100 && police.pos >= 100)
+    if (taxi.pos >= 100 && thief.pos >= 100 && police.pos >= 100){
         clearInterval(interval)
-
-        taxi.status()
-        thief.status()
-        police.status()
+        
+        result += taxi.status()
+        result += thief.status()
+        result += police.status()
+        console.log(result)
+        
+        const fs = require('fs')
+        
+        fs.writeFile('/Users/macbook/workspace/isdi-parttime-202303/staff/rodrigo-castro/fullstack/result.txt', result, err => {
+            if(err) {
+                console.error(err)
+            }
+        })
+    }
 }, LAPSE)
