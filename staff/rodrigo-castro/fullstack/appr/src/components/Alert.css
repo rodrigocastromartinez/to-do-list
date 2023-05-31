@@ -1,0 +1,33 @@
+.alert-modal {
+    width: 80%;
+    max-width: 18rem;
+    height: fit-content;
+    padding: 2rem;
+    margin: 0;
+    border-radius: 2rem;
+    background-color: var(--grey-100);
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.alert-title {
+    border-bottom: 1px solid var(--grey-200);
+    margin: 0;
+    padding-bottom: 0.5rem;
+    font-weight: 400;
+}
+
+.critical {
+    color: red;
+}
+
+.alert-message {
+    margin: 0;
+    padding-bottom: 0.5rem;
+    align-self: center;
+}
+
+.accept {
+    align-self: center;
+}
