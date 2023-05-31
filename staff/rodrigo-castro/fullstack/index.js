@@ -58,11 +58,12 @@ const interval = setInterval(() => {
         result += taxi.status()
         result += thief.status()
         result += police.status()
+        result += '************************************************************************ \n'
         console.log(result)
         
         const fs = require('fs')
         
-        fs.writeFile('/Users/macbook/workspace/isdi-parttime-202303/staff/rodrigo-castro/fullstack/result.txt', result, err => {
+        fs.appendFile('/Users/macbook/workspace/isdi-parttime-202303/staff/rodrigo-castro/fullstack/result.txt', result, err => {
             if(err) {
                 console.error(err)
             }
