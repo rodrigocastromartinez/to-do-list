@@ -39,8 +39,8 @@ export default function Register({onLoginClick, onUserRegistered}) {
     }
   
     return <Container tag="div">
-    <h1 className="all-titles text-3xl">REGISTER</h1>
-    <form className="inputs" onSubmit={handleRegister}>
+    <h1 className="title">REGISTER</h1>
+    <form className="flex flex-col items-center justify-between h-80 w-full" onSubmit={handleRegister}>
         <input className="input-field" type="text" name="name" placeholder="User name"/>
         <input className="input-field" type="email" name="email" placeholder="Email"/>
         <input className="input-field" type="password" name="password" placeholder="Password"/>
