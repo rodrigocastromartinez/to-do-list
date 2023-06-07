@@ -4,9 +4,8 @@
   "description": "my bootcamp api",
   "main": "index.js",
   "scripts": {
-    "test": "mocha logic/*/*.spec.js",
-    "test-inspect": "mocha --inspect-brk logic/*/*.spec.js",
-    "test-coverage": "nyc --reporter=html --reporter=text mocha logic/*/*.spec.js"
+    "test": "mocha logic/*.spec.js",
+    "test-inspect": "mocha --inspect-brk logic/*.spec.js"
   },
   "dependencies": {
     "com": "file:../com"
