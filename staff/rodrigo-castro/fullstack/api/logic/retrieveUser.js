@@ -1,10 +1,11 @@
 const { readFile } = require('fs')
+const { validators: { validateId } } = require('com')
 
 module.exports = function retrieveUser(userId, callback) {
-    // TODO validate userId
+    validateId(userId)
 
     readFile('./data/users.json', 'utf8', (error, json) => {
-        if(error){
+        if (error) {
             callback(error)
 
             return
@@ -14,9 +15,9 @@ module.exports = function retrieveUser(userId, callback) {
 
         const foundUser = users.find(user => user.id === userId)
 
-        if(!foundUser){
+        if (!foundUser) {
             callback(new Error(`user with user id ${userId}not found`))
-            
+
             return
         }
 
@@ -24,11 +25,11 @@ module.exports = function retrieveUser(userId, callback) {
             id: foundUser.id,
             name: foundUser.name
         }
-        
+
         if (foundUser.avatar)
             user.avatar = foundUser.avatar
 
-        if(foundUser.city)
+        if (foundUser.city)
             user.city = foundUser.city
 
         callback(null, user)

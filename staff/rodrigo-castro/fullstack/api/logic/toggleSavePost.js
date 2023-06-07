@@ -1,7 +1,9 @@
 const { readFile, writeFile } = require('fs')
+const { validators: { validateId } } = require('com')
 
 module.exports = function toggleSavePost(userId, postId, callback) {
-    //TODO validate inputs
+    validateId(userId)
+    validateId(postId)
 
     readFile('./data/users.json', 'utf8', (error, usersJson) => {
         if (error) {

@@ -1,13 +1,12 @@
 const { readFile } = require('fs')
-// const { validateEmail, validatePassword } =require('../../appr/src/logic/helpers/validators')
+const { validators: { validateEmail, validatePassword } } = require('com')
 
 module.exports = function authenticateUser(email, password, callback) {
-    // TODO validate inputs
-    // validateEmail(email)
-    // validatePassword(password)
+    validateEmail(email)
+    validatePassword(password)
 
     readFile('./data/users.json', 'utf8', (error, json) => {
-        if(error){
+        if (error) {
             callback(error)
 
             return
@@ -17,7 +16,7 @@ module.exports = function authenticateUser(email, password, callback) {
 
         const user = users.find(user => user.email === email)
 
-        if(user === undefined || user.password !== password){
+        if (user === undefined || user.password !== password) {
             callback(new Error('Wrong email or password'))
 
             return

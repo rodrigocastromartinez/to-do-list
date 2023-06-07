@@ -1,10 +1,12 @@
 const { readFile, writeFile } = require('fs')
+const { validators: { validateId } } = require('com')
 
 module.exports = function deletePost(userId, postId, callback) {
-    //TODO validate inputs
+    validateId(userId)
+    validateId(postId)
 
     readFile('./data/users.json', 'utf8', (error, usersJson) => {
-        if(error) {
+        if (error) {
             callback(error)
 
             return
@@ -14,14 +16,14 @@ module.exports = function deletePost(userId, postId, callback) {
 
         const user = users.find(user => user.id === userId)
 
-        if(!user) {
+        if (!user) {
             callback(new Error(`user with id ${userId} not found`))
 
             return
         }
 
         readFile('./data/posts.json', 'utf8', (error, postsJson) => {
-            if(error) {
+            if (error) {
                 callback(error)
 
                 return
@@ -31,13 +33,13 @@ module.exports = function deletePost(userId, postId, callback) {
 
             const index = posts.findIndex(post => post.id === postId)
 
-            if(index < 0) {
+            if (index < 0) {
                 callback(new Error(`post with id ${postId} not found`))
 
                 return
             }
 
-            if(posts[index].author !== userId) {
+            if (posts[index].author !== userId) {
                 callback(new Error(`post with id ${postId} does not belong to user with id ${userId}`))
 
                 return
@@ -48,7 +50,7 @@ module.exports = function deletePost(userId, postId, callback) {
             postsJson = JSON.stringify(posts)
 
             writeFile('./data/posts.json', postsJson, error => {
-                if(error) {
+                if (error) {
                     callback(error)
 
                     return

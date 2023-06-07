@@ -1,7 +1,10 @@
 const { readFile, writeFile } = require('fs')
+const { validators: { validateId, validateUrl, validateText } } = require('com')
 
 module.exports = function createPost(userId, image, text, callback) {
-    //TODO validate inputs
+    validateId(userId)
+    validateUrl(image)
+    validateText(text)
 
     readFile('./data/users.json', 'utf8', (error, usersJson) => {
         if (error) {

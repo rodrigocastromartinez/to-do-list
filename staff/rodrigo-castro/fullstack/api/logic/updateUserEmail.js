@@ -1,10 +1,14 @@
 const { readFile, writeFile } = require('fs')
+const { validators: { validateId, validateEmail, validatePassword } } = require('com')
 
 module.exports = function updateUserEmail(userId, userPreviousEmail, userNewEmail, userPassword, callback) {
-    // TODO validate inputs
+    validateId(userId)
+    validateEmail(userPreviousEmail)
+    validateEmail(userNewEmail)
+    validatePassword(userPassword)
 
     readFile('./data/users.json', 'utf8', (error, json) => {
-        if(error) {
+        if (error) {
             callback(error)
 
             return
@@ -14,7 +18,7 @@ module.exports = function updateUserEmail(userId, userPreviousEmail, userNewEmai
 
         let user = users.find(user => user.email === userNewEmail)
 
-        if(user) {
+        if (user) {
             callback(new Error('new email is already registered'))
 
             return
@@ -22,13 +26,13 @@ module.exports = function updateUserEmail(userId, userPreviousEmail, userNewEmai
 
         user = users.find(user => user.id === userId)
 
-        if(!user){
+        if (!user) {
             callback(new Error(`user with user-id ${userId} not found`))
 
             return
         }
 
-        if(user.email !== userPreviousEmail || user.password !== userPassword) {
+        if (user.email !== userPreviousEmail || user.password !== userPassword) {
             callback(new Error(`email or password incorrect`))
         }
 
@@ -37,7 +41,7 @@ module.exports = function updateUserEmail(userId, userPreviousEmail, userNewEmai
         json = JSON.stringify(users)
 
         writeFile('./data/users.json', json, error => {
-            if(error) {
+            if (error) {
                 callback(error)
 
                 return

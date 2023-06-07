@@ -1,10 +1,12 @@
 const { readFile, writeFile } = require('fs')
+const { validators: { validateId, validateText } } = require('com')
 
 module.exports = function updateUserCity(userId, city, callback) {
-    //TODO validate inputs
+    validateId(userId)
+    validateText(city)
 
     readFile('./data/users.json', 'utf8', (error, json) => {
-        if(error){
+        if (error) {
             callback(error)
 
             return
@@ -14,7 +16,7 @@ module.exports = function updateUserCity(userId, city, callback) {
 
         const user = users.find(user => user.id === userId)
 
-        if(!user) {
+        if (!user) {
             callback(new Error(`user with user-id ${userId} not found`))
 
             return
@@ -25,7 +27,7 @@ module.exports = function updateUserCity(userId, city, callback) {
         json = JSON.stringify(users)
 
         writeFile('./data/users.json', json, error => {
-            if(error){
+            if (error) {
                 callback(error)
 
                 return
