@@ -46,12 +46,12 @@ export default function Login({onRegisterClick, onUserLoggedIn}) {
     <form className="inputs" onSubmit={handleLogin}>
             <input className="input-field" type="email" name="email" placeholder="Email"/>
             <input className="input-field" type="password" name="password" placeholder="Password"/>
-            <div className="remember-me">
-                <input className="checkbox" type="checkbox" name="remember-me"/>
-                <div className="remember-me-text">Remember me</div>
+            <div className="flex items-center gap-0.5">
+                <input className="h-4 w-4" type="checkbox" name="remember-me"/>
+                <div>Remember me</div>
             </div>
-            <div className="forgot-password">Forgot your <a className="link">password</a>?</div>
-            <div className="already-registered">Dont have an account? <a className="link" onClick={handleRegisterClick}>Register now</a></div>
+            <div>Forgot your <a className="link">password</a>?</div>
+            <div>Dont have an account? <a className="link" onClick={handleRegisterClick}>Register now</a></div>
             <button className="submit-buttons" type="submit">Login</button>
     </form>
     </Container>

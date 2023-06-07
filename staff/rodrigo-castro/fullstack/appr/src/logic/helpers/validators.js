@@ -21,7 +21,7 @@ export function validateId(id, explain = 'id'){
     if(!id.trim().length) throw new Error(`${explain} is empty`, {cause: "ownError"})
 }
 
-export function validateName(userName){
+export function validateUserName(userName){
     if (userName.trim().length < 1) throw new Error('Name is empty', {cause: "ownError"})
     if (!userNameExpression.test(userName)) throw new Error ('Username is not valid', {cause: "ownError"})
 }

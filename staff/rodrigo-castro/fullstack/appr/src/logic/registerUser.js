@@ -1,21 +1,10 @@
 console.debug('load register user')
 
 import { saveUsers, loadUsers, findUser } from "../data"
-import { validateName, validateEmail, validatePassword } from "./helpers/validators"
-
-
-// CREO QUE NO LO USO MÄS
-// export const registerNewUser = (userName, userEmail, userPassword, id) => {
-//     users.push({
-//         id,
-//         name: userName,
-//         email: userEmail,
-//         password: userPassword
-//     })
-// }
+import { validateUserName, validateEmail, validatePassword } from "./helpers/validators"
 
 export const registerUserFull = (userEmail, userName, userPassword, callback) => {
-    validateName(userName)
+    validateUserName(userName)
 
     validateEmail(userEmail)
 

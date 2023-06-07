@@ -1,0 +1,20 @@
+[
+    {
+        "id": "user-1",
+        "name": "pepito.grillo",
+        "email": "pepito@grillo.com",
+        "password": "123123123",
+        "savedPosts": [
+            "post-1"
+        ],
+        "avatar": "www.hola.com"
+    },
+    {
+        "id": "user-2",
+        "name": "pepito.grillo2",
+        "email": "pepito2@grillo.com",
+        "password": "123123123",
+        "savedPosts": [],
+        "avatar": "www.hola2.com"
+    }
+]

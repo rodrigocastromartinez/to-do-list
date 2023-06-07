@@ -23,10 +23,6 @@ export const changePassword = (userId, previousPassword, newPassword, newPasswor
         }
 
         foundUser.password = newPassword
-        
-        // changePasswordMenu.querySelector('.red-text').textContent = 'Password succesfully changed'
-        // changePasswordMenu.querySelector('.red-text').classList.add('green-text')
-        // changePasswordMenu.querySelector('form').reset()
     
         saveUser(foundUser, () => callback(null))
     })
