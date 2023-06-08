@@ -3,13 +3,17 @@ const { readFile, writeFile } = require('fs')
 const registerUser = require('./registerUser.js')
 
 describe('registerUser', () => {
-    beforeEach(done => writeFile('./data/users.json', '[]', 'utf8', error => done(error)))
+    let name, email, password
 
-    it('should succeed on new user', done => {
-        const name = `name-${Math.random()}`
-        const email = `e-${Math.random()}@mail.com`
-        const password = `password-${Math.random()}`
+    beforeEach(done => {
+        name = `name-${Math.random()}`
+        email = `e-${Math.random()}@mail.com`
+        password = `password-${Math.random()}`
 
+        writeFile('./data/users.json', '[]', 'utf8', error => done(error))
+    })
+
+    it('succeeds on new user', done => {
         registerUser(name, email, password, error => {
             expect(error).to.be.null
 
@@ -33,11 +37,7 @@ describe('registerUser', () => {
         })
     })
 
-    it('should fail on existing user', done => {
-        const name = `name-${Math.random()}`
-        const email = `e-${Math.random()}@mail.com`
-        const password = `password-${Math.random()}`
-
+    it('fails on existing user', done => {
         const user = [{ name, email, password }]
         const json = JSON.stringify(user)
 
@@ -51,6 +51,18 @@ describe('registerUser', () => {
                 done()
             })
         })
+    })
+
+    it('fails on empty name', () => {
+        expect(() => registerUser('', email, password, () => { })).to.throw(Error, 'Name is empty')
+    })
+
+    it('fails on empty email', () => {
+        expect(() => registerUser(name, '', password, () => { })).to.throw(Error, 'Email is empty')
+    })
+
+    it('fails on empty password', () => {
+        expect(() => registerUser(name, email, '', () => { })).to.throw(Error, 'password must have at least 8 characters')
     })
 
     after(done => writeFile('./data/users.json', '[]', error => done(error)))
