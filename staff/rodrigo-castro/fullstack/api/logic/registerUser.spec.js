@@ -55,3 +55,4 @@ describe('registerUser', () => {
 
     after(done => writeFile('./data/users.json', '[]', error => done(error)))
 })
+

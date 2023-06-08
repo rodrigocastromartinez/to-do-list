@@ -1,5 +1,8 @@
-import { validateId, validateUrl, validateText } from './helpers/validators'
+// import { validateId, validateUrl, validateText } from './helpers/validators'
 import { savePosts, findUserById, loadPosts } from '../data'
+import { validators } from 'com'
+
+const { validateId, validateUrl, validateText } = validators
 
 export function createPost(userId, image, text, callback) {
     validateId(userId)
@@ -7,24 +10,24 @@ export function createPost(userId, image, text, callback) {
     validateText(text)
 
     findUserById(userId, user => {
-        if(!user){
+        if (!user) {
             callback(new Error(`User with id ${userId} not found`))
         }
-    
+
         loadPosts(posts => {
-            if(!posts){
+            if (!posts) {
                 callback(new Error(`Posts not found`))
 
                 return
             }
 
             let id = 'post-1'
-            
+
             const lastPost = posts[posts.length - 1]
-        
-            if(lastPost)
+
+            if (lastPost)
                 id = 'post-' + (parseInt(lastPost.id.slice(5)) + 1)
-        
+
             const post = {
                 id,
                 author: userId,
@@ -33,9 +36,9 @@ export function createPost(userId, image, text, callback) {
                 date: new Date,
                 likedBy: []
             }
-        
+
             posts.push(post)
-        
+
             savePosts(posts, () => callback(null))
         })
     })

@@ -1,6 +1,6 @@
 // import { validateEmail, validatePassword } from './helpers/validators'
-import { validators } from 'com'
 import { findUser } from '../data'
+import { validators } from 'com'
 
 const { validateEmail, validatePassword } = validators
 

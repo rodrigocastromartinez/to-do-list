@@ -1,6 +1,13 @@
-export default function retrieveWeather(city = 'Barcelona', callback){
+// import { validateText } from "com/validators"
+import { validators } from 'com'
+
+const { validateText } = validators
+
+export default function retrieveWeather(city = 'Barcelona', callback) {
+    validateText(city)
+
     let xhr = new XMLHttpRequest
-    
+
     xhr.onload = event => {
         const allData = JSON.parse(xhr.response)
 
@@ -8,13 +15,13 @@ export default function retrieveWeather(city = 'Barcelona', callback){
 
         const id = allData.weather[0].id
 
-        callback(null, {temperature, id})
+        callback(null, { temperature, id })
     }
 
     xhr.onerror = () => {
         callback(new Error('connection error'))
     }
-    
+
     xhr.open('GET', `http://api.openweathermap.org/data/2.5/weather?q=${city}&APPID=7afed3f6606a5dc540c51522d0860c88`)
     xhr.send()
 }

@@ -1,16 +1,15 @@
 import authenticateUser from '../logic/authenticateUser'
 import { context } from '../ui'
 import PropTypes from 'prop-types'
-import { useContext } from 'react'
-import Context from "../Context"
+import { useAppContext } from '../hooks'
 import Container from '../library/Container'
 
-export default function Login({onRegisterClick, onUserLoggedIn}) {
-    const { alert, freeze, unfreeze } = useContext(Context)
+export default function Login({ onRegisterClick, onUserLoggedIn }) {
+    const { alert, freeze, unfreeze } = useAppContext()
 
     function handleRegisterClick(event) {
         event.preventDefault()
-  
+
         onRegisterClick()
     }
 
@@ -18,41 +17,41 @@ export default function Login({onRegisterClick, onUserLoggedIn}) {
         event.preventDefault()
 
         const email = event.target.email.value,
-        password = event.target.password.value
+            password = event.target.password.value
 
-        try{
+        try {
             freeze()
-            
+
             authenticateUser(email, password, (error, userId) => {
                 unfreeze()
 
-                if(error){
+                if (error) {
                     alert(error.message, 'error')
 
                     return
                 }
-                
+
                 context.userId = userId
-    
+
                 onUserLoggedIn()
             })
-        } catch(error){
+        } catch (error) {
             alert(error.message, 'warn')
         }
     }
-  
+
     return <Container tag="div">
-    <h1 className="title">LOGIN</h1>
-    <form className="inputs" onSubmit={handleLogin}>
-            <input className="input-field" type="email" name="email" placeholder="Email"/>
-            <input className="input-field" type="password" name="password" placeholder="Password"/>
+        <h1 className="title">LOGIN</h1>
+        <form className="inputs" onSubmit={handleLogin}>
+            <input className="input-field" type="email" name="email" placeholder="Email" />
+            <input className="input-field" type="password" name="password" placeholder="Password" />
             <div className="flex items-center gap-0.5">
-                <input className="h-4 w-4" type="checkbox" name="remember-me"/>
+                <input className="h-4 w-4" type="checkbox" name="remember-me" />
                 <div>Remember me</div>
             </div>
             <div>Forgot your <a className="link">password</a>?</div>
             <div>Dont have an account? <a className="link" onClick={handleRegisterClick}>Register now</a></div>
             <button className="submit-buttons" type="submit">Login</button>
-    </form>
+        </form>
     </Container>
-  }
+}

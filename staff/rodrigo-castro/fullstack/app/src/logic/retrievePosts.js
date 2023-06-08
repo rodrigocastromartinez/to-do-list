@@ -1,11 +1,14 @@
-import { validateId } from './helpers/validators'
+// import { validateId } from './helpers/validators'
 import { loadPosts, findUserById, loadUsers } from '../data'
+import { validators } from 'com'
+
+const { validateId } = validators
 
 export default function retrievePosts(userId, callback) {
     validateId(userId, 'user id')
 
     findUserById(userId, user => {
-        if(!user){
+        if (!user) {
             callback(new Error(`User with id ${user.id} not found`))
 
             return
@@ -24,7 +27,7 @@ export default function retrievePosts(userId, callback) {
 
                     post.isFav = user.savedPosts.includes(post.id)
                 })
-    
+
                 callback(null, posts.toReversed())
             })
         })

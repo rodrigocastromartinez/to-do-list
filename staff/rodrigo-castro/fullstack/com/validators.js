@@ -7,34 +7,34 @@ console.debug('validators loaded')
 // }
 
 function validateEmail(email) {
-    if (typeof email !== 'string') throw new Error('Email is not a string', { cause: "ownError" })
-    if (!email.trim().length) throw new Error('Email is empty', { cause: "ownError" })
-    if (!emailExpression.test(email)) throw new Error('Email format is wrong', { cause: "ownError" })
+    if (typeof email !== 'string') throw new Error('Email is not a string')
+    if (!email.trim().length) throw new Error('Email is empty')
+    if (!emailExpression.test(email)) throw new Error('Email format is wrong')
 }
 
 function validateUrl(avatarUrl, explain = 'url') {
-    if (typeof avatarUrl !== 'string') throw new Error(`${explain} is not a string`, { cause: "ownError" })
-    if (!avatarUrl.trim().length) throw new Error(`${explain} is empty`, { cause: "ownError" })
+    if (typeof avatarUrl !== 'string') throw new Error(`${explain} is not a string`)
+    if (!avatarUrl.trim().length) throw new Error(`${explain} is empty`)
 }
 
 function validateId(id, explain = 'id') {
-    if (typeof id !== 'string') throw new Error(`${explain} is not a string`, { cause: "ownError" })
-    if (!id.trim().length) throw new Error(`${explain} is empty`, { cause: "ownError" })
+    if (typeof id !== 'string') throw new Error(`${explain} is not a string`)
+    if (!id.trim().length) throw new Error(`${explain} is empty`)
 }
 
 function validateUserName(userName) {
-    if (userName.trim().length < 1) throw new Error('Name is empty', { cause: "ownError" })
-    if (!userNameExpression.test(userName)) throw new Error('Username is not valid', { cause: "ownError" })
+    if (userName.trim().length < 1) throw new Error('Name is empty')
+    if (!userNameExpression.test(userName)) throw new Error('Username is not valid')
 }
 
 function validatePassword(userPassword, message = 'password') {
-    if (userPassword.length < 8) throw new Error(`${message} must have at least 8 characters`, { cause: "ownError" })
-    if (!passwordExpression.test(userPassword)) throw new Error(`${message} format is not valid`, { cause: "ownError" })
+    if (userPassword.length < 8) throw new Error(`${message} must have at least 8 characters`)
+    if (!passwordExpression.test(userPassword)) throw new Error(`${message} format is not valid`)
 }
 
 function validateText(postText, explain = 'text') {
-    if (typeof postText !== 'string') throw new Error(`${explain} is not a string`, { cause: "ownError" })
-    if (postText.trim().length < 1) throw new Error('Text is empty', { cause: "ownError" })
+    if (typeof postText !== 'string') throw new Error(`${explain} is not a string`)
+    if (postText.trim().length < 1) throw new Error('Text is empty')
 }
 
 const userNameExpression = /^[a-z0-9._-]{3,30}$/
