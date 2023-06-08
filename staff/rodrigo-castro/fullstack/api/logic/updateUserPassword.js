@@ -7,6 +7,10 @@ module.exports = function updateUserPassword(userId, previousPassword, newPasswo
     validatePassword(newPassword)
     validatePassword(newPasswordRepeated)
 
+    if (previousPassword === newPassword) throw new Error(`New password must be different as previous password`)
+
+    if (newPassword !== newPasswordRepeated) throw new Error(`Passwords do not match`)
+
     readFile('./data/users.json', 'utf8', (error, json) => {
         if (error) {
             callback(error)
@@ -30,21 +34,11 @@ module.exports = function updateUserPassword(userId, previousPassword, newPasswo
             return
         }
 
-        if (previousPassword === newPassword) {
-            callback(new Error(`New password must be different as previous password`))
-
-            return
-        }
-
-        if (newPassword !== newPasswordRepeated) {
-            callback(new Error(`Passwords do not match`))
-        }
-
         user.password = newPassword
 
         json = JSON.stringify(users)
 
-        writeFile('.data/users.json', json, error => {
+        writeFile('./data/users.json', json, error => {
             if (error) {
                 callback(error)
 
