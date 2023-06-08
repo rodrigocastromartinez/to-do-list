@@ -1,13 +1,12 @@
 import retrievePosts from '../logic/retrievePosts'
 import { context } from '../ui'
 import Post from './Post.jsx'
-import { useState, useEffect, useContext } from 'react'
+import { useState, useEffect } from 'react'
 import './Posts.css'
-import PropTypes from 'prop-types'
-import Context from '../Context'
+import { useAppContext } from '../hooks'
 
-export default function Posts({onEditClicked, onPostDeleted, postsToShow, lastPostsUpdate, user }) {
-    const { freeze, unfreeze } = useContext(Context)
+export default function Posts({ onEditClicked, onPostDeleted, postsToShow, lastPostsUpdate, user }) {
+    const { freeze, unfreeze } = useAppContext()
     const [posts, setPosts] = useState()
 
     useEffect(() => {
@@ -17,16 +16,16 @@ export default function Posts({onEditClicked, onPostDeleted, postsToShow, lastPo
             retrievePosts(context.userId, (error, posts) => {
                 unfreeze()
 
-                if(error){
+                if (error) {
                     alert(error.message)
-    
+
                     return
                 }
-    
+
                 setPosts(posts)
             })
 
-        } catch(error) {
+        } catch (error) {
             alert(error.message)
         }
     }, [])
@@ -35,26 +34,26 @@ export default function Posts({onEditClicked, onPostDeleted, postsToShow, lastPo
         try {
             freeze()
 
-            switch(postsToShow) {
+            switch (postsToShow) {
                 case 'all':
                     retrievePosts(context.userId, (error, posts) => {
                         unfreeze()
 
-                        if(error){
+                        if (error) {
                             alert(error.message)
-            
+
                             return
                         }
-            
+
                         setPosts(posts)
                     })
                     break;
-                
+
                 case 'saved':
                     retrievePosts(context.userId, (error, posts) => {
                         unfreeze()
 
-                        if(error){
+                        if (error) {
                             alert(error.message)
 
                             return
@@ -70,7 +69,7 @@ export default function Posts({onEditClicked, onPostDeleted, postsToShow, lastPo
                     retrievePosts(context.userId, (error, posts) => {
                         unfreeze()
 
-                        if(error){
+                        if (error) {
                             alert(error.message)
 
                             return
@@ -86,7 +85,7 @@ export default function Posts({onEditClicked, onPostDeleted, postsToShow, lastPo
                     retrievePosts(context.userId, (error, posts) => {
                         unfreeze()
 
-                        if(error){
+                        if (error) {
                             alert(error.message)
 
                             return
@@ -97,7 +96,7 @@ export default function Posts({onEditClicked, onPostDeleted, postsToShow, lastPo
                         setPosts(_posts)
                     })
             }
-        } catch(error) {
+        } catch (error) {
             alert(error.message)
         }
     }
@@ -111,7 +110,7 @@ export default function Posts({onEditClicked, onPostDeleted, postsToShow, lastPo
     useEffect(() => {
         console.debug('Posts -> "componentWillRecieveProps" with hooks')
 
-        if(lastPostsUpdate)
+        if (lastPostsUpdate)
             handleRefreshPosts()
     }, [lastPostsUpdate])
 
@@ -120,15 +119,15 @@ export default function Posts({onEditClicked, onPostDeleted, postsToShow, lastPo
 
         handleRefreshPosts()
     }, [postsToShow])
-    
+
     console.debug('Posts -> render')
 
     return <section className='posts-list'>
-        { posts && posts.map(post => (post.privacy === 'public' || post.author.authorId === context.userId) && <Post 
-            key={post.id} 
-            post={post} 
-            onToggledLikePost={handleRefreshPosts} 
-            onToggleSavePost={handleRefreshPosts} 
+        {posts && posts.map(post => (post.privacy === 'public' || post.author.authorId === context.userId) && <Post
+            key={post.id}
+            post={post}
+            onToggledLikePost={handleRefreshPosts}
+            onToggleSavePost={handleRefreshPosts}
             onToggledPrivacy={handleRefreshPosts}
             onEdit={onEditClicked}
             onPostDeleted={onPostDeleted}

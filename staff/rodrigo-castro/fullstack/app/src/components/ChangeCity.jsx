@@ -1,10 +1,9 @@
 import { updateUserCity } from '../logic/updateUserCity'
-import { useContext } from 'react'
-import Context from '../Context'
 import { context } from '../ui'
+import { useAppContext } from '../hooks'
 
-export default function ChangeCity({onCancel, onCityChanged}) {
-    const { freeze, unfreeze} = useContext(Context)
+export default function ChangeCity({ onCancel, onCityChanged }) {
+    const { freeze, unfreeze } = useAppContext()
 
     const handleCancel = () => onCancel()
 
@@ -13,13 +12,13 @@ export default function ChangeCity({onCancel, onCityChanged}) {
 
         const city = event.target.city.value
 
-        try{
+        try {
             freeze()
 
             updateUserCity(context.userId, city, error => {
                 unfreeze()
-                
-                if(error){
+
+                if (error) {
                     alert(error.message)
 
                     return
@@ -27,20 +26,20 @@ export default function ChangeCity({onCancel, onCityChanged}) {
 
                 onCityChanged()
             })
-        } catch(error){
+        } catch (error) {
             alert(error.message)
         }
     }
 
     return <section className="modal-window">
-    <div className="updating-menus">
-        <form action="" className="inputs" onSubmit={handleChangeCity}>
-            <input type="text" className="input-field" name="city" placeholder="Insert your city" autoComplete="off"/>
-            <div>
-                <button className="submit-buttons">Save</button>
-                <button className="submit-buttons cancel-avatar-change" type="button" onClick={handleCancel}>Cancel</button>
-            </div>
-        </form>
-    </div>
-</section>
+        <div className="updating-menus">
+            <form action="" className="inputs" onSubmit={handleChangeCity}>
+                <input type="text" className="input-field" name="city" placeholder="Insert your city" autoComplete="off" />
+                <div>
+                    <button className="submit-buttons">Save</button>
+                    <button className="submit-buttons cancel-avatar-change" type="button" onClick={handleCancel}>Cancel</button>
+                </div>
+            </form>
+        </div>
+    </section>
 }

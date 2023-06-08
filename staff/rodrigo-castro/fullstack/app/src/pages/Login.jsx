@@ -1,6 +1,5 @@
 import authenticateUser from '../logic/authenticateUser'
 import { context } from '../ui'
-import PropTypes from 'prop-types'
 import { useAppContext } from '../hooks'
 import Container from '../library/Container'
 
