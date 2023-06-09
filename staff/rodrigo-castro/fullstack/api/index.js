@@ -1,5 +1,5 @@
 const express = require('express')
-const { registerUser } = require('./logic')
+const { registerUser, authenticateUser } = require('./logic')
 
 const api = express()
 
@@ -18,7 +18,6 @@ api.post('/users', (req, res) => {
     })
 
     req.on('end', () => {
-        debugger
         const { name, email, password } = JSON.parse(json)
 
         try {
@@ -39,6 +38,29 @@ api.post('/users', (req, res) => {
 
 api.post('/users/auth', (req, res) => {
     // TODO call authenticateUser and return userId
+    let json = ''
+
+    req.on('data', chunk => {
+        json += chunk
+    })
+
+    req.on('end', () => {
+        const { email, password } = JSON.parse(json)
+
+        try {
+            authenticateUser(email, password, (error, userId) => {
+                if (error) {
+                    res.status(400).json({ error: error.message })
+
+                    return
+                }
+
+                res.status(201).send(userId) // ver si esto esta bien o se tiene que devolver de otra forma el userId
+            })
+        } catch (error) {
+            res.status(400).json({ error: error.message })
+        }
+    })
 })
 
 api.get('/users/:userId', (req, res) => {
