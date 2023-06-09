@@ -1,7 +1,5 @@
 import Posts from '../components/Posts'
 import { retrieveUser } from '../logic/retrieveUser'
-import retrieveWeather from '../logic/retrieveWeather'
-import WeatherData from '../components/WeatherData'
 import { context } from '../ui'
 import { useState, useEffect } from 'react'
 import AddPostModal from '../components/AddPostModal'
@@ -11,6 +9,7 @@ import ChangePassword from '../components/ChagePassword'
 import ChangeAvatar from '../components/ChangeAvatar'
 import EditPost from '../components/EditPost'
 import Profile from '../components/Profile'
+import MotivationalQuote from '../components/MotivationalQuote'
 import './Home.css'
 import ProfileBar from '../components/ProfileBar'
 import NavigationBar from '../components/NavigationBar'
@@ -23,7 +22,6 @@ export default function Home(props) {
     const [postsToShow, setPostsToShow] = useState('all')
     const [user, setUser] = useState()
     const [view, setView] = useState('posts')
-    const [summary, setSummary] = useState()
 
     const { freeze, unfreeze } = useAppContext()
 
@@ -41,19 +39,6 @@ export default function Home(props) {
                 }
 
                 setUser(user)
-
-                if (user.city)
-                    retrieveWeather(user.city, (error, summary) => {
-                        unfreeze()
-
-                        if (error) {
-                            alert(error.message)
-
-                            return
-                        }
-
-                        setSummary(summary)
-                    })
             })
 
             freeze()
@@ -167,7 +152,7 @@ export default function Home(props) {
         />
 
         {view === 'posts' && <main className="main-content">
-            {postsToShow === 'all' && summary && <WeatherData city={user.city} summary={summary} className={"weather"} />}
+            {postsToShow === 'all' && <MotivationalQuote className={"weather"} />}
 
             <Posts
                 onEditClicked={handleEditClicked}
