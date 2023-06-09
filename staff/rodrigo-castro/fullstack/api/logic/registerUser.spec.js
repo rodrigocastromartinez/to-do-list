@@ -2,6 +2,9 @@ const { expect } = require('chai')
 const { readFile, writeFile } = require('fs')
 const registerUser = require('./registerUser.js')
 
+// **** PARA CHEQUEAR LOS PORCENTAJES DE COBERTURA Y QUÉ PARTES DE LA FUNCIÓN FALTAN:
+// **** EN TERMINAL: open coverage/index.html luego del test
+
 describe('registerUser', () => {
     let name, email, password
 

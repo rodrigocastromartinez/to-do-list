@@ -1,7 +1,7 @@
 const { readFile, writeFile } = require('fs')
 const { validators: { validateId, validatePassword } } = require('com')
 
-module.exports = function updateUserPassword(userId, previousPassword, newPassword, newPasswordRepeated, callback) {
+module.exports = (userId, previousPassword, newPassword, newPasswordRepeated, callback) => {
     validateId(userId)
     validatePassword(previousPassword)
     validatePassword(newPassword)

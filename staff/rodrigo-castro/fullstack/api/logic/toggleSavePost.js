@@ -1,7 +1,7 @@
 const { readFile, writeFile } = require('fs')
 const { validators: { validateId } } = require('com')
 
-module.exports = function toggleSavePost(userId, postId, callback) {
+module.exports = (userId, postId, callback) => {
     validateId(userId)
     validateId(postId)
 

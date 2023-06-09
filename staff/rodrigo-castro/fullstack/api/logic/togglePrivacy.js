@@ -1,8 +1,7 @@
 const { readFile, writeFile } = require('fs')
 const { validators: { validateId } } = require('com')
 
-module.exports = function togglePrivacy(userId, postId, callback) {
-    // TODO validate inputs
+module.exports = (userId, postId, callback) => {
     validateId(userId)
     validateId(postId)
 
