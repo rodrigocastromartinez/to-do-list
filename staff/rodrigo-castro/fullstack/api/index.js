@@ -1,5 +1,5 @@
 const express = require('express')
-const { registerUser, authenticateUser, retrieveUser, updateUserAvatar, updateUserEmail, updateUserPassword } = require('./logic')
+const { registerUser, authenticateUser, retrieveUser, updateUserAvatar, updateUserEmail, updateUserPassword, createPost } = require('./logic')
 
 const api = express()
 
@@ -55,6 +55,34 @@ api.post('/users/auth', (req, res) => {
                 }
 
                 res.status(200).json({ userId })
+            })
+        } catch (error) {
+            res.status(400).json({ error: error.message })
+        }
+    })
+})
+
+api.post('/posts/:userId', (req, res) => {
+    let json = ''
+
+    req.on('data', chunk => {
+        json += chunk
+    })
+
+    req.on('end', () => {
+        try {
+            const { userId } = req.params
+
+            const { image, text } = JSON.parse(json)
+
+            createPost(userId, image, text, error => {
+                if (error) {
+                    res.status(400).json({ error: error.message })
+
+                    return
+                }
+
+                res.send()
             })
         } catch (error) {
             res.status(400).json({ error: error.message })

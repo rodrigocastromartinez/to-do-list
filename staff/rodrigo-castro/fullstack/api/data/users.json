@@ -1,1 +1,9 @@
-[{"id":"user-1","name":"pepe.grillo","email":"pepe2@grillo.com","password":"432432432","savedPosts":[],"avatar":"www.avatar.com/holamundocruel"}]
+[
+    {
+        "id": "user-1",
+        "name": "pepe.grillo",
+        "email": "pepe@grillo.com",
+        "password": "123123123",
+        "savedPosts": []
+    }
+]

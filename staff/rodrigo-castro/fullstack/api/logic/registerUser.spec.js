@@ -68,6 +68,6 @@ describe('registerUser', () => {
         expect(() => registerUser(name, email, '', () => { })).to.throw(Error, 'password must have at least 8 characters')
     })
 
-    after(done => writeFile('./data/users.json', '[]', error => done(error)))
+    after(done => writeFile('./data/posts.json', '[]', error => done(error)))
 })
 
