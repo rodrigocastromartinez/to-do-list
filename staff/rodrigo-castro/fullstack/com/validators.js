@@ -39,7 +39,7 @@ function validateText(postText, explain = 'text') {
 
 const userNameExpression = /^[a-z0-9._-]{3,30}$/
 const emailExpression = /^[\w-.]+@[a-zA-Z0-9]+(\.[a-zA-Z]{2,4}){1,2}$/
-const passwordExpression = /^[a-zA-Z\d#$@!%&*?]{8,16}/
+const passwordExpression = /^[a-zA-Z\d#$@!%&*?]{8,32}/
 // const passwordExpression = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%&*?])[a-zA-Z\d#$@!%&*?]{8,16}/
 
 module.exports = { validateEmail, validateUrl, validateId, validateUserName, validatePassword, validateText }

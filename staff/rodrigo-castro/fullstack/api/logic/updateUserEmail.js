@@ -34,6 +34,8 @@ module.exports = (userId, userPreviousEmail, userNewEmail, userPassword, callbac
 
         if (user.email !== userPreviousEmail || user.password !== userPassword) {
             callback(new Error(`email or password incorrect`))
+
+            return
         }
 
         user.email = userNewEmail
