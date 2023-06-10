@@ -1,16 +1,1 @@
-[
-    {
-        "id": "user-1",
-        "name": "pepe.grillo",
-        "email": "pepe@grillo.com",
-        "password": "123123123",
-        "savedPosts": []
-    },
-    {
-        "id": "user-2",
-        "name": "pepa.grillo",
-        "email": "pepa@grillo.com",
-        "password": "123123123",
-        "savedPosts": []
-    }
-]
+[{"id":"user-1","name":"pepa.grillo","email":"pepa@grillo.com","password":"123123123","savedPosts":[],"avatar":"www.avatar.com/holamundo"}]

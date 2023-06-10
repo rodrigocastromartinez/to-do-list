@@ -1,5 +1,5 @@
 const express = require('express')
-const { registerUser, authenticateUser } = require('./logic')
+const { registerUser, authenticateUser, retrieveUser, updateUserAvatar } = require('./logic')
 
 const api = express()
 
@@ -18,9 +18,9 @@ api.post('/users', (req, res) => {
     })
 
     req.on('end', () => {
-        const { name, email, password } = JSON.parse(json)
-
         try {
+            const { name, email, password } = JSON.parse(json)
+
             registerUser(name, email, password, error => {
                 if (error) {
                     res.status(400).json({ error: error.message })
@@ -37,7 +37,6 @@ api.post('/users', (req, res) => {
 })
 
 api.post('/users/auth', (req, res) => {
-    // TODO call authenticateUser and return userId
     let json = ''
 
     req.on('data', chunk => {
@@ -45,9 +44,9 @@ api.post('/users/auth', (req, res) => {
     })
 
     req.on('end', () => {
-        const { email, password } = JSON.parse(json)
-
         try {
+            const { email, password } = JSON.parse(json)
+
             authenticateUser(email, password, (error, userId) => {
                 if (error) {
                     res.status(400).json({ error: error.message })
@@ -55,7 +54,33 @@ api.post('/users/auth', (req, res) => {
                     return
                 }
 
-                res.status(201).send(userId) // ver si esto esta bien o se tiene que devolver de otra forma el userId
+                res.status(200).json({ userId })
+            })
+        } catch (error) {
+            res.status(400).json({ error: error.message })
+        }
+    })
+})
+
+api.post('/users/avatar', (req, res) => {
+    let json = ''
+
+    req.on('data', chunk => {
+        json += chunk
+    })
+
+    req.on('end', () => {
+        try {
+            const { id, avatar } = JSON.parse(json)
+
+            updateUserAvatar(id, avatar, error => {
+                if (error) {
+                    res.status(400).json({ error: error.message })
+
+                    return
+                }
+
+                res.send()
             })
         } catch (error) {
             res.status(400).json({ error: error.message })
@@ -64,7 +89,22 @@ api.post('/users/auth', (req, res) => {
 })
 
 api.get('/users/:userId', (req, res) => {
-    // TODO call retrieveUser and return user (in json)
+    try {
+        // const userId = req.params.userId
+        const { userId } = req.params
+
+        retrieveUser(userId, (error, user) => {
+            if (error) {
+                res.status(400).json({ error: error.message })
+
+                return
+            }
+
+            res.json(user) // el 200 que poníamos antes en realidad no hace falta porque ya devuelve eso por defecto
+        })
+    } catch (error) {
+        res.status(400).json({ error: error.message })
+    }
 })
 
 api.listen(4000)
