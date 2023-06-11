@@ -1,1 +1,14 @@
-[{"id":"post-1","author":"user-1","image":"www.hola.com/img1.jpg","text":"creating a new post","date":"2023-06-10T17:19:45.289Z","likedBy":[],"privacy":"public"},{"id":"post-2","author":"user-1","image":"www.hola.com/img1.jpg","text":"creating a new post","date":"2023-06-10T17:19:57.210Z","likedBy":[],"privacy":"public"},{"id":"post-3","author":"user-1","image":"www.hola.com/img1.jpg","text":"creating a new post","date":"2023-06-10T17:19:57.777Z","likedBy":[],"privacy":"public"},{"id":"post-4","author":"user-1","image":"www.hola.com/img1.jpg","text":"creating a new post","date":"2023-06-10T17:19:58.271Z","likedBy":[],"privacy":"public"}]
+[
+    {
+        "id": "post-0.8223763269389064",
+        "author": "user-1"
+    },
+    {
+        "id": "post-0.8223763269389064-2",
+        "author": "user-1"
+    },
+    {
+        "id": "post-0.8223763269389064-3",
+        "author": "user-1"
+    }
+]
