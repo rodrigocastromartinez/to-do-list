@@ -1,1 +1,11 @@
-[{"id":"post-0.060907236351248395","author":"user-0.23217716645434572"},{"id":"post-0.060907236351248395-2","author":"user-0.23217716645434572"},{"id":"post-0.060907236351248395-3","author":"user-0.23217716645434572"}]
+[
+    {
+        "id": "post-1",
+        "author": "user-5",
+        "image": "https://picsum.photos/600/500?random=6",
+        "text": "yeah",
+        "date": "2023-06-11T17:42:56.951Z",
+        "likedBy": [],
+        "privacy": "public"
+    }
+]
