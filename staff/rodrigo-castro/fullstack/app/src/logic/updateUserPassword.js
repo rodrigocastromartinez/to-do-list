@@ -1,32 +1,39 @@
 // import { validateId, validatePassword } from './helpers/validators'
-import { saveUser, findUserById } from '../data'
 import { validators } from 'com'
 
 const { validateId, validatePassword } = validators
 
-export const changePassword = (userId, previousPassword, newPassword, newPasswordRepeated, callback) => {
+export const changePassword = (userId, password, newPassword, newPasswordConfirm, callback) => {
     validateId(userId)
-    validatePassword(previousPassword)
+    validatePassword(password)
     validatePassword(newPassword, 'new password')
-    validatePassword(newPasswordRepeated, 'new password confirm')
+    validatePassword(newPasswordConfirm, 'new password confirm')
 
-    findUserById(userId, foundUser => {
-        if (previousPassword !== foundUser.password) {
-            callback(new Error('Your password is incorrect', { cause: "ownError" }))
+    const xhr = new XMLHttpRequest
+
+    xhr.onload = () => {
+        const { status } = xhr
+
+        if (status !== 204) {
+            const { response: json } = xhr
+            const { error } = JSON.parse(json)
+
+            callback(new Error(error))
 
             return
         }
 
-        if (newPassword === previousPassword) {
-            callback(new Error('New password must be different than previous', { cause: "ownError" }))
-        }
+        callback(null)
+    }
 
-        if (newPasswordRepeated !== newPassword) {
-            callback(new Error(`New passwords don't match`, { cause: "ownError" }))
-        }
+    xhr.onerror = () => {
+        callback(new Error('connection error'))
+    }
 
-        foundUser.password = newPassword
+    xhr.open('PATCH', `${import.meta.env.VITE_API_URL}/users/password/${userId}`)
 
-        saveUser(foundUser, () => callback(null))
-    })
+    const data = { password, newPassword, newPasswordConfirm }
+    const json = JSON.stringify(data)
+
+    xhr.send(json)
 }
