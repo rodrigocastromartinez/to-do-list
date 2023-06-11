@@ -7,5 +7,6 @@ module.exports = {
     updateUserPassword: require('./updateUserPassword'),
     createPost: require('./createPost'),
     retrievePosts: require('./retrievePosts'),
-    retrievePost: require('./retrievePost')
+    retrievePost: require('./retrievePost'),
+    editPost: require('./editPost')
 }

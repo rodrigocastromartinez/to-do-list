@@ -1,11 +1,5 @@
 console.debug('validators loaded')
 
-// CREO QUE YA NO LO USO
-// const checkNewUser = (userEmail, users) => {
-//     const userFound = users().find(user => user.email === userEmail)
-//     if(userFound) throw new Error('Email already registered', {cause: "ownError"})
-// }
-
 function validateEmail(email) {
     if (typeof email !== 'string') throw new Error('Email is not a string')
     if (!email.trim().length) throw new Error('Email is empty')

@@ -1,4 +1,4 @@
-import { registerUserFull } from '../logic/registerUser'
+import registerUser from '../logic/registerUser'
 import Container from '../library/Container'
 import { useAppContext } from '../hooks'
 
@@ -21,7 +21,7 @@ export default function Register({ onLoginClick, onUserRegistered }) {
         try {
             freeze()
 
-            registerUserFull(email, username, password, error => {
+            registerUser(email, username, password, error => {
                 unfreeze()
 
                 if (error) {
@@ -33,6 +33,7 @@ export default function Register({ onLoginClick, onUserRegistered }) {
             })
         } catch (error) {
             alert(error.message)
+            unfreeze()
         }
     }
 

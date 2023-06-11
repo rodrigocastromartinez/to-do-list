@@ -1,7 +1,15 @@
 const express = require('express')
-const { registerUser, authenticateUser, retrieveUser, updateUserAvatar, updateUserEmail, updateUserPassword, createPost, retrievePosts, retrievePost } = require('./logic')
+const { registerUser, authenticateUser, retrieveUser, updateUserAvatar, updateUserEmail, updateUserPassword, createPost, retrievePosts, retrievePost, editPost } = require('./logic')
 
 const api = express()
+
+api.use((req, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', '*')
+    res.setHeader('Access-Control-Allow-Headers', '*')
+
+
+    next()
+})
 
 api.get('/', (req, res) => {
 
@@ -165,6 +173,34 @@ api.patch('/users/password/:userId', (req, res) => {
                 }
 
                 res.status(204).send()
+            })
+        } catch (error) {
+            res.status(400).json({ error: error.message })
+        }
+    })
+})
+
+api.patch('/posts/:userId/:postId', (req, res) => {
+    const { userId, postId } = req.params
+
+    let json = ''
+
+    req.on('data', chunk => {
+        json += chunk
+    })
+
+    req.on('end', () => {
+        try {
+            const { image, text } = JSON.parse(json)
+
+            editPost(userId, postId, image, text, error => {
+                if (error) {
+                    res.status(400).json({ error: error.message })
+
+                    return
+                }
+
+                res.send()
             })
         } catch (error) {
             res.status(400).json({ error: error.message })

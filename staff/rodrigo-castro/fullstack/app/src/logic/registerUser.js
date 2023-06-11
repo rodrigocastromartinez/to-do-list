@@ -1,44 +1,40 @@
 console.debug('load register user')
-
-// import { validateUserName, validateEmail, validatePassword } from "./helpers/validators"
-import { saveUsers, loadUsers, findUser } from "../data"
 import { validators } from 'com'
 
 const { validateUserName, validateEmail, validatePassword } = validators
 
-export const registerUserFull = (userEmail, userName, userPassword, callback) => {
-    validateUserName(userName)
+export default function registerUser(email, name, password, callback) {
+    validateUserName(name)
+    validateEmail(email)
+    validatePassword(password)
 
-    validateEmail(userEmail)
+    const xhr = new XMLHttpRequest
 
-    validatePassword(userPassword)
+    xhr.onload = () => {
+        const { status } = xhr
 
-    findUser(userEmail, foundUser => {
-        if (foundUser) {
-            callback(new Error('user already exists'))
+        if (status !== 201) {
+            const { response: json } = xhr
+            const { error } = JSON.parse(json)
+
+            callback(new Error(error))
 
             return
         }
 
-        let id = 'user-1'
+        callback(null)
+    }
 
-        loadUsers(users => {
+    xhr.onerror = () => {
+        callback(new Error('connection error'))
+    }
 
-            const lastUser = users[users.length - 1]
+    xhr.open('POST', 'http://localhost:4000/users')
 
-            if (lastUser)
-                id = 'user-' + (parseInt(lastUser.id.slice(5)) + 1)
+    xhr.setRequestHeader('Content-Type', 'application/json')
 
-            users.push({
-                id,
-                name: userName,
-                email: userEmail,
-                password: userPassword,
-                savedPosts: []
-            })
+    const user = { name, email, password }
+    const json = JSON.stringify(user)
 
-            saveUsers(users, () => callback(null))
-        })
-    })
-
+    xhr.send(json)
 }

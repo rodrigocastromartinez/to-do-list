@@ -5,5 +5,33 @@
         "email": "pepe@grillo.com",
         "password": "123123123",
         "savedPosts": []
+    },
+    {
+        "id": "user-2",
+        "name": "pepe2.grillo",
+        "email": "pepe2@grillo.com",
+        "password": "123123123",
+        "savedPosts": []
+    },
+    {
+        "id": "user-3",
+        "name": "hola1",
+        "email": "rodri@mail.com",
+        "password": "123123123",
+        "savedPosts": []
+    },
+    {
+        "id": "user-4",
+        "name": "hola2",
+        "email": "rodri2@mail.com",
+        "password": "123123123",
+        "savedPosts": []
+    },
+    {
+        "id": "user-5",
+        "name": "rodrigo.91",
+        "email": "ro@drigo.com",
+        "password": "123123123",
+        "savedPosts": []
     }
 ]
