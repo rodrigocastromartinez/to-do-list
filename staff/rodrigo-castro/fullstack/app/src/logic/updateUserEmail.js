@@ -1,39 +1,40 @@
-// import { validateEmail, validateId, validatePassword } from './helpers/validators'
-import { loadUsers, saveUser, findUserById } from '../data'
 import { validators } from 'com'
 
 const { validateEmail, validateId, validatePassword } = validators
 
-export const changeEmail = (userId, userPreviousEmail, userNewEmail, userPassword, callback) => {
+export const changeEmail = (userId, email, newEmail, password, callback) => {
     validateId(userId)
-    validateEmail(userPreviousEmail)
-    validateEmail(userNewEmail)
-    validatePassword(userPassword)
+    validateEmail(email)
+    validateEmail(newEmail)
+    validatePassword(password)
 
-    findUserById(userId, (foundUser) => {
-        if (userPreviousEmail !== foundUser.email) {
-            alert(new Error('Email or password incorrect', { cause: "ownError" }))
+    const xhr = new XMLHttpRequest
+
+    xhr.onload = () => {
+        const { status } = xhr
+
+        if (status !== 200) {
+            const { response: json } = xhr
+            const { error } = JSON.parse(json)
+
+            callback(new Error(error))
 
             return
         }
 
-        loadUsers(users => {
-            if (users.some(user => user.email === userNewEmail)) {
-                alert(new Error('Email already registered', { cause: "ownError" }))
+        callback(null)
+    }
 
-                return
-            }
+    xhr.onerror = () => {
+        callback(new Error('connection error'))
+    }
 
-            if (userPassword !== foundUser.password) {
-                alert(new Error('Email or password incorrect2', { cause: "ownError" }))
-            }
+    xhr.open('PATCH', `${import.meta.env.VITE_API_URL}/users/email/${userId}`)
 
-            foundUser.email = userNewEmail
-            // changeEmailMenu.querySelector('.red-text').textContent = 'Email succesfully changed'
-            // changeEmailMenu.querySelector('.red-text').classList.add('green-text')
-            // changeEmailMenu.querySelector('form').reset()
+    xhr.setRequestHeader('Content-Type', 'application/json')
 
-            saveUser(foundUser, () => callback(null))
-        })
-    })
+    const data = { userId, email, newEmail, password }
+    const json = JSON.stringify(data)
+
+    xhr.send(json)
 }
