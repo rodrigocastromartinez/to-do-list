@@ -1,3 +1,5 @@
+require('dotenv').config()
+
 const { expect } = require('chai')
 const { readFile, writeFile } = require('fs')
 const createPost = require('./createPost')
@@ -10,7 +12,7 @@ describe('createPost', () => {
         image = `www.image.com/${Math.random()}`
         text = `text-${Math.random()}`
 
-        writeFile('./data/users.json', '[]', () => {
+        writeFile(`${process.env.DB_PATH}/users.json`, '[]', () => {
             writeFile('./data/posts.json', '[]', error => done(error))
         })
     })
@@ -19,7 +21,7 @@ describe('createPost', () => {
         const user = [{ id }]
         const json = JSON.stringify(user)
 
-        writeFile('./data/users.json', json, error => {
+        writeFile(`${process.env.DB_PATH}/users.json`, json, error => {
             expect(error).to.be.null
 
             createPost(id, image, text, error => {
@@ -51,5 +53,5 @@ describe('createPost', () => {
         })
     })
 
-    after(done => writeFile('./data/users.json', '[]', error => done(error)))
+    after(done => writeFile(`${process.env.DB_PATH}/users.json`, '[]', error => done(error)))
 })

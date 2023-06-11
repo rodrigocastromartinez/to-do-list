@@ -4,19 +4,37 @@ import { validators } from 'com'
 
 const { validateId, validateUrl } = validators
 
-export const updateUserAvatar = (userId, avatarUrl, callback) => {
+export const updateUserAvatar = (userId, avatar, callback) => {
     validateId(userId, 'user id')
-    validateUrl(avatarUrl, 'Avatar url')
+    validateUrl(avatar, 'Avatar url')
 
-    findUserById(userId, (foundUser) => {
-        if (!foundUser) {
-            alert(new Error('Something went wrong. User not found', { cause: "ownError" }))
+    const xhr = new XMLHttpRequest
+
+    xhr.onload = () => {
+        const { status } = xhr
+
+        if (status !== 204) {
+            const { response: json } = xhr
+            const { error } = JSON.parse(json)
+
+            callback(new Error(error))
 
             return
         }
 
-        foundUser.avatar = avatarUrl
+        callback(null)
+    }
 
-        saveUser(foundUser, () => callback(null))
-    })
+    xhr.onerror = () => {
+        callback(new Error('connection error'))
+    }
+
+    xhr.open('PATCH', `${import.meta.env.VITE_API_URL}/users/avatar/${userId}`)
+
+    xhr.setRequestHeader('Content-Type', 'application/json')
+
+    const data = { avatar }
+    const json = JSON.stringify(data)
+
+    xhr.send(json)
 }

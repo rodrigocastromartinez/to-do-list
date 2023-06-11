@@ -1,3 +1,5 @@
+require('dotenv').config()
+
 const { expect } = require('chai')
 const { readFile, writeFile } = require('fs')
 const updateUserAvatar = require('./updateUserAvatar')
@@ -9,14 +11,14 @@ describe('updateUserAvatar', () => {
         id = `user-${Math.random()}`
         url = `www.avatar.com/${Math.random()}`
 
-        writeFile('./data/users.json', '[]', error => done(error))
+        writeFile(`${process.env.DB_PATH}/users.json`, '[]', error => done(error))
     })
 
     it('succeeds on existing user', done => {
         const users = [{ id, url }]
         const json = JSON.stringify(users)
 
-        writeFile('./data/users.json', json, error => {
+        writeFile(`${process.env.DB_PATH}/users.json`, json, error => {
             expect(error).to.be.null
 
             const newAvatar = url + '-new'
@@ -24,7 +26,7 @@ describe('updateUserAvatar', () => {
             updateUserAvatar(id, newAvatar, error => {
                 expect(error).to.be.null
 
-                readFile('./data/users.json', (error, json) => {
+                readFile(`${process.env.DB_PATH}/users.json`, (error, json) => {
                     expect(error).to.be.null
 
                     const users = JSON.parse(json)

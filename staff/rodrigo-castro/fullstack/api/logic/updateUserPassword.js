@@ -11,7 +11,7 @@ module.exports = (userId, previousPassword, newPassword, newPasswordRepeated, ca
 
     if (newPassword !== newPasswordRepeated) throw new Error(`Passwords do not match`)
 
-    readFile('./data/users.json', 'utf8', (error, json) => {
+    readFile(`${process.env.DB_PATH}/users.json`, 'utf8', (error, json) => {
         if (error) {
             callback(error)
 
@@ -38,7 +38,7 @@ module.exports = (userId, previousPassword, newPassword, newPasswordRepeated, ca
 
         json = JSON.stringify(users)
 
-        writeFile('./data/users.json', json, error => {
+        writeFile(`${process.env.DB_PATH}/users.json`, json, error => {
             if (error) {
                 callback(error)
 

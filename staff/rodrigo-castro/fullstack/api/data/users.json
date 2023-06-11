@@ -32,6 +32,14 @@
         "name": "rodrigo.91",
         "email": "ro@drigo.com",
         "password": "123123123",
+        "savedPosts": [],
+        "avatar": "https://photos.demandstudios.com/getty/article/203/196/200247800-001.jpg"
+    },
+    {
+        "id": "user-6",
+        "name": "rodri.go91",
+        "email": "rodri@rodri.com",
+        "password": "123123123",
         "savedPosts": []
     }
 ]

@@ -1,3 +1,5 @@
+require('dotenv').config()
+
 const { readFile, writeFile } = require('fs')
 const updateUserEmail = require('./updateUserEmail')
 const { expect } = require('chai')
@@ -10,14 +12,14 @@ describe('updateUserEmail', () => {
         email = `user-${Math.random()}@mail.com`
         password = `password-${Math.random()}`
 
-        writeFile('./data/users.json', '[]', error => done(error))
+        writeFile(`${process.env.DB_PATH}/users.json`, '[]', error => done(error))
     })
 
     it('succeeds on existing user and correct inputs', done => {
         const users = [{ id, email, password }]
         const json = JSON.stringify(users)
 
-        writeFile('./data/users.json', json, error => {
+        writeFile(`${process.env.DB_PATH}/users.json`, json, error => {
             expect(error).to.be.null
 
             const newEmail = email + '.es'
@@ -25,7 +27,7 @@ describe('updateUserEmail', () => {
             updateUserEmail(id, email, newEmail, password, error => {
                 expect(error).to.be.null
 
-                readFile('./data/users.json', (error, json) => {
+                readFile(`${process.env.DB_PATH}/users.json`, (error, json) => {
                     expect(error).to.be.null
 
                     const users = JSON.parse(json)
@@ -56,7 +58,7 @@ describe('updateUserEmail', () => {
         const users = [{ id, email, password }]
         const json = JSON.stringify(users)
 
-        writeFile('./data/users.json', json, error => {
+        writeFile(`${process.env.DB_PATH}/users.json`, json, error => {
             expect(error).to.be.null
 
             const newEmail = email
@@ -70,12 +72,11 @@ describe('updateUserEmail', () => {
         })
     })
 
-    //VER POR QUE FALLA
     it('fails on wrong password', done => {
         const users = [{ id, email, password }]
         const json = JSON.stringify(users)
 
-        writeFile('./data/users.json', json, error => {
+        writeFile(`${process.env.DB_PATH}/users.json`, json, error => {
             expect(error).to.be.null
 
             const newEmail = email + '.es'

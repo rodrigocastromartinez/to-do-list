@@ -6,7 +6,7 @@ module.exports = (userId, image, text, callback) => {
     validateUrl(image)
     validateText(text)
 
-    readFile('./data/users.json', 'utf8', (error, usersJson) => {
+    readFile(`${process.env.DB_PATH}/users.json`, 'utf8', (error, usersJson) => {
         if (error) {
             callback(error)
 

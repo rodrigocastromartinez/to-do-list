@@ -1,3 +1,5 @@
+require('dotenv').config()
+
 const express = require('express')
 const { registerUser, authenticateUser, retrieveUser, updateUserAvatar, updateUserEmail, updateUserPassword, createPost, retrievePosts, retrievePost, editPost } = require('./logic')
 
@@ -6,7 +8,7 @@ const api = express()
 api.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*')
     res.setHeader('Access-Control-Allow-Headers', '*')
-
+    res.setHeader('Access-Control-Allow-Methods', '*')
 
     next()
 })
@@ -118,7 +120,7 @@ api.patch('/users/avatar/:userId', (req, res) => {
                     return
                 }
 
-                res.send()
+                res.status(204).send()
             })
         } catch (error) {
             res.status(400).json({ error: error.message })
@@ -263,4 +265,4 @@ api.get('/posts/:userId/:postId', (req, res) => {
     }
 })
 
-api.listen(4000)
+api.listen(process.env.PORT, () => console.log(`server running in port ${process.env.PORT}`))

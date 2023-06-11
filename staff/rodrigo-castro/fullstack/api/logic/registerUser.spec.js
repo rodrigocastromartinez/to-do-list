@@ -1,3 +1,5 @@
+require('dotenv').config()
+
 const { expect } = require('chai')
 const { readFile, writeFile } = require('fs')
 const registerUser = require('./registerUser.js')
@@ -13,14 +15,14 @@ describe('registerUser', () => {
         email = `e-${Math.random()}@mail.com`
         password = `password-${Math.random()}`
 
-        writeFile('./data/users.json', '[]', 'utf8', error => done(error))
+        writeFile(`${process.env.DB_PATH}/users.json`, '[]', 'utf8', error => done(error))
     })
 
     it('succeeds on new user', done => {
         registerUser(name, email, password, error => {
             expect(error).to.be.null
 
-            readFile('./data/users.json', 'utf8', (error, json) => {
+            readFile(`${process.env.DB_PATH}/users.json`, 'utf8', (error, json) => {
                 expect(error).to.be.null
 
                 const users = JSON.parse(json)
@@ -44,7 +46,7 @@ describe('registerUser', () => {
         const user = [{ name, email, password }]
         const json = JSON.stringify(user)
 
-        writeFile('./data/users.json', json, error => {
+        writeFile(`${process.env.DB_PATH}/users.json`, json, error => {
             expect(error).to.be.null
 
             registerUser(name, email, password, error => {

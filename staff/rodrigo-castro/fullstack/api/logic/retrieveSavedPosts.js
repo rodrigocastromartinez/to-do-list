@@ -4,7 +4,7 @@ const { validators: { validateId } } = require('com')
 module.exports = (userId, callback) => {
     validateId(userId)
 
-    readFile('./data/users.json', 'utf8', (error, usersJson) => {
+    readFile(`${process.env.DB_PATH}/users.json`, 'utf8', (error, usersJson) => {
         if (error) {
             callback(error)
 

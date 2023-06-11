@@ -1,7 +1,5 @@
 console.debug('load retrieve user')
 
-// import { validateId } from './helpers/validators'
-import { findUserById } from '../data'
 import { validators } from 'com'
 
 const { validateId } = validators
@@ -9,24 +7,33 @@ const { validateId } = validators
 export const retrieveUser = (userId, callback) => {
     validateId(userId, 'user id')
 
-    findUserById(userId, foundUser => {
-        if (!foundUser) {
-            alert(new Error('User not found'))
+    const xhr = new XMLHttpRequest
+
+    xhr.onload = () => {
+        const { status } = xhr
+
+        if (status !== 200) {
+            const { response: json } = xhr
+            const { error } = JSON.parse(json)
+
+            callback(new Error(error))
 
             return
         }
 
-        const user = {
-            id: foundUser.id,
-            name: foundUser.name,
-        }
-
-        if (foundUser.avatar)
-            user.avatar = foundUser.avatar
-
-        if (foundUser.city)
-            user.city = foundUser.city
+        const { response: json } = xhr
+        const user = JSON.parse(json)
 
         callback(null, user)
-    })
+    }
+
+    xhr.onerror = () => {
+        callback(new Error('connection error'))
+    }
+
+    xhr.open('GET', `${import.meta.env.VITE_API_URL}/users/${userId}`)
+
+    xhr.setRequestHeader('Content-Type', 'application-json')
+
+    xhr.send()
 }

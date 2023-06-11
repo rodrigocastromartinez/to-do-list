@@ -5,7 +5,7 @@ module.exports = (userId, avatarUrl, callback) => {
     validateId(userId)
     validateUrl(avatarUrl)
 
-    readFile('./data/users.json', 'utf8', (error, json) => {
+    readFile(`${process.env.DB_PATH}/users.json`, 'utf8', (error, json) => {
         if (error) {
             callback(error)
 
@@ -26,7 +26,7 @@ module.exports = (userId, avatarUrl, callback) => {
 
         json = JSON.stringify(users)
 
-        writeFile('./data/users.json', json, error => {
+        writeFile(`${process.env.DB_PATH}/users.json`, json, error => {
             if (error) {
                 callback(error)
 
