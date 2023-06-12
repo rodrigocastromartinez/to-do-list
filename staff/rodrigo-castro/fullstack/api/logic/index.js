@@ -10,5 +10,6 @@ module.exports = {
     retrievePost: require('./retrievePost'),
     editPost: require('./editPost'),
     deletePost: require('./deletePost'),
-    retrieveSavedPosts: require('./retrieveSavedPosts')
+    retrieveSavedPosts: require('./retrieveSavedPosts'),
+    toggleLikePost: require('./toggleLikePost')
 }

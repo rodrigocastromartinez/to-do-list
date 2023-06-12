@@ -1,5 +1,3 @@
-// import { validateId } from './helpers/validators'
-import { savePost, findPostById, findUserById } from "../data"
 import { validators } from 'com'
 
 const { validateId } = validators
@@ -8,29 +6,30 @@ export default (userId, postId, callback) => {
     validateId(userId, 'user id')
     validateId(postId, 'post id')
 
-    findUserById(userId, user => {
-        if (!user) {
-            callback(new Error(`User id ${userId} not found`))
+    const xhr = new XMLHttpRequest
+
+    xhr.onload = () => {
+        const { status } = xhr
+
+        if (status !== 201) {
+            const { response: json } = xhr
+            const { error } = JSON.parse(json)
+
+            callback(new Error(error))
 
             return
         }
 
-        findPostById(postId, post => {
-            if (!post) {
-                callback(new Error(`Post id ${postId} not found`))
+        callback(null)
+    }
 
-                return
-            }
+    xhr.onerror = () => {
+        callback(new Error('connection error'))
+    }
 
-            const index = post.likedBy.indexOf(userId)
+    xhr.open('PATCH', `${import.meta.env.VITE_API_URL}/posts/like/${userId}/${postId}`)
 
-            if (index < 0)
-                post.likedBy.push(userId)
-            else {
-                post.likedBy.splice(index, 1)
-            }
+    xhr.setRequestHeader('Content-Type', 'application/json')
 
-            savePost(post, () => callback(null))
-        })
-    })
+    xhr.send()
 }
