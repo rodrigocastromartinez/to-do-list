@@ -1,10 +1,19 @@
 [
     {
         "id": "post-1",
-        "author": "user-5",
+        "author": "user-1",
         "image": "https://picsum.photos/600/500?random=6",
-        "text": "yeah",
-        "date": "2023-06-11T17:42:56.951Z",
+        "text": "hola!",
+        "date": "2023-06-12T09:48:30.871Z",
+        "likedBy": [],
+        "privacy": "public"
+    },
+    {
+        "id": "post-2",
+        "author": "user-1",
+        "image": "https://picsum.photos/600/500?random=2",
+        "text": "hello!",
+        "date": "2023-06-12T09:50:22.569Z",
         "likedBy": [],
         "privacy": "public"
     }

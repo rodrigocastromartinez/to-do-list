@@ -13,9 +13,10 @@ export default function Post({ post: { id, image, text, date, likedBy, author: {
 
     const [postOptions, setPostOptions] = useState(null)
 
-    const day = date.getDate().toString()
-    const month = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'][date.getMonth()]
-    const year = date.getFullYear()
+    const newDate = new Date(date)
+    const day = newDate.getDate().toString()
+    const month = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'][newDate.getMonth()]
+    const year = newDate.getFullYear()
 
     const handleToggleLikePost = () => {
         try {

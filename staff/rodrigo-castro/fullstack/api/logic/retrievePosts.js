@@ -21,7 +21,7 @@ module.exports = (userId, callback) => {
             return
         }
 
-        readFile('./data/posts.json', 'utf8', (error, postsJson) => {
+        readFile(`${process.env.DB_PATH}/posts.json`, 'utf8', (error, postsJson) => {
             if (error) {
                 callback(error)
 
