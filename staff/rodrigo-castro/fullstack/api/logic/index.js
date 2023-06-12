@@ -11,5 +11,7 @@ module.exports = {
     editPost: require('./editPost'),
     deletePost: require('./deletePost'),
     retrieveSavedPosts: require('./retrieveSavedPosts'),
-    toggleLikePost: require('./toggleLikePost')
+    toggleLikePost: require('./toggleLikePost'),
+    togglePrivacy: require('./togglePrivacy'),
+    toggleSavePost: require('./toggleSavePost')
 }

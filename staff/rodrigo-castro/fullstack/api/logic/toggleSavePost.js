@@ -49,7 +49,7 @@ module.exports = (userId, postId, callback) => {
 
             usersJson = JSON.stringify(users)
 
-            writeFile('./data/posts.json', usersJson, error => {
+            writeFile('./data/users.json', usersJson, error => {
                 if (error) {
                     callback(error)
 

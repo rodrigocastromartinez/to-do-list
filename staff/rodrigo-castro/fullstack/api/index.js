@@ -1,7 +1,7 @@
 require('dotenv').config()
 
 const express = require('express')
-const { registerUser, authenticateUser, retrieveUser, updateUserAvatar, updateUserEmail, updateUserPassword, createPost, retrievePosts, retrievePost, editPost, deletePost, retrieveSavedPosts, toggleLikePost } = require('./logic')
+const { registerUser, authenticateUser, retrieveUser, updateUserAvatar, updateUserEmail, updateUserPassword, createPost, retrievePosts, retrievePost, editPost, deletePost, retrieveSavedPosts, toggleLikePost, togglePrivacy, toggleSavePost } = require('./logic')
 
 const api = express()
 
@@ -72,7 +72,7 @@ api.post('/users/auth', (req, res) => {
     })
 })
 
-api.post('/posts/:userId', (req, res) => {
+api.post('/posts/create/:userId', (req, res) => {
     let json = ''
 
     req.on('data', chunk => {
@@ -182,7 +182,7 @@ api.patch('/users/password/:userId', (req, res) => {
     })
 })
 
-api.patch('/posts/:userId/:postId', (req, res) => {
+api.patch('/posts/edit/:userId/:postId', (req, res) => {
     const { userId, postId } = req.params
 
     let json = ''
@@ -228,6 +228,42 @@ api.patch('/posts/like/:userId/:postId', (req, res) => {
     }
 })
 
+api.patch('/posts/privacy/:userId/:postId', (req, res) => {
+    try {
+        const { userId, postId } = req.params
+
+        togglePrivacy(userId, postId, error => {
+            if (error) {
+                res.status(400).json({ error: error.message })
+
+                return
+            }
+
+            res.status(201).send()
+        })
+    } catch (error) {
+        res.status(400).json({ error: error.message })
+    }
+})
+
+api.patch('/posts/save/:userId/:postId', (req, res) => {
+    try {
+        const { userId, postId } = req.params
+
+        toggleSavePost(userId, postId, error => {
+            if (error) {
+                res.status(400).json({ error: error.message })
+
+                return
+            }
+
+            res.status(201).send()
+        })
+    } catch (error) {
+        res.status(400).json({ error: error.message })
+    }
+})
+
 api.delete('/posts/:userId/:postId', (req, res) => {
     const { userId, postId } = req.params
 
@@ -246,7 +282,7 @@ api.delete('/posts/:userId/:postId', (req, res) => {
     }
 })
 
-api.get('/users/:userId', (req, res) => {
+api.get('/users/retrieve/:userId', (req, res) => {
     try {
         // const userId = req.params.userId
         const { userId } = req.params
@@ -265,7 +301,7 @@ api.get('/users/:userId', (req, res) => {
     }
 })
 
-api.get('/posts/:userId', (req, res) => {
+api.get('/posts/retrieveall/:userId', (req, res) => {
     try {
         const { userId } = req.params
 
@@ -283,7 +319,7 @@ api.get('/posts/:userId', (req, res) => {
     }
 })
 
-api.get('/posts/:userId/:postId', (req, res) => {
+api.get('/posts/retrievepost/:userId/:postId', (req, res) => {
     try {
         const { userId, postId } = req.params
 
@@ -301,7 +337,7 @@ api.get('/posts/:userId/:postId', (req, res) => {
     }
 })
 
-api.get('/posts/:userId', (req, res) => {
+api.get('/posts/saved/:userId', (req, res) => {
     try {
         const { userId } = req.params
 

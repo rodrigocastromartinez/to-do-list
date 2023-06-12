@@ -29,9 +29,6 @@ module.exports = (userId, callback) => {
         if (foundUser.avatar)
             user.avatar = foundUser.avatar
 
-        if (foundUser.city)
-            user.city = foundUser.city
-
         callback(null, user)
     })
 }
