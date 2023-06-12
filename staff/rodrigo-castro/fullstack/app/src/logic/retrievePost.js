@@ -1,5 +1,3 @@
-// import { validateId } from "./helpers/validators"
-import { findUserById, findPostById } from "../data"
 import { validators } from 'com'
 
 const { validateId } = validators
@@ -8,17 +6,33 @@ export default function retrievePost(userId, postId, callback) {
     validateId(userId, 'user id')
     validateId(postId, 'post id')
 
-    findUserById(userId, foundUser => {
-        if (!foundUser) {
-            callback(new Error('User id not valid'))
+    const xhr = new XMLHttpRequest
+
+    xhr.onload = () => {
+        const { status } = xhr
+
+        if (status !== 200) {
+            const { response: json } = xhr
+            const { error } = JSON.parse(json)
+
+            callback(new Error(error))
+
+            return
         }
 
-        findPostById(postId, foundPost => {
-            if (!foundPost) {
-                callback(new Error('Post id not valid'))
-            }
+        const { response: json } = xhr
+        const post = JSON.parse(json)
 
-            callback(null, foundPost)
-        })
-    })
+        callback(null, post)
+    }
+
+    xhr.onerror = () => {
+        callback(new Error('connection error'))
+    }
+
+    xhr.open('GET', `${import.meta.env.VITE_API_URL}/posts/${userId}/${postId}`)
+
+    xhr.setRequestHeader('Content-Type', 'application/json')
+
+    xhr.send()
 }
