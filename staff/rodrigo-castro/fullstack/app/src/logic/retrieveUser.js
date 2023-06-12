@@ -31,7 +31,7 @@ export const retrieveUser = (userId, callback) => {
         callback(new Error('connection error'))
     }
 
-    xhr.open('GET', `${import.meta.env.VITE_API_URL}/users/${userId}`)
+    xhr.open('GET', `${import.meta.env.VITE_API_URL}/users/retrieve/${userId}`)
 
     xhr.setRequestHeader('Content-Type', 'application-json')
 

@@ -1,5 +1,3 @@
-import { findPostById, findUserById, savePost } from "../data";
-// import { validateId } from "./helpers/validators";
 import { validators } from 'com'
 
 const { validateId } = validators
@@ -8,29 +6,30 @@ export default function togglePrivacy(userId, postId, callback) {
     validateId(userId)
     validateId(postId)
 
-    findUserById(userId, user => {
-        if (!user) {
-            callback(new Error(`User with id ${userId} not found`))
+    const xhr = new XMLHttpRequest
+
+    xhr.onload = () => {
+        const { status } = xhr
+
+        if (status !== 201) {
+            const { response: json } = xhr
+            const { error } = JSON.parse(json)
+
+            callback(new Error(error))
 
             return
         }
 
-        findPostById(postId, post => {
-            if (!post) {
-                callback(new Error(`Post with id ${postId} not found`))
+        callback(null)
+    }
 
-                return
-            }
+    xhr.onerror = () => {
+        callback(new Error('connection error'))
+    }
 
-            if (post.privacy === 'public') {
-                post.privacy = 'privated'
+    xhr.open('PATCH', `${import.meta.env.VITE_API_URL}/posts/privacy/${userId}/${postId}`)
 
-                savePost(post, () => callback(null))
-            } else {
-                post.privacy = 'public'
+    xhr.setRequestHeader('Content-Type', 'application/json')
 
-                savePost(post, () => callback(null))
-            }
-        })
-    })
+    xhr.send()
 }

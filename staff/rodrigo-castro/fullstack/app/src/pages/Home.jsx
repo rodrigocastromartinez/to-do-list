@@ -3,7 +3,6 @@ import { retrieveUser } from '../logic/retrieveUser'
 import { context } from '../ui'
 import { useState, useEffect } from 'react'
 import AddPostModal from '../components/AddPostModal'
-import ChangeCity from '../components/ChangeCity'
 import ChangeEmail from '../components/ChangeEmail'
 import ChangePassword from '../components/ChagePassword'
 import ChangeAvatar from '../components/ChangeAvatar'
@@ -95,8 +94,6 @@ export default function Home(props) {
         setView('settings')
     }
 
-    const handleOpenChangeCity = () => setModal('change-city')
-
     const handleOpenChangeEmail = () => setModal('change-email')
 
     const handleOpenChangePassword = () => setModal('change-password')
@@ -152,7 +149,6 @@ export default function Home(props) {
         />
 
         {view === 'posts' && <main className="main-content">
-            {postsToShow === 'all' && <MotivationalQuote className={"weather"} />}
 
             <Posts
                 onEditClicked={handleEditClicked}
@@ -170,7 +166,6 @@ export default function Home(props) {
         </main>}
 
         {view === 'settings' && <Profile
-            onChangeCity={handleOpenChangeCity}
             onChangeEmail={handleOpenChangeEmail}
             onChangePassword={handleOpenChangePassword}
             onChangeAvatar={handleOpenChangeAvatar}
@@ -180,11 +175,6 @@ export default function Home(props) {
         {modal === 'add-post' && <AddPostModal
             onCancel={handleCloseModal}
             onPostCreated={handlePostsModified}
-        />}
-
-        {modal === 'change-city' && <ChangeCity
-            onCancel={handleCloseModal}
-            onCityChanged={handleCloseModal}
         />}
 
         {modal === 'change-email' && <ChangeEmail

@@ -28,7 +28,7 @@ export function createPost(userId, image, text, callback) {
         callback(new Error('connection error'))
     }
 
-    xhr.open('POST', `${import.meta.env.VITE_API_URL}/posts/${userId}`)
+    xhr.open('POST', `${import.meta.env.VITE_API_URL}/posts/create/${userId}`)
 
     xhr.setRequestHeader('Content-Type', 'application/json')
 
