@@ -1,7 +1,7 @@
 require('dotenv').config()
 
 const express = require('express')
-const { registerUser, authenticateUser, retrieveUser, updateUserAvatar, updateUserEmail, updateUserPassword, createPost, retrievePosts, retrievePost, editPost, deletePost } = require('./logic')
+const { registerUser, authenticateUser, retrieveUser, updateUserAvatar, updateUserEmail, updateUserPassword, createPost, retrievePosts, retrievePost, editPost, deletePost, retrieveSavedPosts } = require('./logic')
 
 const api = express()
 
@@ -277,6 +277,24 @@ api.get('/posts/:userId/:postId', (req, res) => {
             }
 
             res.json(post)
+        })
+    } catch (error) {
+        res.status(400).json({ error: error.message })
+    }
+})
+
+api.get('/posts/:userId', (req, res) => {
+    try {
+        const { userId } = req.params
+
+        retrieveSavedPosts(userId, (error, posts) => {
+            if (error) {
+                res.status(400).json({ error: error.message })
+
+                return
+            }
+
+            res.json(posts)
         })
     } catch (error) {
         res.status(400).json({ error: error.message })

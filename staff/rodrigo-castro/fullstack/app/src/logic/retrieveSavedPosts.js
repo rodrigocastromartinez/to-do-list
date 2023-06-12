@@ -1,5 +1,3 @@
-// import { validateId } from './helpers/validators'
-import { loadPosts, loadUsers } from '../data'
 import { validators } from 'com'
 
 const { validateId } = validators
@@ -7,23 +5,33 @@ const { validateId } = validators
 export default function retrieveSavedPosts(userId, callback) {
     validateId(userId, 'user id')
 
-    loadUsers(users => {
-        const found = users.find(user => user.id === userId)
+    const xhr = new XMLHttpRequest
 
-        if (!found) {
-            callback(new Error('User id not valid'))
+    xhr.onload = () => {
+        const { status } = xhr
+
+        if (status !== 200) {
+            const { response: json } = xhr
+            const { error } = JSON.parse(json)
+
+            callback(new Error(error))
 
             return
         }
 
-        loadPosts(posts => {
-            if (!posts) {
-                callback(new Error('Posts not found'))
+        const { response: json } = xhr
+        const posts = JSON.parse(json)
 
-                return
-            }
+        callback(null, posts)
+    }
 
-            callback(null, posts.filter(post => found.savedPosts.includes(post.id)).toReversed())
-        })
-    })
+    xhr.onerror = () => {
+        callback(new Error('connection error'))
+    }
+
+    xhr.open('GET', `${import.meta.env.VITE_API_URL}/posts/${userId}`)
+
+    xhr.setRequestHeader('Content-Type', 'application/json')
+
+    xhr.send()
 }
