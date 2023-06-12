@@ -8,5 +8,6 @@ module.exports = {
     createPost: require('./createPost'),
     retrievePosts: require('./retrievePosts'),
     retrievePost: require('./retrievePost'),
-    editPost: require('./editPost')
+    editPost: require('./editPost'),
+    deletePost: require('./deletePost')
 }

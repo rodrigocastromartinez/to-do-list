@@ -8,40 +8,30 @@ export default function deletePost(userId, postId, callback) {
     validateId(userId)
     validateId(postId)
 
-    findUserById(userId, foundUser => {
-        if (!foundUser) {
-            callback(new Error('User id not valid'))
+    const xhr = new XMLHttpRequest
+
+    xhr.onload = () => {
+        const { status } = xhr
+
+        if (status !== 200) {
+            const { response: json } = xhr
+            const { error } = JSON.parse(json)
+
+            callback(new Error(error))
+
+            return
         }
 
-        findPostById(postId, foundPost => {
-            if (!foundPost) {
-                callback(new Error('Post id not valid'))
+        callback(null)
+    }
 
-                return
-            }
+    xhr.onerror = () => {
+        callback(new Error('connection error'))
+    }
 
-            if (!foundUser.id === foundPost.author) {
-                callback(new Error(`Post doesn't belong to this user`))
-            }
+    xhr.open('DELETE', `${import.meta.env.VITE_API_URL}/posts/${userId}/${postId}`)
 
-            loadPosts(posts => {
-                if (!posts) {
-                    callback('Posts not found') //VERIFICAR SI ESTO HAY QUE HACERLO O NO
+    xhr.setRequestHeader('Content-Type', 'application/json')
 
-                    return
-                }
-
-                const index = posts.findIndex(post => post.id === postId)
-
-                posts.splice(index, 1)
-
-                savePosts(posts, () => callback(null))
-            })
-
-
-        })
-
-
-    })
-
+    xhr.send()
 }
