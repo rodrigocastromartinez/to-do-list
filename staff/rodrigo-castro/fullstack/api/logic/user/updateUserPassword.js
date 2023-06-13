@@ -7,9 +7,9 @@ module.exports = (userId, previousPassword, newPassword, newPasswordRepeated, ca
     validatePassword(newPassword)
     validatePassword(newPasswordRepeated)
 
-    if (previousPassword === newPassword) throw new Error(`New password must be different as previous password`)
+    if (previousPassword === newPassword) throw new Error('New password must be different as previous password')
 
-    if (newPassword !== newPasswordRepeated) throw new Error(`Passwords do not match`)
+    if (newPassword !== newPasswordRepeated) throw new Error('Passwords do not match')
 
     readFile(`${process.env.DB_PATH}/users.json`, 'utf8', (error, json) => {
         if (error) {

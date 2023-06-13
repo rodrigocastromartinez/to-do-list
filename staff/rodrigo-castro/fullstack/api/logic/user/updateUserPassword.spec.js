@@ -67,6 +67,33 @@ describe('updateUserPassword', () => {
         expect(() => updateUserPassword(id, password, newPassword, newPasswordConfirm, () => { })).to.throw(Error, 'New password must be different as previous password')
     })
 
+    it('fails when new password do not match its confirmation', () => {
+        newPassword = password + '-new'
+        newPasswordConfirm = password + '-wrong'
+
+        expect(() => updateUserPassword(id, password, newPassword, newPasswordConfirm, () => { })).to.throw(Error, 'Passwords do not match')
+    })
+
+    it('succeeds on changing the user password for the given one', done => {
+        newPassword = password + 'new'
+        newPasswordConfirm = newPassword
+
+        const users = [{ id, name, email, password, avatar }]
+
+        const json = JSON.stringify(users)
+
+        writeFile(`${process.env.DB_PATH}/users.json`, json, (error) => {
+            expect(error).to.be.null
+
+            updateUserPassword(id, 'xxxxxxxxxx', newPassword, newPasswordConfirm, error => {
+                expect(error).to.be.instanceOf(Error)
+                expect(error.message).to.equal('Password is incorrect')
+
+                done()
+            })
+        })
+    })
+
     after(done => {
         writeFile(`${process.env.DB_PATH}/users.json`, '[]', 'utf8', (error) => {
             done(error)

@@ -59,7 +59,7 @@ describe('registerUser', () => {
                     expect(error).to.be.null
 
                     const usersJson = JSON.parse(json)
-                    debugger
+
                     const user = usersJson.find(user => user.email === email)
 
                     expect(user).to.exist
