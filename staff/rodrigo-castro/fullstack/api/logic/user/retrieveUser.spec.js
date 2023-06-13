@@ -4,6 +4,9 @@ const { expect } = require('chai')
 const { readFile, writeFile } = require('fs')
 const registerUser = require('./registerUser.js')
 
+// **** PARA CHEQUEAR LOS PORCENTAJES DE COBERTURA Y QUÉ PARTES DE LA FUNCIÓN FALTAN:
+// **** EN TERMINAL: open coverage/index.html luego del test
+
 describe('registerUser', () => {
     let name, email, password
 
@@ -35,43 +38,6 @@ describe('registerUser', () => {
                 expect(user.savedPosts).to.have.lengthOf(0)
 
                 done()
-            })
-        })
-    })
-
-    it('succeeds on other non-existing user', done => {
-        const idCount = Math.round(Math.random() * 100 + 1)
-        const id2 = `user-${idCount}`
-        const name2 = `name-${Math.random()}`
-        const email2 = `e-${Math.random()}@mail.com`
-        const password2 = `password-${Math.random()}`
-
-        const users = [{ id: id2, name: name2, email: email2, password: password2 }]
-        const json = JSON.stringify(users)
-
-        writeFile(`./${process.env.DB_PATH}/users.json`, json, error => {
-            expect(error).to.be.null
-
-            registerUser(name, email, password, error => {
-                expect(error).to.be.null
-
-                readFile(`./${process.env.DB_PATH}/users.json`, (error, json) => {
-                    expect(error).to.be.null
-
-                    const usersJson = JSON.parse(json)
-                    debugger
-                    const user = usersJson.find(user => user.email === email)
-
-                    expect(user).to.exist
-                    expect(user.id).to.equal(`user-${idCount + 1}`)
-                    expect(user.name).to.equal(name)
-                    expect(user.email).to.equal(email)
-                    expect(user.password).to.equal(password)
-                    expect(user.avatar).to.be.undefined
-                    expect(user.savedPosts).to.have.lengthOf(0)
-
-                    done()
-                })
             })
         })
     })
