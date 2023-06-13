@@ -14,11 +14,8 @@ api.use((req, res, next) => {
 })
 
 api.get('/', (req, res) => {
-
-    res.send('Hello, World!')
+    res.send('Hello, API!')
 })
-
-api.get('/helloworld', (req, res) => res.json({ hello: 'world' }))
 
 api.post('/users', (req, res) => {
     let json = ''

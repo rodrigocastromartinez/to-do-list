@@ -4,8 +4,10 @@ import Register from './pages/Register.jsx'
 import Home from './pages/Home.jsx'
 import { context } from './ui'
 import Alert from './components/Alert.jsx'
-import Context from './Context'
+import AppContext from './AppContext'
 import Loader from './library/Loader'
+
+const { Provider } = AppContext
 
 export default function App() {
     const [view, setView] = useState(context.userId === undefined ? 'login' : 'home')
@@ -39,11 +41,11 @@ export default function App() {
             document.querySelector('html').classList.remove('dark')
     }
 
-    return <Context.Provider value={{ alert: handleShowAlert, freeze, unfreeze }}>
+    return <Provider value={{ alert: handleShowAlert, freeze, unfreeze }}>
         {view === 'login' && <Login onRegisterClick={handleGoToRegister} onUserLoggedIn={handleGoToHome} />}
         {view === 'register' && <Register onLoginClick={handleGoToLogin} onUserRegistered={handleGoToLogin} />}
         {view === 'home' && <Home onLogout={handleLogout} />}
         {feedback && <Alert message={feedback.message} level={feedback.level} onAccept={handleAcceptAlert} />}
         {loader && <Loader />}
-    </Context.Provider>
+    </Provider>
 }
