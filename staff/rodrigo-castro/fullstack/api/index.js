@@ -2,16 +2,12 @@ require('dotenv').config()
 
 const express = require('express')
 const { registerUser, authenticateUser, retrieveUser, updateUserAvatar, updateUserEmail, updateUserPassword, createPost, retrievePosts, retrievePost, editPost, deletePost, retrieveSavedPosts, toggleLikePost, togglePrivacy, toggleSavePost } = require('./logic')
+const { extractUserId } = require('./helpers')
+const { cors, jsonBodyParser } = require('./utils')
 
 const api = express()
 
-api.use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', '*')
-    res.setHeader('Access-Control-Allow-Headers', '*')
-    res.setHeader('Access-Control-Allow-Methods', '*')
-
-    next()
-})
+api.use(cors)
 
 api.get('/', (req, res) => {
     res.send('Hello, API!')
@@ -43,58 +39,42 @@ api.post('/users', (req, res) => {
     })
 })
 
-api.post('/users/auth', (req, res) => {
-    let json = ''
+api.post('/users/auth', jsonBodyParser, (req, res) => {
+    try {
+        const { email, password } = JSON.parse(json)
 
-    req.on('data', chunk => {
-        json += chunk
-    })
+        authenticateUser(email, password, (error, userId) => {
+            if (error) {
+                res.status(400).json({ error: error.message })
 
-    req.on('end', () => {
-        try {
-            const { email, password } = JSON.parse(json)
+                return
+            }
 
-            authenticateUser(email, password, (error, userId) => {
-                if (error) {
-                    res.status(400).json({ error: error.message })
-
-                    return
-                }
-
-                res.status(200).json({ userId })
-            })
-        } catch (error) {
-            res.status(400).json({ error: error.message })
-        }
-    })
+            res.status(200).json({ userId })
+        })
+    } catch (error) {
+        res.status(400).json({ error: error.message })
+    }
 })
 
-api.post('/posts/create/:userId', (req, res) => {
-    let json = ''
+api.post('/posts', jsonBodyParser, (req, res) => {
+    try {
+        const userId = extractUserId(req)
 
-    req.on('data', chunk => {
-        json += chunk
-    })
+        const { image, text } = req.body
 
-    req.on('end', () => {
-        try {
-            const { userId } = req.params
+        createPost(userId, image, text, error => {
+            if (error) {
+                res.status(400).json({ error: error.message })
 
-            const { image, text } = JSON.parse(json)
+                return
+            }
 
-            createPost(userId, image, text, error => {
-                if (error) {
-                    res.status(400).json({ error: error.message })
-
-                    return
-                }
-
-                res.send()
-            })
-        } catch (error) {
-            res.status(400).json({ error: error.message })
-        }
-    })
+            res.send()
+        })
+    } catch (error) {
+        res.status(400).json({ error: error.message })
+    }
 })
 
 api.patch('/users/avatar/:userId', (req, res) => {
@@ -179,7 +159,7 @@ api.patch('/users/password/:userId', (req, res) => {
     })
 })
 
-api.patch('/posts/edit/:userId/:postId', (req, res) => {
+api.patch('/users/:userId/posts/:postId/edit', (req, res) => {
     const { userId, postId } = req.params
 
     let json = ''
@@ -279,10 +259,9 @@ api.delete('/posts/:userId/:postId', (req, res) => {
     }
 })
 
-api.get('/users/retrieve/:userId', (req, res) => {
+api.get('/users', (req, res) => {
     try {
-        // const userId = req.params.userId
-        const { userId } = req.params
+        const userId = extractUserId(req)
 
         retrieveUser(userId, (error, user) => {
             if (error) {
@@ -291,7 +270,7 @@ api.get('/users/retrieve/:userId', (req, res) => {
                 return
             }
 
-            res.json(user) // el 200 que poníamos antes en realidad no hace falta porque ya devuelve eso por defecto
+            res.json(user)
         })
     } catch (error) {
         res.status(400).json({ error: error.message })

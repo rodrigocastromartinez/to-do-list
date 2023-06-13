@@ -29,7 +29,7 @@ export default function editPost(userId, postId, image, text, callback) {
         callback(new Error('connection error'))
     }
 
-    xhr.open('PATCH', `${import.meta.env.VITE_API_URL}/posts/edit/${userId}/${postId}`)
+    xhr.open('PATCH', `${import.meta.env.VITE_API_URL}/users/${userId}/posts/${postId}/edit`)
 
     xhr.setRequestHeader('Content-Type', 'application/json')
 
