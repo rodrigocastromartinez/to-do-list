@@ -27,9 +27,11 @@ export default (userId, postId, callback) => {
         callback(new Error('connection error'))
     }
 
-    xhr.open('PATCH', `${import.meta.env.VITE_API_URL}/posts/like/${userId}/${postId}`)
+    xhr.open('PATCH', `${import.meta.env.VITE_API_URL}/posts/${postId}/like`)
 
     xhr.setRequestHeader('Content-Type', 'application/json')
+
+    xhr.setRequestHeader('Authorization', `Bearer ${userId}`)
 
     xhr.send()
 }

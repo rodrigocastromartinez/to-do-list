@@ -12,8 +12,13 @@ describe('createPost', () => {
         image = `www.image.com/${Math.random()}`
         text = `text-${Math.random()}`
 
-        writeFile(`${process.env.DB_PATH}/users.json`, '[]', () => {
-            writeFile('./data/posts.json', '[]', error => done(error))
+        writeFile(`${process.env.DB_PATH}/users.json`, '[]', error => {
+            if (error) {
+                done(error)
+
+                return
+            }
+            writeFile(`${process.env.DB_PATH}/posts.json`, '[]', error => done(error))
         })
     })
 
@@ -27,7 +32,7 @@ describe('createPost', () => {
             createPost(id, image, text, error => {
                 expect(error).to.be.null
 
-                readFile('./data/posts.json', (error, json) => {
+                readFile(`${process.env.DB_PATH}/posts.json`, (error, json) => {
                     expect(error).to.be.null
 
                     const posts = JSON.parse(json)

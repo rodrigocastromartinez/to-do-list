@@ -30,7 +30,11 @@ export const changePassword = (userId, password, newPassword, newPasswordConfirm
         callback(new Error('connection error'))
     }
 
-    xhr.open('PATCH', `${import.meta.env.VITE_API_URL}/users/password/${userId}`)
+    xhr.open('PATCH', `${import.meta.env.VITE_API_URL}/users/password`)
+
+    xhr.setRequestHeader('Content-Type', 'application-json')
+
+    xhr.setRequestHeader('Authorization', `Bearer ${userId}`)
 
     const data = { password, newPassword, newPasswordConfirm }
     const json = JSON.stringify(data)

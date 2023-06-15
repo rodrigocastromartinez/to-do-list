@@ -27,9 +27,12 @@ export default function togglePrivacy(userId, postId, callback) {
         callback(new Error('connection error'))
     }
 
-    xhr.open('PATCH', `${import.meta.env.VITE_API_URL}/posts/privacy/${userId}/${postId}`)
+    xhr.open('PATCH', `${import.meta.env.VITE_API_URL}/posts/${postId}/privacy`)
 
     xhr.setRequestHeader('Content-Type', 'application/json')
+
+    xhr.setRequestHeader('Authorization', `Bearer ${userId}`)
+
 
     xhr.send()
 }

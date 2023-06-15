@@ -1,4 +1,12 @@
 module.exports = (req, res, next) => {
+    const { 'content-type': contentType } = req.headers
+
+    if (contentType !== 'application/json') {
+        res.status(400).json({ error: 'no application/json header found' })
+
+        return
+    }
+
     let json = ''
 
     req.on('data', chunk => {
@@ -6,8 +14,12 @@ module.exports = (req, res, next) => {
     })
 
     req.on('end', () => {
-        req.body = JSON.parse(json)
+        try {
+            req.body = JSON.parse(json)
 
-        next()
+            next()
+        } catch (error) {
+            res.status(400).json({ error: error.message })
+        }
     })
 }

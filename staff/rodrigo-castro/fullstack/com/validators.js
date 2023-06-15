@@ -12,7 +12,7 @@ function validateUrl(avatarUrl, explain = 'url') {
 }
 
 function validateId(id, explain = 'id') {
-    if (typeof id !== 'string') throw new Error(`${explain} is not a string`)
+    if (typeof id !== 'string') throw new Error(`${explain} is not a string - ${id}`)
     if (!id.trim().length) throw new Error(`${explain} is empty`)
 }
 
