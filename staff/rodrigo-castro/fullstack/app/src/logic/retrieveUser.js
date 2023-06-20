@@ -33,7 +33,7 @@ export const retrieveUser = (userId, callback) => {
 
     xhr.open('GET', `${import.meta.env.VITE_API_URL}/users/retrieveuser`)
 
-    xhr.setRequestHeader('Content-Type', 'application-json')
+    xhr.setRequestHeader('Content-Type', 'application/json')
 
     xhr.setRequestHeader('Authorization', `Bearer ${userId}`)
 

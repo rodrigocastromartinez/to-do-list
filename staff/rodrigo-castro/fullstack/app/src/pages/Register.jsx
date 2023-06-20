@@ -32,8 +32,8 @@ export default function Register({ onLoginClick, onUserRegistered }) {
                 onUserRegistered()
             })
         } catch (error) {
-            alert(error.message)
             unfreeze()
+            alert(error.message)
         }
     }
 

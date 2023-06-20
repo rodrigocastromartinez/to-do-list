@@ -28,6 +28,7 @@ export default function ChangePassword({ onCancel, onPasswordChanged }) {
                 onPasswordChanged()
             })
         } catch (error) {
+            unfreeze()
             alert(error.message)
         }
     }

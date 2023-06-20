@@ -26,6 +26,7 @@ export default function Posts({ onEditClicked, onPostDeleted, postsToShow, lastP
             })
 
         } catch (error) {
+            unfreeze()
             alert(error.message)
         }
     }, [])
@@ -97,6 +98,7 @@ export default function Posts({ onEditClicked, onPostDeleted, postsToShow, lastP
                     })
             }
         } catch (error) {
+            unfreeze()
             alert(error.message)
         }
     }

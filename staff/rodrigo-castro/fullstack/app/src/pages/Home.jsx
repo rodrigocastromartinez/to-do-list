@@ -8,7 +8,6 @@ import ChangePassword from '../components/ChagePassword'
 import ChangeAvatar from '../components/ChangeAvatar'
 import EditPost from '../components/EditPost'
 import Profile from '../components/Profile'
-import MotivationalQuote from '../components/MotivationalQuote'
 import './Home.css'
 import ProfileBar from '../components/ProfileBar'
 import NavigationBar from '../components/NavigationBar'
@@ -43,6 +42,7 @@ export default function Home(props) {
             freeze()
 
         } catch (error) {
+            unfreeze()
             alert(error.message)
         }
     }, [])
@@ -119,6 +119,7 @@ export default function Home(props) {
             })
 
         } catch (error) {
+            unfreeze()
             alert(error.message)
         }
     }

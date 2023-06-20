@@ -32,7 +32,7 @@ export const changePassword = (userId, password, newPassword, newPasswordConfirm
 
     xhr.open('PATCH', `${import.meta.env.VITE_API_URL}/users/password`)
 
-    xhr.setRequestHeader('Content-Type', 'application-json')
+    xhr.setRequestHeader('Content-Type', 'application/json')
 
     xhr.setRequestHeader('Authorization', `Bearer ${userId}`)
 

@@ -26,6 +26,7 @@ export default function ChangeAvatar({ onCancel, onAvatarChanged }) {
                 onAvatarChanged()
             })
         } catch (error) {
+            unfreeze()
             alert(error.message)
         }
     }

@@ -35,6 +35,7 @@ export default function Login({ onRegisterClick, onUserLoggedIn }) {
                 onUserLoggedIn()
             })
         } catch (error) {
+            unfreeze()
             alert(error.message, 'warn')
         }
     }

@@ -32,7 +32,7 @@ export default function authenticateUser(email, password, callback) {
 
     xhr.open('POST', `${import.meta.env.VITE_API_URL}/users/auth`)
 
-    // xhr.setRequestHeader('Content-Type', 'application-json')
+    xhr.setRequestHeader('Content-Type', 'application/json')
 
     const user = { email, password }
     const json = JSON.stringify(user)

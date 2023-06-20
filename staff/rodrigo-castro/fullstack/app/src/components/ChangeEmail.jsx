@@ -24,6 +24,7 @@ export default function ChangeEmail({ onCancel, onEmailChanged }) {
                 onEmailChanged()
             })
         } catch (error) {
+            unfreeze()
             alert(error.message)
         }
     }

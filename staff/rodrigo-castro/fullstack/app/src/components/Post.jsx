@@ -34,6 +34,7 @@ export default function Post({ post: { id, image, text, date, likedBy, author: {
                 onToggledLikePost()
             })
         } catch (error) {
+            unfreeze()
             alert(error.message)
         }
     }
@@ -55,6 +56,7 @@ export default function Post({ post: { id, image, text, date, likedBy, author: {
             })
 
         } catch (error) {
+            unfreeze()
             alert(error.message)
         }
     }
@@ -81,6 +83,7 @@ export default function Post({ post: { id, image, text, date, likedBy, author: {
                 onToggledPrivacy()
             })
         } catch (error) {
+            unfreeze()
             alert(error.message)
         }
     }
@@ -107,6 +110,7 @@ export default function Post({ post: { id, image, text, date, likedBy, author: {
                     onPostDeleted()
                 })
             } catch (error) {
+                unfreeze()
                 alert(error.message)
             }
         }

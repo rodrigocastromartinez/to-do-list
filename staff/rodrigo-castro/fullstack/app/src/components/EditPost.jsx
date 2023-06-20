@@ -32,6 +32,7 @@ export default function EditPost({ onCancel, postId, onPostEdited, onPostDeleted
                     onPostEdited()
                 })
             } catch (error) {
+                unfreeze()
                 alert(error.message)
             }
         }
@@ -53,6 +54,7 @@ export default function EditPost({ onCancel, postId, onPostEdited, onPostDeleted
                 setPost(post)
             })
         } catch (error) {
+            unfreeze()
             alert(error.message)
         }
     }, [])
