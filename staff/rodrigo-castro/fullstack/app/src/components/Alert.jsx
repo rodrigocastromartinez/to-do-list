@@ -1,5 +1,3 @@
-import './Alert.css'
-
 export default function Alert({ message, level, onAccept}) {
     console[level](message)
 

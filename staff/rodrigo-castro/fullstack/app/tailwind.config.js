@@ -9,6 +9,10 @@ export default {
       fontFamily: {
         lato: ['"Lato"', 'sans-serif']
       },
+
+      screens: {
+        'md-lg': { 'raw': '(min-width: 1001px)'}
+      }
     },
   },
   plugins: [],
