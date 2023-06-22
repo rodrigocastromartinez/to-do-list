@@ -1,53 +1,12 @@
-const { readFile, writeFile } = require('fs')
 const { validators: { validateEmail, validatePassword, validateUserName } } = require('com')
+const context = require('../context')
 
-module.exports = (name, email, password, callback) => {
+module.exports = (name, email, password) => {
     validateUserName(name)
     validateEmail(email)
     validatePassword(password)
 
-    readFile(`${process.env.DB_PATH}/users.json`, 'utf-8', (error, json) => {
-        if (error) {
-            callback(error)
+    const { users } = context
 
-            return
-        }
-
-        const users = JSON.parse(json)
-
-        let user = users.find(user => user.email === email)
-
-        if (user) {
-            callback(new Error(`user with email ${email} already exists`))
-
-            return
-        }
-
-        let id = 'user-1'
-
-        const lastUser = users[users.length - 1]
-
-        if (lastUser)
-            id = `user-${parseInt(lastUser.id.slice(5)) + 1}`
-
-        users.push({
-            id,
-            name,
-            email,
-            password,
-            savedPosts: []
-        })
-
-        json = JSON.stringify(users, null, 4)
-
-        writeFile(`${process.env.DB_PATH}/users.json`, json, 'utf8', error => {
-            if (error) {
-                callback(error)
-
-                return
-            }
-
-            callback(null)
-        })
-    })
+    return users.insertOne({ name, email, password })
 }

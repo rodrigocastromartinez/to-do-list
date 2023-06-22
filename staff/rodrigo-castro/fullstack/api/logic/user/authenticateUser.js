@@ -1,27 +1,18 @@
-const { readFile } = require('fs')
 const { validators: { validateEmail, validatePassword } } = require('com')
+const context = require('../context')
 
 module.exports = (email, password, callback) => {
     validateEmail(email)
     validatePassword(password)
 
-    readFile(`${process.env.DB_PATH}/users.json`, 'utf8', (error, json) => {
-        if (error) {
-            callback(error)
+    const { users } = context
 
-            return
-        }
+    return users.findOne({ email })
+        .then(user => {
+            if (!user) throw new Error('user not found')
 
-        const users = JSON.parse(json)
+            if (password !== user.password) throw new Error('wrong credentials')
 
-        const user = users.find(user => user.email === email)
-
-        if (user === undefined || user.password !== password) {
-            callback(new Error('Wrong email or password'))
-
-            return
-        }
-
-        callback(null, user.id)
-    })
+            return user._id.toString()
+        })
 }
