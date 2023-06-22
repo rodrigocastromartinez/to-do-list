@@ -1,55 +1,28 @@
-const { readFile, writeFile } = require('fs')
 const { validators: { validateId, validateEmail, validatePassword } } = require('com')
+const context = require('../context')
+const { ObjectId } = require('mongodb')
 
-module.exports = (userId, userPreviousEmail, userNewEmail, userPassword, callback) => {
+module.exports = (userId, userPreviousEmail, userNewEmail, userPassword) => {
     validateId(userId)
     validateEmail(userPreviousEmail)
     validateEmail(userNewEmail)
     validatePassword(userPassword)
 
-    readFile(`${process.env.DB_PATH}/users.json`, 'utf8', (error, json) => {
-        if (error) {
-            callback(error)
+    if (userPreviousEmail === userNewEmail) throw new Error('new email must be different than previous')
 
-            return
-        }
+    const { users } = context
 
-        const users = JSON.parse(json)
+    return users.findOne({ email: userNewEmail })
+        .then(user => {
+            if (user) throw new Error('new email is already registered')
 
-        let user = users.find(user => user.email === userNewEmail)
+            return users.findOne({ _id: new ObjectId(userId) })
+                .then(user => {
+                    if (!user) throw new Error('user not found')
 
-        if (user) {
-            callback(new Error('new email is already registered'))
+                    if (user.email !== userPreviousEmail || user.password !== userPassword) throw new Error(`email or password incorrect`)
 
-            return
-        }
-
-        user = users.find(user => user.id === userId)
-
-        if (!user) {
-            callback(new Error(`user with user-id ${userId} not found`))
-
-            return
-        }
-
-        if (user.email !== userPreviousEmail || user.password !== userPassword) {
-            callback(new Error(`email or password incorrect`))
-
-            return
-        }
-
-        user.email = userNewEmail
-
-        json = JSON.stringify(users)
-
-        writeFile(`${process.env.DB_PATH}/users.json`, json, error => {
-            if (error) {
-                callback(error)
-
-                return
-            }
-
-            callback(null)
+                    return users.updateOne({ _id: new ObjectId(userId) }, { $set: { email: userNewEmail } })
+                })
         })
-    })
 }
