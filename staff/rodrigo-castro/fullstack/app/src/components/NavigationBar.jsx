@@ -1,5 +1,4 @@
 import BarActionIcon from "../library/BarActionIcon"
-import './NavigationBar.css'
 
 export default function NavigationBar({handleFilterAllPosts, handleOpenAddPost, handleOpenProfile, handleLogout, postsToShow, modal, user}) {
     return <>

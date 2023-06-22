@@ -72,7 +72,7 @@
   }
 
   .menu-text {
-    @apply flex items-center text-xl font-medium
+    @apply flex items-center text-xl font-medium text-[var(--black-100)]
   }
 
   .md-header {
@@ -86,11 +86,47 @@
   .md-lg-li {
     @apply flex w-full justify-start items-center gap-2
   }
+
+  .profile-li {
+    @apply bg-[var(--white-000)] p-4 w-full rounded-full box-border max-w-15 text-[var(--black-100)]
+  }
 }
 
 @layer utilities {
   .outline-input {
     outline: 1px solid var(--grey-300);
+  }
+
+  .h-custom {
+    height: calc(100vh - 8rem)
+  }
+
+  .max-w-15 {
+    max-width: 15rem
+  }
+
+  .light {
+    display: flex;
+    justify-content: baseline;
+    transition: var(--transition);
+  }
+  
+  .dark {
+    display: flex;
+    justify-content: end;
+    transition: var(--transition);
+  }
+
+  .md-settings {
+    width: calc(100vw - 6rem);
+    right: 0;
+    height: calc(100vh - 4rem);
+  }
+
+  .lg-settings {
+    width: calc(100vw - 12rem);
+    right: 0;
+    height: calc(100vh - 4rem);
   }
 }
 
