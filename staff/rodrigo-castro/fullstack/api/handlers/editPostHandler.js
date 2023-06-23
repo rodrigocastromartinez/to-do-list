@@ -9,15 +9,9 @@ module.exports = (req, res) => {
 
         const { image, text } = req.body
 
-        editPost(userId, postId, image, text, error => {
-            if (error) {
-                res.status(400).json({ error: error.message })
-
-                return
-            }
-
-            res.send()
-        })
+        editPost(userId, postId, image, text)
+            .then(() => res.send())
+            .catch(error => res.status(400).json({ error: error.message }))
     } catch (error) {
         res.status(400).json({ error: error.message })
     }

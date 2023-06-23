@@ -17,7 +17,7 @@ module.exports = (userId, postId, callback) => {
                 .then(post => {
                     if (!post) throw new Error(`post with id ${postId} not found`)
 
-                    if (post.author !== user._id.toString(`post with id ${postId} does not belong to user with id ${userId}`)) throw new Error()
+                    if (post.author.toString() !== userId) throw new Error(`post with id ${postId} does not belong to user with id ${userId}`)
 
                     return posts.deleteOne({ _id: new ObjectId(postId) })
                 })
