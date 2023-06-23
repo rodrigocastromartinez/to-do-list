@@ -1,46 +1,20 @@
 const { readFile, writeFile } = require('fs')
 const { validators: { validateId, validateUrl, validateText } } = require('com')
+const context = require('../context')
+const { ObjectId } = require('mongodb')
 
 module.exports = (userId, image, text, callback) => {
     validateId(userId)
     validateUrl(image)
     validateText(text)
 
-    readFile(`${process.env.DB_PATH}/users.json`, 'utf8', (error, usersJson) => {
-        if (error) {
-            callback(error)
+    const { users, posts } = context
 
-            return
-        }
-
-        const users = JSON.parse(usersJson)
-
-        const user = users.find(user => user.id === userId)
-
-        if (!user) {
-            callback(new Error(`user with id ${userId} not found`))
-
-            return
-        }
-
-        readFile('./data/posts.json', 'utf8', (error, postsJson) => {
-            if (error) {
-                callback(error)
-
-                return
-            }
-
-            const posts = JSON.parse(postsJson)
-
-            let id = 'post-1'
-
-            const lastPost = posts[posts.length - 1]
-
-            if (lastPost)
-                id = 'post-' + (parseInt(lastPost.id.slice(5)) + 1)
+    return users.findOne({ _id: new ObjectId(userId) })
+        .then(user => {
+            if (!user) throw new Error(`user with id ${userId} not found`)
 
             const post = {
-                id,
                 author: userId,
                 image,
                 text,
@@ -49,19 +23,6 @@ module.exports = (userId, image, text, callback) => {
                 privacy: 'public'
             }
 
-            posts.push(post)
-
-            postsJson = JSON.stringify(posts)
-
-            writeFile('./data/posts.json', postsJson, error => {
-                if (error) {
-                    callback(error)
-
-                    return
-                }
-
-                callback(null)
-            })
+            return posts.insertOne(post)
         })
-    })
 }
