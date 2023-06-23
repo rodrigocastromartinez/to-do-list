@@ -1,5 +1,6 @@
-const { readFile, writeFile } = require('fs')
 const { validators: { validateId, validatePassword } } = require('com')
+const context = require('../context')
+const { ObjectId } = require('mongodb')
 
 module.exports = (userId, previousPassword, newPassword, newPasswordRepeated, callback) => {
     validateId(userId)
@@ -11,41 +12,14 @@ module.exports = (userId, previousPassword, newPassword, newPasswordRepeated, ca
 
     if (newPassword !== newPasswordRepeated) throw new Error('Passwords do not match')
 
-    readFile(`${process.env.DB_PATH}/users.json`, 'utf8', (error, json) => {
-        if (error) {
-            callback(error)
+    const { users } = context
 
-            return
-        }
+    return users.findOne({ _id: new ObjectId(userId) })
+        .then(user => {
+            if (!user) throw new Error(`user with id ${userId} not found`)
 
-        const users = JSON.parse(json)
+            if (user.password !== previousPassword) throw new Error('password is incorrect')
 
-        const user = users.find(user => user.id === userId)
-
-        if (!user) {
-            callback(new Error(`user with id ${userId} not found`))
-
-            return
-        }
-
-        if (user.password !== previousPassword) {
-            callback(new Error(`Password is incorrect`))
-
-            return
-        }
-
-        user.password = newPassword
-
-        json = JSON.stringify(users)
-
-        writeFile(`${process.env.DB_PATH}/users.json`, json, error => {
-            if (error) {
-                callback(error)
-
-                return
-            }
-
-            callback(null)
+            return users.updateOne({ _id: new ObjectId(userId) }, { $set: { password: newPassword } })
         })
-    })
 }

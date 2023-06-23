@@ -8,7 +8,7 @@ module.exports = (req, res) => {
         const { email, newEmail, password } = req.body
 
         updateUserEmail(userId, email, newEmail, password)
-            .then(() => res.status(204).send())
+            .then(() => res.status(201).send())
             .catch(error => res.status(400).json({ error: error.message }))
     } catch (error) {
         res.status(400).json({ error: error.message })
