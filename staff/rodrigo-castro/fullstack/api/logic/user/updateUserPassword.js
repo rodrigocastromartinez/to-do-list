@@ -2,7 +2,7 @@ const { validators: { validateId, validatePassword } } = require('com')
 const context = require('../context')
 const { ObjectId } = require('mongodb')
 
-module.exports = (userId, previousPassword, newPassword, newPasswordRepeated, callback) => {
+module.exports = (userId, previousPassword, newPassword, newPasswordRepeated) => {
     validateId(userId)
     validatePassword(previousPassword)
     validatePassword(newPassword)
