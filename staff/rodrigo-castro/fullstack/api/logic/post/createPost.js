@@ -15,7 +15,7 @@ module.exports = (userId, image, text, callback) => {
             if (!user) throw new Error(`user with id ${userId} not found`)
 
             const post = {
-                author: userId,
+                author: new ObjectId(userId),
                 image,
                 text,
                 date: new Date,

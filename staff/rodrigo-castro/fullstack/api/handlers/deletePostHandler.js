@@ -7,15 +7,9 @@ module.exports = (req, res) => {
 
         const userId = extractUserId(req)
 
-        deletePost(userId, postId, error => {
-            if (error) {
-                res.status(400).json({ error: error.message })
-
-                return
-            }
-
-            res.send()
-        })
+        deletePost(userId, postId)
+            .then(() => res.send())
+            .catch(error => res.status(400).json({ error: error.message }))
     } catch (error) {
         res.status(400).json({ error: error.message })
     }
