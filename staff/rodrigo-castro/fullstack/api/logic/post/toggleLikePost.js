@@ -1,63 +1,31 @@
 const { readFile, writeFile } = require('fs')
 const { validators: { validateId } } = require('com')
+const context = require('../context')
+const { ObjectId } = require('mongodb')
 
 module.exports = (userId, postId, callback) => {
     validateId(userId)
     validateId(postId)
 
-    readFile(`${process.env.DB_PATH}/users.json`, 'utf8', (error, usersJson) => {
-        if (error) {
-            callback(error)
+    const { users, posts } = context
 
-            return
-        }
+    return users.findOne({ _id: new ObjectId(userId) })
+        .then(user => {
+            if (!user) throw new Error(`user with id ${userId} not found`)
 
-        const users = JSON.parse(usersJson)
+            return posts.findOne({ _id: new ObjectId(postId) })
+                .then(post => {
+                    if (!post) throw new Error(`post with id ${postId} not found`)
 
-        const user = users.find(user => user.id === userId)
+                    const index = post.likedBy.indexOf(userId)
 
-        if (!user) {
-            callback(new Error(`user with id ${userId} not found`))
+                    if (index < 0)
+                        post.likedBy.push(userId)
+                    else {
+                        post.likedBy.splice(index, 1)
+                    }
 
-            return
-        }
-
-        readFile('./data/posts.json', 'utf8', (error, postsJson) => {
-            if (error) {
-                callback(error)
-
-                return
-            }
-
-            const posts = JSON.parse(postsJson)
-
-            const post = posts.find(post => post.id === postId)
-
-            if (!post) {
-                callback(new Error(`post with id ${postId} not found`))
-
-                return
-            }
-
-            const index = post.likedBy.indexOf(userId)
-
-            if (index < 0)
-                post.likedBy.push(userId)
-            else {
-                post.likedBy.splice(index, 1)
-            }
-
-            postsJson = JSON.stringify(posts)
-
-            writeFile('./data/posts.json', postsJson, error => {
-                if (error) {
-                    callback(error)
-
-                    return
-                }
-
-                callback(null)
-            })
+                    return posts.updateOne({ _id: new ObjectId(postId) }, { $set: { likedBy: post.likedBy } })
+                })
         })
-    })
 }
