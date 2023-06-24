@@ -8,8 +8,8 @@ module.exports = (req, res) => {
         const userId = extractUserId(req)
 
         toggleLikePost(userId, postId)
-            .then(res.status(201).send())
-            .catch(res.status(400).json({ error: error.message }))
+            .then(() => res.status(201).send())
+            .catch(error => res.status(400).json({ error: error.message }))
     } catch (error) {
         res.status(400).json({ error: error.message })
     }

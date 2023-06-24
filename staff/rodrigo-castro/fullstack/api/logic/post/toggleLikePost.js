@@ -1,9 +1,8 @@
-const { readFile, writeFile } = require('fs')
 const { validators: { validateId } } = require('com')
 const context = require('../context')
 const { ObjectId } = require('mongodb')
 
-module.exports = (userId, postId, callback) => {
+module.exports = (userId, postId) => {
     validateId(userId)
     validateId(postId)
 
