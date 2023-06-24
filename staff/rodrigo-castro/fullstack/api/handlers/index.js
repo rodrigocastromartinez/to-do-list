@@ -9,7 +9,7 @@ module.exports = {
     editPostHandler: require('./editPostHandler'),
     toggleLikePostHandler: require('./toggleLikePostHandler'),
     togglePrivacyHandler: require('./togglePrivacyHandler'),
-    toggleSavePostHandler: require('./toggleLikePostHandler'),
+    toggleSavePostHandler: require('./toggleSavePostHandler'),
     deletePostHandler: require('./deletePostHandler'),
     retrieveUserHandler: require('./retrieveUserHandler'),
     retrievePostsHandler: require('./retrievePostsHandler'),

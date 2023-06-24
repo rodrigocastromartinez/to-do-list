@@ -7,15 +7,9 @@ module.exports = (req, res) => {
 
         const userId = extractUserId(req)
 
-        toggleSavePost(userId, postId, error => {
-            if (error) {
-                res.status(400).json({ error: error.message })
-
-                return
-            }
-
-            res.status(201).send()
-        })
+        toggleSavePost(userId, postId)
+            .then(() => res.status(201).send())
+            .catch(error => res.status(400).json({ error: error.message }))
     } catch (error) {
         res.status(400).json({ error: error.message })
     }
