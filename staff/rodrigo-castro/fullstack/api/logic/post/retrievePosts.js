@@ -1,54 +1,31 @@
-const { readFile } = require('fs')
-const { validators: { validateId } } = require('com')
-const context = require('../context')
 const { ObjectId } = require('mongodb')
+const context = require('../context')
 
-module.exports = (userId) => {
-
-    validateId(userId)
+module.exports = function retrievePosts(userId) {
 
     const { users, posts } = context
 
     return users.findOne({ _id: new ObjectId(userId) })
         .then(user => {
-            if (!user) throw new Error(`user with id ${userId} not found`)
+            if (!user) throw new Error(`User with id ${userId} not found`)
 
-            return posts.find().forEach(post => {
-                return users.findOne({ _id: post.author })
-                    .then(author => {
-                        post.author = {
-                            authorId: author.id,
-                            name: author.name,
-                            avatar: author.avatar
-                        }
+            return users.find().toArray()
+                .then(users => {
+                    return posts.find().toArray()
+                        .then(posts => {
+                            posts.forEach(post => {
+                                post.favs = user.savedPosts.includes(post.id)
 
-                        user.savedPosts.includes(post.id)
-                            .then(includes => post.isFav = includes)
-                    })
-            })
+                                const _user = users.find(user => user._id.toString() === post.author.toString())
+
+                                post.author = {
+                                    id: _user._id,
+                                    username: _user.username,
+                                    avatar: _user.avatar
+                                }
+                            })
+                            return posts
+                        })
+                })
         })
-
-    // readFile(`${process.env.DB_PATH}/users.json`, 'utf8', (error, usersJson) => {
-
-
-    //     posts.forEach(post => {
-    //         const author = users.find(user => user.id === post.author)
-
-    //         post.author = {
-    //             authorId: author.id,
-    //             name: author.name,
-    //             avatar: author.avatar
-    //         }
-
-    //         post.isFav = user.savedPosts.includes(post.id)
-    //     })
-
-    //     const reversedPosts = []
-
-    //     for (let i = posts.length - 1; i >= 0; i--) {
-    //         reversedPosts.push(posts[i])
-    //     }
-
-    //     callback(null, reversedPosts)
-    // })
 }
