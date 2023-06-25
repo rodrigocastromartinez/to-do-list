@@ -1,7 +1,7 @@
 const { ObjectId } = require('mongodb')
 const context = require('../context')
 
-module.exports = function retrievePosts(userId) {
+module.exports = userId => {
 
     const { users, posts } = context
 

@@ -2,6 +2,14 @@ import { validators } from 'com'
 
 const { validateId, validateUrl, validateText } = validators
 
+/**
+ * Creates a post from an image url and a text, and assign it to a user id
+ * @param {string} userId user's id or token
+ * @param {string} image url of the image
+ * @param {string} text image caption
+ * @param {function} callback 
+ */
+
 export function createPost(userId, image, text, callback) {
     validateId(userId)
     validateUrl(image)

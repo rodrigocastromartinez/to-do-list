@@ -2,6 +2,12 @@ import { validators } from 'com'
 
 const { validateId } = validators
 
+/**
+ * Retrieves user saved posts
+ * @param {*} userId user id
+ * @param {*} callback 
+ */
+
 export default function retrieveSavedPosts(userId, callback) {
     validateId(userId, 'user id')
 

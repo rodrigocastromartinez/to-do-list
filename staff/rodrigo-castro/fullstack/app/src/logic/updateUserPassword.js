@@ -3,6 +3,15 @@ import { validators } from 'com'
 
 const { validateId, validatePassword } = validators
 
+/**
+ * Updates user password
+ * @param {string} userId user id
+ * @param {string} password current password
+ * @param {string} newPassword new password 
+ * @param {string} newPasswordConfirm new password confirmation
+ * @param {function} callback 
+ */
+
 export const changePassword = (userId, password, newPassword, newPasswordConfirm, callback) => {
     validateId(userId)
     validatePassword(password)

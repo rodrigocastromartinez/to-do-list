@@ -3,6 +3,14 @@ import { validators } from 'com'
 
 const { validateUserName, validateEmail, validatePassword } = validators
 
+/**
+ * Registers a new user
+ * @param {string} email user's email
+ * @param {string} name username
+ * @param {string} password user's password
+ * @param {function} callback 
+ */
+
 export default function registerUser(email, name, password, callback) {
     validateUserName(name)
     validateEmail(email)

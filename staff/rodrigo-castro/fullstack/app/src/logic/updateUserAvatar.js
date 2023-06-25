@@ -4,6 +4,13 @@ import { validators } from 'com'
 
 const { validateId, validateUrl } = validators
 
+/**
+ * Updates user avatar
+ * @param {string} userId user's id
+ * @param {string} avatar avatar url
+ * @param {function} callback 
+ */
+
 export const updateUserAvatar = (userId, avatar, callback) => {
     validateId(userId, 'user id')
     validateUrl(avatar, 'Avatar url')

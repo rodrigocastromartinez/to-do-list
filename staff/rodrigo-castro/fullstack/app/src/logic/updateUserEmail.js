@@ -2,6 +2,15 @@ import { validators } from 'com'
 
 const { validateEmail, validateId, validatePassword } = validators
 
+/**
+ * Updates user email
+ * @param {string} userId user id
+ * @param {string} email current user email
+ * @param {string} newEmail new email
+ * @param {string} password user password
+ * @param {function} callback 
+ */
+
 export const changeEmail = (userId, email, newEmail, password, callback) => {
     validateId(userId)
     validateEmail(email)

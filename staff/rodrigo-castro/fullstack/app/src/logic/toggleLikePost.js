@@ -2,6 +2,13 @@ import { validators } from 'com'
 
 const { validateId } = validators
 
+/**
+ * Adds or removes user id from the likes list of the post
+ * @param {string} userId user's id
+ * @param {string} postId post's id
+ * @param {function} callback 
+ */
+
 export default (userId, postId, callback) => {
     validateId(userId, 'user id')
     validateId(postId, 'post id')

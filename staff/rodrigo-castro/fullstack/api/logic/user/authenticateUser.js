@@ -1,7 +1,7 @@
 const { validators: { validateEmail, validatePassword } } = require('com')
 const context = require('../context')
 
-module.exports = (email, password, callback) => {
+module.exports = (email, password) => {
     validateEmail(email)
     validatePassword(password)
 

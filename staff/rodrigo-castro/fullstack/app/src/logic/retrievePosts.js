@@ -2,6 +2,13 @@ import { validators } from 'com'
 
 const { validateId } = validators
 
+/**
+ * Retrieves all posts
+ * @param {string} userId user id
+ * @param {function} callback 
+ * @returns {array} an array of objects with all the posts found
+ */
+
 export default function retrievePosts(userId, callback) {
     validateId(userId, 'user id')
 

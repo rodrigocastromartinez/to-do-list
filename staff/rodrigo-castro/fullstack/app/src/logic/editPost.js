@@ -2,6 +2,15 @@ import { validators } from 'com'
 
 const { validateId, validateText, validateUrl } = validators
 
+/**
+ * Edits an existing post
+ * @param {string} userId post owner's id
+ * @param {string} postId post id
+ * @param {string} image post image - can be the same or change
+ * @param {string} text post caption - can be the same or change
+ * @param {function} callback 
+ */
+
 export default function editPost(userId, postId, image, text, callback) {
     validateId(userId, 'user id')
     validateId(postId, 'post id')

@@ -2,6 +2,13 @@ import { validators } from 'com'
 
 const { validateEmail, validatePassword } = validators
 
+/**
+ * Authenticates a user by email and password
+ * @param {string} email user's email
+ * @param {string} password user's password
+ * @returns {string} user's id
+ */
+
 export default function authenticateUser(email, password, callback) {
     validateEmail(email)
     validatePassword(password)

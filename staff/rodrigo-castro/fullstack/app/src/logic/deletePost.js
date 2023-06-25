@@ -4,6 +4,13 @@ import { validators } from 'com'
 
 const { validateId } = validators
 
+/**
+ * Deletes a post (from its owner) identified by it's id
+ * @param {string} userId post owner's id
+ * @param {string} postId post's id
+ * @param {function} callback 
+ */
+
 export default function deletePost(userId, postId, callback) {
     validateId(userId)
     validateId(postId)

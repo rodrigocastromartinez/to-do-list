@@ -2,6 +2,13 @@ import { validators } from 'com'
 
 const { validateId } = validators
 
+/**
+ * Toggles post privacy
+ * @param {string} userId user's id
+ * @param {string} postId post's id
+ * @param {function} callback 
+ */
+
 export default function togglePrivacy(userId, postId, callback) {
     validateId(userId)
     validateId(postId)

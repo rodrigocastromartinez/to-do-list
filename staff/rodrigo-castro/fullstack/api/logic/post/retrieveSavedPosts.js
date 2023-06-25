@@ -1,7 +1,7 @@
 const { readFile } = require('fs')
 const { validators: { validateId } } = require('com')
 
-module.exports = (userId, callback) => {
+module.exports = userId => {
     validateId(userId)
 
     readFile(`${process.env.DB_PATH}/users.json`, 'utf8', (error, usersJson) => {

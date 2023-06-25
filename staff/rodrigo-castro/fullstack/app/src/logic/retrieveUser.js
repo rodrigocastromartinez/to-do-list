@@ -4,6 +4,13 @@ import { validators } from 'com'
 
 const { validateId } = validators
 
+/**
+ * Retrieves the found user
+ * @param {string} userId user's id
+ * @param {function} callback 
+ * @returns {object} user found
+ */
+
 export const retrieveUser = (userId, callback) => {
     validateId(userId, 'user id')
 
