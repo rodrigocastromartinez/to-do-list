@@ -14,7 +14,7 @@ module.exports = function retrievePosts(userId) {
                     return posts.find().toArray()
                         .then(posts => {
                             posts.forEach(post => {
-                                post.favs = user.savedPosts.includes(post.id)
+                                post.favs = user.savedPosts.includes(post.id.toString())
 
                                 const _user = users.find(user => user._id.toString() === post.author.toString())
 
