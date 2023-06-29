@@ -8,7 +8,7 @@ import { useState } from "react"
 import togglePrivacy from "../logic/togglePrivacy"
 import { useAppContext } from '../hooks'
 
-export default function Post({ post: { id, image, text, date, likedBy, author: { authorId, name, avatar }, isFav, privacy }, onToggledLikePost, onEdit, onPostDeleted, onToggleSavePost, onToggledPrivacy }) {
+export default function Post({ post: { id, image, text, date, likedBy, author: { id: authorId, name, avatar }, isFav, privacy }, onToggledLikePost, onEdit, onPostDeleted, onToggleSavePost, onToggledPrivacy }) {
     const { alert, freeze, unfreeze } = useAppContext()
 
     const [postOptions, setPostOptions] = useState(null)

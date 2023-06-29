@@ -14,15 +14,20 @@ module.exports = userId => {
                     return posts.find().toArray()
                         .then(posts => {
                             posts.forEach(post => {
-                                post.favs = user.savedPosts.includes(post.id.toString())
+                                post.id = post._id.toString()
+                                delete post._id
 
-                                const _user = users.find(user => user._id.toString() === post.author.toString())
+                                const author = users.find(user => user._id.toString() === post.author.toString())
+
+                                const { _id, name, avatar } = author
 
                                 post.author = {
-                                    id: _user._id,
-                                    username: _user.username,
-                                    avatar: _user.avatar
+                                    id: _id.toString(),
+                                    name,
+                                    avatar
                                 }
+
+                                post.favs = user.savedPosts.some(fav => fav.toString() === post.id)
                             })
                             return posts
                         })

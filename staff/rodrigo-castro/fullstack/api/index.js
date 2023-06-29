@@ -1,8 +1,25 @@
 require('dotenv').config()
 
 const express = require('express')
-const { cors, jsonBodyParser } = require('./utils')
-const { helloApiHandler, registerUserHandler, authenticateUserHandler, createPostHandler, updateUserAvatarHandler, updateUserEmailHandler, updateUserPasswordHandler, editPostHandler, toggleLikePostHandler, togglePrivacyHandler, toggleSavePostHandler, deletePostHandler, retrieveUserHandler, retrievePostsHandler, retrievePostHandler, retrieveSavedPostsHandler } = require('./handlers')
+const bodyParser = require('body-parser')
+const cors = require('cors')
+const { helloApiHandler,
+    registerUserHandler,
+    authenticateUserHandler,
+    createPostHandler,
+    updateUserAvatarHandler,
+    updateUserEmailHandler,
+    updateUserPasswordHandler,
+    editPostHandler,
+    toggleLikePostHandler,
+    togglePrivacyHandler,
+    toggleSavePostHandler,
+    deletePostHandler,
+    retrieveUserHandler,
+    retrievePostsHandler,
+    retrievePostHandler,
+    retrieveSavedPostsHandler
+} = require('./handlers')
 const { MongoClient } = require('mongodb')
 const context = require('./logic/context')
 
@@ -15,7 +32,9 @@ client.connect()
 
         const api = express()
 
-        api.use(cors)
+        const jsonBodyParser = bodyParser.json()
+
+        api.use(cors())
 
         api.get('/', helloApiHandler)
 

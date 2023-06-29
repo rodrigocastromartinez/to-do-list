@@ -27,7 +27,7 @@ export default function Home(props) {
         try {
             freeze()
 
-            retrieveUser(context.userId, (error, user) => {
+            retrieveUser(context.token, (error, user) => {
                 unfreeze()
 
                 if (error) {
@@ -104,7 +104,7 @@ export default function Home(props) {
         try {
             freeze()
 
-            retrieveUser(context.userId, (error, user) => {
+            retrieveUser(context.token, (error, user) => {
                 unfreeze()
 
                 if (error) {
@@ -133,7 +133,7 @@ export default function Home(props) {
     const handleLogout = (event) => {
         event.preventDefault()
 
-        delete context.userId
+        delete context.token
 
         props.onLogout()
     }

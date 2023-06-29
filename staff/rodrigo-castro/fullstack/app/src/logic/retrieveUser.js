@@ -2,17 +2,17 @@ console.debug('load retrieve user')
 
 import { validators } from 'com'
 
-const { validateId } = validators
+const { validateToken } = validators
 
 /**
  * Retrieves the found user
- * @param {string} userId user's id
+ * @param {string} token user's token
  * @param {function} callback 
  * @returns {object} user found
  */
 
-export const retrieveUser = (userId, callback) => {
-    validateId(userId, 'user id')
+export const retrieveUser = (token, callback) => {
+    validateToken(token, 'token')
 
     const xhr = new XMLHttpRequest
 
@@ -42,7 +42,7 @@ export const retrieveUser = (userId, callback) => {
 
     xhr.setRequestHeader('Content-Type', 'application/json')
 
-    xhr.setRequestHeader('Authorization', `Bearer ${userId}`)
+    xhr.setRequestHeader('Authorization', `Bearer ${token}`)
 
     xhr.send()
 }

@@ -8,7 +8,11 @@ module.exports = (userId, postId) => {
 
     const { users, posts } = context
 
-    return users.findOne({ _id: new ObjectId(userId) })
+
+
+    const userObjectId = new ObjectId(userId)
+
+    return users.findOne({ _id: userObjectId })
         .then(user => {
             if (!user) throw new Error(`user with id ${userId} not found`)
 
@@ -16,10 +20,10 @@ module.exports = (userId, postId) => {
                 .then(post => {
                     if (!post) throw new Error(`post with id ${postId} not found`)
 
-                    const index = post.likedBy.indexOf(userId)
+                    const index = post.likedBy.findIndex(id => id.toString() === userId)
 
                     if (index < 0)
-                        post.likedBy.push(userId)
+                        post.likedBy.push(userObjectId)
                     else {
                         post.likedBy.splice(index, 1)
                     }

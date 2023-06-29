@@ -1,4 +1,3 @@
-const { readFile, writeFile } = require('fs')
 const { validators: { validateId, validateUrl, validateText } } = require('com')
 const context = require('../context')
 const { ObjectId } = require('mongodb')

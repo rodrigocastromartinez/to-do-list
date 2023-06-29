@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react'
 import './Posts.css'
 import { useAppContext } from '../hooks'
 
+
 export default function Posts({ onEditClicked, onPostDeleted, postsToShow, lastPostsUpdate, user }) {
     const { freeze, unfreeze } = useAppContext()
     const [posts, setPosts] = useState()
@@ -13,7 +14,7 @@ export default function Posts({ onEditClicked, onPostDeleted, postsToShow, lastP
         try {
             freeze()
 
-            retrievePosts(context.userId, (error, posts) => {
+            retrievePosts(context.token, (error, posts) => {
                 unfreeze()
 
                 if (error) {
@@ -37,7 +38,7 @@ export default function Posts({ onEditClicked, onPostDeleted, postsToShow, lastP
 
             switch (postsToShow) {
                 case 'all':
-                    retrievePosts(context.userId, (error, posts) => {
+                    retrievePosts(context.token, (error, posts) => {
                         unfreeze()
 
                         if (error) {
@@ -51,7 +52,7 @@ export default function Posts({ onEditClicked, onPostDeleted, postsToShow, lastP
                     break;
 
                 case 'saved':
-                    retrievePosts(context.userId, (error, posts) => {
+                    retrievePosts(context.token, (error, posts) => {
                         unfreeze()
 
                         if (error) {
@@ -67,7 +68,7 @@ export default function Posts({ onEditClicked, onPostDeleted, postsToShow, lastP
                     break;
 
                 case 'mine':
-                    retrievePosts(context.userId, (error, posts) => {
+                    retrievePosts(context.token, (error, posts) => {
                         unfreeze()
 
                         if (error) {
@@ -76,14 +77,14 @@ export default function Posts({ onEditClicked, onPostDeleted, postsToShow, lastP
                             return
                         }
 
-                        const _posts = posts.filter(post => post.author.authorId === context.userId)
+                        const _posts = posts.filter(post => post.author.authorId === context.token)
 
                         setPosts(_posts)
                     })
                     break;
 
                 case 'liked':
-                    retrievePosts(context.userId, (error, posts) => {
+                    retrievePosts(context.token, (error, posts) => {
                         unfreeze()
 
                         if (error) {
@@ -92,7 +93,7 @@ export default function Posts({ onEditClicked, onPostDeleted, postsToShow, lastP
                             return
                         }
 
-                        const _posts = posts.filter(post => post.likedBy.includes(context.userId))
+                        const _posts = posts.filter(post => post.likedBy.includes(context.token))
 
                         setPosts(_posts)
                     })
@@ -124,8 +125,10 @@ export default function Posts({ onEditClicked, onPostDeleted, postsToShow, lastP
 
     console.debug('Posts -> render')
 
+    // TODO EXTRAER EL USER ID PARA METERLO AQUI ABAJO, NO ESTA MAS EN EL CONTEXTO
+
     return <section className='posts-list'>
-        {posts && posts.map(post => (post.privacy === 'public' || post.author.authorId === context.userId) && <Post
+        {posts && posts.map(post => (post.privacy === 'public' || post.author.id === userId) && <Post
             key={post.id}
             post={post}
             onToggledLikePost={handleRefreshPosts}

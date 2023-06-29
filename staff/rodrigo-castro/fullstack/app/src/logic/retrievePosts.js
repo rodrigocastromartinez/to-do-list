@@ -1,6 +1,6 @@
 import { validators } from 'com'
 
-const { validateId } = validators
+const { validateToken } = validators
 
 /**
  * Retrieves all posts
@@ -9,8 +9,8 @@ const { validateId } = validators
  * @returns {array} an array of objects with all the posts found
  */
 
-export default function retrievePosts(userId, callback) {
-    validateId(userId, 'user id')
+export default function retrievePosts(token, callback) {
+    validateToken(token, 'token')
 
     const xhr = new XMLHttpRequest
 
@@ -40,7 +40,7 @@ export default function retrievePosts(userId, callback) {
 
     xhr.setRequestHeader('Content-Type', 'application/json')
 
-    xhr.setRequestHeader('Authorization', `Bearer ${userId}`)
+    xhr.setRequestHeader('Authorization', `Bearer ${token}`)
 
 
     xhr.send()
