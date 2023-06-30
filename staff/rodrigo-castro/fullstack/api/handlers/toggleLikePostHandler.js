@@ -1,16 +1,11 @@
-const { extractToken } = require('../helpers')
+const { extractUserId } = require('./helpers')
 const { toggleLikePost } = require('../logic')
-const jwt = require('jsonwebtoken')
 
 module.exports = (req, res) => {
     try {
         const { postId } = req.params
 
-        const token = extractToken(req)
-
-        const payload = jwt.verify(token, process.env.SECRET)
-
-        const { sub: userId } = payload
+        const userId = extractUserId(req)
 
         toggleLikePost(userId, postId)
             .then(() => res.status(201).send())

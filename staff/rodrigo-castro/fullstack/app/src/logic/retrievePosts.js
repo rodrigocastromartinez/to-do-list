@@ -4,7 +4,7 @@ const { validateToken } = validators
 
 /**
  * Retrieves all posts
- * @param {string} userId user id
+ * @param {string} token user token
  * @param {function} callback 
  * @returns {array} an array of objects with all the posts found
  */

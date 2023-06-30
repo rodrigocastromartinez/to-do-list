@@ -1,19 +1,19 @@
 // import { validateId, validatePassword } from './helpers/validators'
 import { validators } from 'com'
 
-const { validateId, validatePassword } = validators
+const { validateToken, validatePassword } = validators
 
 /**
  * Updates user password
- * @param {string} userId user id
+ * @param {string} token user id
  * @param {string} password current password
  * @param {string} newPassword new password 
  * @param {string} newPasswordConfirm new password confirmation
  * @param {function} callback 
  */
 
-export const changePassword = (userId, password, newPassword, newPasswordConfirm, callback) => {
-    validateId(userId)
+export const changePassword = (token, password, newPassword, newPasswordConfirm, callback) => {
+    validateToken(token)
     validatePassword(password)
     validatePassword(newPassword, 'new password')
     validatePassword(newPasswordConfirm, 'new password confirm')
@@ -43,7 +43,7 @@ export const changePassword = (userId, password, newPassword, newPasswordConfirm
 
     xhr.setRequestHeader('Content-Type', 'application/json')
 
-    xhr.setRequestHeader('Authorization', `Bearer ${userId}`)
+    xhr.setRequestHeader('Authorization', `Bearer ${token}`)
 
     const data = { password, newPassword, newPasswordConfirm }
     const json = JSON.stringify(data)

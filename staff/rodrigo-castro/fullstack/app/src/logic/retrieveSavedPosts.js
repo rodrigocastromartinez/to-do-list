@@ -1,6 +1,6 @@
 import { validators } from 'com'
 
-const { validateId } = validators
+const { validateToken } = validators
 
 /**
  * Retrieves user saved posts
@@ -8,8 +8,8 @@ const { validateId } = validators
  * @param {*} callback 
  */
 
-export default function retrieveSavedPosts(userId, callback) {
-    validateId(userId, 'user id')
+export default function retrieveSavedPosts(token, callback) {
+    validateToken(token, 'token')
 
     const xhr = new XMLHttpRequest
 
@@ -39,7 +39,7 @@ export default function retrieveSavedPosts(userId, callback) {
 
     xhr.setRequestHeader('Content-Type', 'application/json')
 
-    xhr.setRequestHeader('Authorization', `Bearer ${userId}`)
+    xhr.setRequestHeader('Authorization', `Bearer ${token}`)
 
     xhr.send()
 }

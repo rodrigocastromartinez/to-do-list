@@ -1,18 +1,18 @@
 import { validators } from 'com'
 
-const { validateEmail, validateId, validatePassword } = validators
+const { validateEmail, validateToken, validatePassword } = validators
 
 /**
  * Updates user email
- * @param {string} userId user id
+ * @param {string} token user token
  * @param {string} email current user email
  * @param {string} newEmail new email
  * @param {string} password user password
  * @param {function} callback 
  */
 
-export const changeEmail = (userId, email, newEmail, password, callback) => {
-    validateId(userId)
+export const changeEmail = (token, email, newEmail, password, callback) => {
+    validateToken(token)
     validateEmail(email)
     validateEmail(newEmail)
     validatePassword(password)
@@ -42,7 +42,7 @@ export const changeEmail = (userId, email, newEmail, password, callback) => {
 
     xhr.setRequestHeader('Content-Type', 'application/json')
 
-    xhr.setRequestHeader('Authorization', `Bearer ${userId}`)
+    xhr.setRequestHeader('Authorization', `Bearer ${token}`)
 
     const data = { userId, email, newEmail, password }
     const json = JSON.stringify(data)

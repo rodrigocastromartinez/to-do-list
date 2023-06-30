@@ -27,7 +27,7 @@ module.exports = userId => {
                                     avatar
                                 }
 
-                                post.favs = user.savedPosts.some(fav => fav.toString() === post.id)
+                                post.isFav = user.savedPosts.some(fav => fav.toString() === post.id)
                             })
                             return posts
                         })

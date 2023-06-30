@@ -1,4 +1,4 @@
-const { extractUserId } = require('../helpers')
+const { extractUserId } = require('./helpers')
 const { updateUserPassword } = require('../logic')
 
 module.exports = (req, res) => {

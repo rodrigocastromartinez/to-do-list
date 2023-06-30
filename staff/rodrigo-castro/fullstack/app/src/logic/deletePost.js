@@ -1,8 +1,6 @@
-// import { validateId } from "./helpers/validators"
-import { loadPosts, savePosts, findUserById, findPostById } from "../data"
 import { validators } from 'com'
 
-const { validateId } = validators
+const { validateId, validateToken } = validators
 
 /**
  * Deletes a post (from its owner) identified by it's id
@@ -11,8 +9,8 @@ const { validateId } = validators
  * @param {function} callback 
  */
 
-export default function deletePost(userId, postId, callback) {
-    validateId(userId)
+export default function deletePost(token, postId, callback) {
+    validateToken(token)
     validateId(postId)
 
     const xhr = new XMLHttpRequest
@@ -40,7 +38,7 @@ export default function deletePost(userId, postId, callback) {
 
     xhr.setRequestHeader('Content-Type', 'application/json')
 
-    xhr.setRequestHeader('Authorization', `Bearer ${userId}`)
+    xhr.setRequestHeader('Authorization', `Bearer ${token}`)
 
     xhr.send()
 }

@@ -1,6 +1,6 @@
 import { validators } from 'com'
 
-const { validateId } = validators
+const { validateId, validateToken } = validators
 
 /**
  * Retrieves a specific post
@@ -10,8 +10,8 @@ const { validateId } = validators
  * @returns {object} the found post
  */
 
-export default function retrievePost(userId, postId, callback) {
-    validateId(userId, 'user id')
+export default function retrievePost(token, postId, callback) {
+    validateToken(token, 'token')
     validateId(postId, 'post id')
 
     const xhr = new XMLHttpRequest
@@ -42,7 +42,7 @@ export default function retrievePost(userId, postId, callback) {
 
     xhr.setRequestHeader('Content-Type', 'application/json')
 
-    xhr.setRequestHeader('Authorization', `Bearer ${userId}`)
+    xhr.setRequestHeader('Authorization', `Bearer ${token}`)
 
     xhr.send()
 }

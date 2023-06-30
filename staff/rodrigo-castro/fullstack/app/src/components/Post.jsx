@@ -7,6 +7,9 @@ import './Post.css'
 import { useState } from "react"
 import togglePrivacy from "../logic/togglePrivacy"
 import { useAppContext } from '../hooks'
+import { utils } from 'com'
+
+const { extractSubFromToken } = utils
 
 export default function Post({ post: { id, image, text, date, likedBy, author: { id: authorId, name, avatar }, isFav, privacy }, onToggledLikePost, onEdit, onPostDeleted, onToggleSavePost, onToggledPrivacy }) {
     const { alert, freeze, unfreeze } = useAppContext()
@@ -22,7 +25,7 @@ export default function Post({ post: { id, image, text, date, likedBy, author: {
         try {
             freeze()
 
-            toggleLikePost(context.userId, id, error => {
+            toggleLikePost(context.token, id, error => {
                 unfreeze()
 
                 if (error) {
@@ -43,7 +46,7 @@ export default function Post({ post: { id, image, text, date, likedBy, author: {
         try {
             freeze()
 
-            toggleSavePost(context.userId, id, error => {
+            toggleSavePost(context.token, id, error => {
                 unfreeze()
 
                 if (error) {
@@ -69,7 +72,7 @@ export default function Post({ post: { id, image, text, date, likedBy, author: {
         try {
             freeze()
 
-            togglePrivacy(context.userId, id, error => {
+            togglePrivacy(context.token, id, error => {
                 unfreeze()
 
                 if (error) {
@@ -98,7 +101,7 @@ export default function Post({ post: { id, image, text, date, likedBy, author: {
         if (confirm('Are you sure you want to delete?')) {
             try {
                 freeze()
-                deletePost(context.userId, id, error => {
+                deletePost(context.token, id, error => {
                     unfreeze()
 
                     if (error) {
@@ -122,6 +125,8 @@ export default function Post({ post: { id, image, text, date, likedBy, author: {
 
     console.debug('Post -> render')
 
+    const userId = extractSubFromToken(context.token)
+
     return <>
         {authorId && <><article className="post-container">
 
@@ -129,12 +134,12 @@ export default function Post({ post: { id, image, text, date, likedBy, author: {
                 <img src={avatar} className="user-avatar" />
                 <p className="author-name">{name}</p>
                 <time>· {day} {month} {year} ·</time>
-                {authorId === context.userId && (privacy === 'public' ? <span className="material-symbols-rounded visibility">visibility</span> : <span className="material-symbols-rounded visibility">visibility_off</span>)}
-                {authorId === context.userId ? <button className="post-options" onClick={handlePostOptions}><span className="material-symbols-rounded">expand_circle_down</span></button> : ''}
+                {authorId === userId && (privacy === 'public' ? <span className="material-symbols-rounded visibility">visibility</span> : <span className="material-symbols-rounded visibility">visibility_off</span>)}
+                {authorId === userId ? <button className="post-options" onClick={handlePostOptions}><span className="material-symbols-rounded">expand_circle_down</span></button> : ''}
             </div>
             <img src={image} />
             <div className="post-options">
-                <button className={`post-button ${likedBy && likedBy.includes(context.userId) ? 'liked filled' : ''}`} onClick={handleToggleLikePost}><span className="material-symbols-rounded">favorite</span></button>
+                <button className={`post-button ${likedBy && likedBy.includes(userId) ? 'liked filled' : ''}`} onClick={handleToggleLikePost}><span className="material-symbols-rounded">favorite</span></button>
                 <button className={`post-button ${isFav ? 'filled' : ''}`} onClick={handleToggleSavePost}><span className="material-symbols-rounded">bookmark</span></button>
             </div>
             {likedBy.length > 0 ? <p className="likes-counter">{likedBy.length} {likedBy.length > 1 ? 'likes' : 'like'}</p> : ''}

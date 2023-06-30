@@ -1,16 +1,16 @@
 import { validators } from 'com'
 
-const { validateId } = validators
+const { validateToken, validateId } = validators
 
 /**
  * Toggles post privacy
- * @param {string} userId user's id
+ * @param {string} token user's token
  * @param {string} postId post's id
  * @param {function} callback 
  */
 
-export default function togglePrivacy(userId, postId, callback) {
-    validateId(userId)
+export default function togglePrivacy(token, postId, callback) {
+    validateToken(token)
     validateId(postId)
 
     const xhr = new XMLHttpRequest
@@ -38,7 +38,7 @@ export default function togglePrivacy(userId, postId, callback) {
 
     xhr.setRequestHeader('Content-Type', 'application/json')
 
-    xhr.setRequestHeader('Authorization', `Bearer ${userId}`)
+    xhr.setRequestHeader('Authorization', `Bearer ${token}`)
 
 
     xhr.send()

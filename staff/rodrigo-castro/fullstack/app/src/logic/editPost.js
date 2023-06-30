@@ -1,18 +1,18 @@
 import { validators } from 'com'
 
-const { validateId, validateText, validateUrl } = validators
+const { validateId, validateText, validateUrl, validateToken } = validators
 
 /**
  * Edits an existing post
- * @param {string} userId post owner's id
+ * @param {string} token post owner's token
  * @param {string} postId post id
  * @param {string} image post image - can be the same or change
  * @param {string} text post caption - can be the same or change
  * @param {function} callback 
  */
 
-export default function editPost(userId, postId, image, text, callback) {
-    validateId(userId, 'user id')
+export default function editPost(token, postId, image, text, callback) {
+    validateToken(token, 'user id')
     validateId(postId, 'post id')
     validateUrl(image, 'image url')
     validateText(text)
@@ -42,7 +42,7 @@ export default function editPost(userId, postId, image, text, callback) {
 
     xhr.setRequestHeader('Content-Type', 'application/json')
 
-    xhr.setRequestHeader('Authorization', `Bearer ${userId}`)
+    xhr.setRequestHeader('Authorization', `Bearer ${token}`)
 
     const post = { image, text }
     const json = JSON.stringify(post)

@@ -4,7 +4,9 @@ import Post from './Post.jsx'
 import { useState, useEffect } from 'react'
 import './Posts.css'
 import { useAppContext } from '../hooks'
+import { utils } from 'com'
 
+const { extractSubFromToken } = utils
 
 export default function Posts({ onEditClicked, onPostDeleted, postsToShow, lastPostsUpdate, user }) {
     const { freeze, unfreeze } = useAppContext()
@@ -125,7 +127,7 @@ export default function Posts({ onEditClicked, onPostDeleted, postsToShow, lastP
 
     console.debug('Posts -> render')
 
-    // TODO EXTRAER EL USER ID PARA METERLO AQUI ABAJO, NO ESTA MAS EN EL CONTEXTO
+    const userId = extractSubFromToken(context.token)
 
     return <section className='posts-list'>
         {posts && posts.map(post => (post.privacy === 'public' || post.author.id === userId) && <Post

@@ -1,18 +1,16 @@
-// import { validateId, validateUrl } from "./helpers/validators"
-import { saveUser, findUserById } from '../data'
 import { validators } from 'com'
 
-const { validateId, validateUrl } = validators
+const { validateToken, validateUrl } = validators
 
 /**
  * Updates user avatar
- * @param {string} userId user's id
+ * @param {string} token user's token
  * @param {string} avatar avatar url
  * @param {function} callback 
  */
 
-export const updateUserAvatar = (userId, avatar, callback) => {
-    validateId(userId, 'user id')
+export const updateUserAvatar = (token, avatar, callback) => {
+    validateToken(token, 'token')
     validateUrl(avatar, 'Avatar url')
 
     const xhr = new XMLHttpRequest
@@ -40,7 +38,7 @@ export const updateUserAvatar = (userId, avatar, callback) => {
 
     xhr.setRequestHeader('Content-Type', 'application/json')
 
-    xhr.setRequestHeader('Authorization', `Bearer ${userId}`)
+    xhr.setRequestHeader('Authorization', `Bearer ${token}`)
 
     const data = { avatar }
     const json = JSON.stringify(data)

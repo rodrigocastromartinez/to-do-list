@@ -1,5 +1,5 @@
 const { retrievePost } = require('../logic')
-const { extractUserId } = require('../helpers')
+const { extractUserId } = require('./helpers')
 
 module.exports = (req, res) => {
     try {
