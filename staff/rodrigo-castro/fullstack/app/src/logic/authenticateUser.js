@@ -13,36 +13,52 @@ export default function authenticateUser(email, password, callback) {
     validateEmail(email)
     validatePassword(password)
 
-    const xhr = new XMLHttpRequest
+    if (callback) {
+        const xhr = new XMLHttpRequest
 
-    xhr.onload = () => {
-        const { status } = xhr
+        xhr.onload = () => {
+            const { status } = xhr
 
-        if (status !== 200) {
+            if (status !== 200) {
+                const { response: json } = xhr
+                const { error } = JSON.parse(json)
+
+                callback(new Error(error))
+
+                return
+            }
+
             const { response: json } = xhr
-            const { error } = JSON.parse(json)
+            const token = JSON.parse(json)
 
-            callback(new Error(error))
-
-            return
+            callback(null, token)
         }
 
-        const { response: json } = xhr
-        const token = JSON.parse(json)
+        xhr.onerror = () => {
+            callback(new Error('connection error'))
+        }
 
-        callback(null, token)
-    }
+        xhr.open('POST', `${import.meta.env.VITE_API_URL}/users/auth`)
 
-    xhr.onerror = () => {
-        callback(new Error('connection error'))
-    }
+        xhr.setRequestHeader('Content-Type', 'application/json')
 
-    xhr.open('POST', `${import.meta.env.VITE_API_URL}/users/auth`)
+        const user = { email, password }
+        const json = JSON.stringify(user)
 
-    xhr.setRequestHeader('Content-Type', 'application/json')
+        xhr.send(json)
+    } else
+        return fetch(`${import.meta.env.VITE_API_URL}/users/auth`,
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ email, password })
+            })
+            .then(res => {
+                if (res.status !== 200)
+                    return res.json().then(({ error: message }) => { throw new Error(message) })
 
-    const user = { email, password }
-    const json = JSON.stringify(user)
-
-    xhr.send(json)
+                return res.json()
+            })
 }

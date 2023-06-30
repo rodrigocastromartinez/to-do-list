@@ -19,21 +19,29 @@ export default function Login({ onRegisterClick, onUserLoggedIn }) {
             password = event.target.password.value
 
         try {
-            freeze()
+            // freeze()
 
-            authenticateUser(email, password, (error, token) => {
-                unfreeze()
+            // authenticateUser(email, password, (error, token) => {
+            //     unfreeze()
 
-                if (error) {
-                    alert(error.message, 'error')
+            //     if (error) {
+            //         alert(error.message, 'error')
 
-                    return
-                }
+            //         return
+            //     }
 
-                context.token = token
+            //     context.token = token
 
-                onUserLoggedIn()
-            })
+            //     onUserLoggedIn()
+            // })
+
+            authenticateUser(email, password)
+                .then(token => {
+                    context.token = token
+
+                    onUserLoggedIn()
+                })
+
         } catch (error) {
             unfreeze()
             alert(error.message, 'warn')
