@@ -29,7 +29,7 @@ export default function retrievePosts(token, callback) {
         const { response: json } = xhr
         const posts = JSON.parse(json)
 
-        callback(null, posts)
+        callback(null, posts.reverse())
     }
 
     xhr.onerror = () => {

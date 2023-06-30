@@ -22,7 +22,7 @@ export default function AddPostModal({ onCancel, onPostCreated }) {
         try {
             freeze()
 
-            createPost(context.userId, image, text, error => {
+            createPost(context.token, image, text, error => {
                 unfreeze()
 
                 if (error) {
