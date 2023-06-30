@@ -21,16 +21,21 @@ export default function Register({ onLoginClick, onUserRegistered }) {
         try {
             freeze()
 
-            registerUser(email, username, password, error => {
-                unfreeze()
+            // registerUser(email, username, password, error => {
+            //     unfreeze()
 
-                if (error) {
-                    alert(error.message)
-                }
+            //     if (error) {
+            //         alert(error.message)
+            //     }
 
-                document.querySelector('form').reset()
-                onUserRegistered()
-            })
+            //     document.querySelector('form').reset()
+            //     onUserRegistered()
+            // })
+
+            registerUser(email, username, password)
+                .then(() => unfreeze())
+                .then(() => onUserRegistered())
+                .catch(error => alert(error.message))
         } catch (error) {
             unfreeze()
             alert(error.message)

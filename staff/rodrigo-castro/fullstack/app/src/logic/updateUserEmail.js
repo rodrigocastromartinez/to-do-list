@@ -22,7 +22,7 @@ export const changeEmail = (token, email, newEmail, password, callback) => {
     xhr.onload = () => {
         const { status } = xhr
 
-        if (status !== 200) {
+        if (status !== 204) {
             const { response: json } = xhr
             const { error } = JSON.parse(json)
 
@@ -44,7 +44,7 @@ export const changeEmail = (token, email, newEmail, password, callback) => {
 
     xhr.setRequestHeader('Authorization', `Bearer ${token}`)
 
-    const data = { userId, email, newEmail, password }
+    const data = { email, newEmail, password }
     const json = JSON.stringify(data)
 
     xhr.send(json)

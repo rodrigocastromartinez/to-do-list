@@ -5,7 +5,7 @@ function extractUserId(req) {
 
     const token = authorization.slice(7)
 
-    const payload = jwt.verify(token, process.env.SECRET)
+    const payload = jwt.verify(token, process.env.JWT_SECRET)
 
     const { sub: userId } = payload
 

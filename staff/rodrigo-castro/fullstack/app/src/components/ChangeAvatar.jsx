@@ -14,7 +14,7 @@ export default function ChangeAvatar({ onCancel, onAvatarChanged }) {
         try {
             freeze()
 
-            updateUserAvatar(context.userId, avatar, error => {
+            updateUserAvatar(context.token, avatar, error => {
                 unfreeze()
 
                 if (error) {

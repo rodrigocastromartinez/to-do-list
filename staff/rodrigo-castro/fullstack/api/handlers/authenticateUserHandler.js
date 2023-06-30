@@ -9,7 +9,9 @@ module.exports = (req, res) => {
             .then(userId => {
                 const payload = { sub: userId }
 
-                const token = jwt.sign(payload, process.env.SECRET, { expiresIn: '1200s' })
+                const { JWT_SECRET, JWT_EXPIRATION } = process.env
+
+                const token = jwt.sign(payload, JWT_SECRET, { expiresIn: JWT_EXPIRATION })
 
                 res.json(token)
             })

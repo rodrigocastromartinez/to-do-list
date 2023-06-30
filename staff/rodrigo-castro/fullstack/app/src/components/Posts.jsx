@@ -79,7 +79,9 @@ export default function Posts({ onEditClicked, onPostDeleted, postsToShow, lastP
                             return
                         }
 
-                        const _posts = posts.filter(post => post.author.authorId === context.token)
+                        const userId = extractSubFromToken(context.token)
+
+                        const _posts = posts.filter(post => post.author.id === userId)
 
                         setPosts(_posts)
                     })
@@ -95,7 +97,9 @@ export default function Posts({ onEditClicked, onPostDeleted, postsToShow, lastP
                             return
                         }
 
-                        const _posts = posts.filter(post => post.likedBy.includes(context.token))
+                        const userId = extractSubFromToken(context.token)
+
+                        const _posts = posts.filter(post => post.likedBy.includes(userId))
 
                         setPosts(_posts)
                     })

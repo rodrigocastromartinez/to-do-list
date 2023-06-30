@@ -14,7 +14,7 @@ export default function ChangeEmail({ onCancel, onEmailChanged }) {
         try {
             freeze()
 
-            changeEmail(context.userId, previousEmail, newEmail, password, (error) => {
+            changeEmail(context.token, previousEmail, newEmail, password, (error) => {
                 unfreeze()
 
                 if (error) {

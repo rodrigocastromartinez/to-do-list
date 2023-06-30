@@ -16,7 +16,7 @@ export default function ChangePassword({ onCancel, onPasswordChanged }) {
         try {
             freeze()
 
-            changePassword(context.userId, previousPassword, newPassword, repeatNewPassword, error => {
+            changePassword(context.token, previousPassword, newPassword, repeatNewPassword, error => {
                 unfreeze()
 
                 if (error) {
