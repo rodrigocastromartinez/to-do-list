@@ -2,8 +2,6 @@ import { context } from '../ui'
 import { createPost } from '../logic/createPost'
 import { useAppContext } from '../hooks'
 
-
-
 export default function AddPostModal({ onCancel, onPostCreated }) {
     const { freeze, unfreeze } = useAppContext()
 
@@ -22,17 +20,13 @@ export default function AddPostModal({ onCancel, onPostCreated }) {
         try {
             freeze()
 
-            createPost(context.token, image, text, error => {
-                unfreeze()
+            createPost(context.token, image, text)
+                .then(() => {
+                    unfreeze()
 
-                if (error) {
-                    alert(error.message)
-
-                    return
-                }
-
-                onPostCreated()
-            })
+                    onPostCreated()
+                })
+                .catch(error => alert(error.message))
         } catch (error) {
             unfreeze()
             alert(error.message)

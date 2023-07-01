@@ -17,35 +17,49 @@ export default function editPost(token, postId, image, text, callback) {
     validateUrl(image, 'image url')
     validateText(text)
 
-    const xhr = new XMLHttpRequest
+    if (callback) {
+        const xhr = new XMLHttpRequest
 
-    xhr.onload = () => {
-        const { status } = xhr
+        xhr.onload = () => {
+            const { status } = xhr
 
-        if (status !== 200) {
-            const { response: json } = xhr
-            const { error } = JSON.parse(json)
+            if (status !== 200) {
+                const { response: json } = xhr
+                const { error } = JSON.parse(json)
 
-            callback(new Error(error))
+                callback(new Error(error))
 
-            return
+                return
+            }
+
+            callback(null)
         }
 
-        callback(null)
-    }
+        xhr.onerror = () => {
+            callback(new Error('connection error'))
+        }
 
-    xhr.onerror = () => {
-        callback(new Error('connection error'))
-    }
+        xhr.open('PATCH', `${import.meta.env.VITE_API_URL}/users/posts/${postId}/edit`)
 
-    xhr.open('PATCH', `${import.meta.env.VITE_API_URL}/users/posts/${postId}/edit`)
+        xhr.setRequestHeader('Content-Type', 'application/json')
 
-    xhr.setRequestHeader('Content-Type', 'application/json')
+        xhr.setRequestHeader('Authorization', `Bearer ${token}`)
 
-    xhr.setRequestHeader('Authorization', `Bearer ${token}`)
+        const post = { image, text }
+        const json = JSON.stringify(post)
 
-    const post = { image, text }
-    const json = JSON.stringify(post)
-
-    xhr.send(json)
+        xhr.send(json)
+    } else
+        return fetch(`${import.meta.env.VITE_API_URL}/users/posts/${postId}/edit`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({ image, text })
+        })
+            .then(res => {
+                if (res.status !== 200)
+                    return res.json().then(({ error: message }) => { throw new Error(message) })
+            })
 }

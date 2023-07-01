@@ -14,15 +14,12 @@ export default function ChangeEmail({ onCancel, onEmailChanged }) {
         try {
             freeze()
 
-            changeEmail(context.token, previousEmail, newEmail, password, (error) => {
-                unfreeze()
+            changeEmail(context.token, previousEmail, newEmail, password)
+                .then(() => {
+                    unfreeze()
 
-                if (error) {
-                    alert(error.message)
-                }
-
-                onEmailChanged()
-            })
+                    onEmailChanged()
+                })
         } catch (error) {
             unfreeze()
             alert(error.message)

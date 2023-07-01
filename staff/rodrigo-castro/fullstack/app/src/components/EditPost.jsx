@@ -20,17 +20,13 @@ export default function EditPost({ onCancel, postId, onPostEdited, onPostDeleted
             try {
                 freeze()
 
-                editPost(context.token, postId, image, text, error => {
-                    unfreeze()
+                editPost(context.token, postId, image, text)
+                    .then(() => {
+                        unfreeze()
 
-                    if (error) {
-                        alert(error.message)
-
-                        return
-                    }
-
-                    onPostEdited()
-                })
+                        onPostEdited()
+                    })
+                    .catch(error => alert(error.message))
             } catch (error) {
                 unfreeze()
                 alert(error.message)
@@ -42,17 +38,13 @@ export default function EditPost({ onCancel, postId, onPostEdited, onPostDeleted
         try {
             freeze()
 
-            retrievePost(context.token, postId, (error, post) => {
-                unfreeze()
+            retrievePost(context.token, postId)
+                .then(post => {
+                    unfreeze()
 
-                if (error) {
-                    alert(error.message)
-
-                    return
-                }
-
-                setPost(post)
-            })
+                    setPost(post)
+                })
+                .catch(error => alert(error.message))
         } catch (error) {
             unfreeze()
             alert(error.message)

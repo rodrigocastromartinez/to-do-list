@@ -25,17 +25,12 @@ export default function Post({ post: { id, image, text, date, likedBy, author: {
         try {
             freeze()
 
-            toggleLikePost(context.token, id, error => {
-                unfreeze()
+            toggleLikePost(context.token, id)
+                .then(() => {
+                    unfreeze()
 
-                if (error) {
-                    alert(error.message)
-
-                    return
-                }
-
-                onToggledLikePost()
-            })
+                    onToggledLikePost()
+                })
         } catch (error) {
             unfreeze()
             alert(error.message)
@@ -46,18 +41,12 @@ export default function Post({ post: { id, image, text, date, likedBy, author: {
         try {
             freeze()
 
-            toggleSavePost(context.token, id, error => {
-                unfreeze()
+            toggleSavePost(context.token, id)
+                .then(() => {
+                    unfreeze()
 
-                if (error) {
-                    alert(error.message)
-
-                    return
-                }
-
-                onToggleSavePost()
-            })
-
+                    onToggleSavePost()
+                })
         } catch (error) {
             unfreeze()
             alert(error.message)
@@ -72,19 +61,14 @@ export default function Post({ post: { id, image, text, date, likedBy, author: {
         try {
             freeze()
 
-            togglePrivacy(context.token, id, error => {
-                unfreeze()
+            togglePrivacy(context.token, id)
+                .then(() => {
+                    unfreeze()
 
-                if (error) {
-                    alert(error.message)
+                    setPostOptions(null)
 
-                    return
-                }
-
-                setPostOptions(null)
-
-                onToggledPrivacy()
-            })
+                    onToggledPrivacy()
+                })
         } catch (error) {
             unfreeze()
             alert(error.message)

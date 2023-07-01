@@ -16,18 +16,7 @@ export default function Posts({ onEditClicked, onPostDeleted, postsToShow, lastP
         try {
             freeze()
 
-            retrievePosts(context.token, (error, posts) => {
-                unfreeze()
-
-                if (error) {
-                    alert(error.message)
-
-                    return
-                }
-
-                setPosts(posts)
-            })
-
+            handleRefreshPosts()
         } catch (error) {
             unfreeze()
             alert(error.message)
@@ -40,69 +29,50 @@ export default function Posts({ onEditClicked, onPostDeleted, postsToShow, lastP
 
             switch (postsToShow) {
                 case 'all':
-                    retrievePosts(context.token, (error, posts) => {
-                        unfreeze()
+                    retrievePosts(context.token)
+                        .then(posts => {
+                            unfreeze()
 
-                        if (error) {
-                            alert(error.message)
-
-                            return
-                        }
-
-                        setPosts(posts)
-                    })
+                            setPosts(posts.reverse())
+                        })
                     break;
 
                 case 'saved':
-                    retrievePosts(context.token, (error, posts) => {
-                        unfreeze()
+                    retrievePosts(context.token)
+                        .then(posts => {
+                            unfreeze()
 
-                        if (error) {
-                            alert(error.message)
+                            const _posts = posts.filter(post => post.isFav)
 
-                            return
-                        }
-
-                        const _posts = posts.filter(post => post.isFav)
-
-                        setPosts(_posts)
-                    })
+                            setPosts(_posts.reverse())
+                        })
                     break;
 
                 case 'mine':
-                    retrievePosts(context.token, (error, posts) => {
-                        unfreeze()
+                    retrievePosts(context.token)
+                        .then(posts => {
+                            unfreeze()
 
-                        if (error) {
-                            alert(error.message)
+                            const userId = extractSubFromToken(context.token)
 
-                            return
-                        }
+                            const _posts = posts.filter(post => post.author.id === userId)
 
-                        const userId = extractSubFromToken(context.token)
-
-                        const _posts = posts.filter(post => post.author.id === userId)
-
-                        setPosts(_posts)
-                    })
+                            setPosts(_posts.reverse())
+                        })
                     break;
 
                 case 'liked':
-                    retrievePosts(context.token, (error, posts) => {
-                        unfreeze()
+                    retrievePosts(context.token)
+                        .then(posts => {
+                            unfreeze()
 
-                        if (error) {
-                            alert(error.message)
+                            const userId = extractSubFromToken(context.token)
 
-                            return
-                        }
+                            const _posts = posts.filter(post => post.likedBy.includes(userId))
 
-                        const userId = extractSubFromToken(context.token)
-
-                        const _posts = posts.filter(post => post.likedBy.includes(userId))
-
-                        setPosts(_posts)
-                    })
+                            setPosts(_posts.reverse())
+                        })
+                    break;
             }
         } catch (error) {
             unfreeze()

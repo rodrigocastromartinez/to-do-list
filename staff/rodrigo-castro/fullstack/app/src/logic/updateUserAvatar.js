@@ -13,35 +13,49 @@ export const updateUserAvatar = (token, avatar, callback) => {
     validateToken(token, 'token')
     validateUrl(avatar, 'Avatar url')
 
-    const xhr = new XMLHttpRequest
+    if (callback) {
+        const xhr = new XMLHttpRequest
 
-    xhr.onload = () => {
-        const { status } = xhr
+        xhr.onload = () => {
+            const { status } = xhr
 
-        if (status !== 204) {
-            const { response: json } = xhr
-            const { error } = JSON.parse(json)
+            if (status !== 204) {
+                const { response: json } = xhr
+                const { error } = JSON.parse(json)
 
-            callback(new Error(error))
+                callback(new Error(error))
 
-            return
+                return
+            }
+
+            callback(null)
         }
 
-        callback(null)
-    }
+        xhr.onerror = () => {
+            callback(new Error('connection error'))
+        }
 
-    xhr.onerror = () => {
-        callback(new Error('connection error'))
-    }
+        xhr.open('PATCH', `${import.meta.env.VITE_API_URL}/users/avatar`)
 
-    xhr.open('PATCH', `${import.meta.env.VITE_API_URL}/users/avatar`)
+        xhr.setRequestHeader('Content-Type', 'application/json')
 
-    xhr.setRequestHeader('Content-Type', 'application/json')
+        xhr.setRequestHeader('Authorization', `Bearer ${token}`)
 
-    xhr.setRequestHeader('Authorization', `Bearer ${token}`)
+        const data = { avatar }
+        const json = JSON.stringify(data)
 
-    const data = { avatar }
-    const json = JSON.stringify(data)
-
-    xhr.send(json)
+        xhr.send(json)
+    } else
+        return fetch(`${import.meta.env.VITE_API_URL}/users/avatar`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({ avatar })
+        })
+            .then(res => {
+                if (res.status !== 204)
+                    return res.json().then(({ error: message }) => { throw new Error(message) })
+            })
 }

@@ -12,36 +12,50 @@ const { validateToken } = validators
 export default function retrievePosts(token, callback) {
     validateToken(token, 'token')
 
-    const xhr = new XMLHttpRequest
+    if (callback) {
+        const xhr = new XMLHttpRequest
 
-    xhr.onload = () => {
-        const { status } = xhr
+        xhr.onload = () => {
+            const { status } = xhr
 
-        if (status !== 200) {
+            if (status !== 200) {
+                const { response: json } = xhr
+                const { error } = JSON.parse(json)
+
+                callback(new Error(error))
+
+                return
+            }
+
             const { response: json } = xhr
-            const { error } = JSON.parse(json)
+            const posts = JSON.parse(json)
 
-            callback(new Error(error))
-
-            return
+            callback(null, posts.reverse())
         }
 
-        const { response: json } = xhr
-        const posts = JSON.parse(json)
+        xhr.onerror = () => {
+            callback(new Error('connection error'))
+        }
 
-        callback(null, posts.reverse())
-    }
+        xhr.open('GET', `${import.meta.env.VITE_API_URL}/posts/retrieveall`)
 
-    xhr.onerror = () => {
-        callback(new Error('connection error'))
-    }
+        xhr.setRequestHeader('Content-Type', 'application/json')
 
-    xhr.open('GET', `${import.meta.env.VITE_API_URL}/posts/retrieveall`)
+        xhr.setRequestHeader('Authorization', `Bearer ${token}`)
 
-    xhr.setRequestHeader('Content-Type', 'application/json')
+        xhr.send()
+    } else
+        return fetch(`${import.meta.env.VITE_API_URL}/posts/retrieveall`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        })
+            .then(res => {
+                if (res.status !== 200)
+                    return res.json().then(({ error: message }) => { throw new Error(message) })
 
-    xhr.setRequestHeader('Authorization', `Bearer ${token}`)
-
-
-    xhr.send()
+                return res.json()
+            })
 }

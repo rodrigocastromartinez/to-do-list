@@ -1,36 +1,40 @@
 const { readFile } = require('fs')
 const { validators: { validateId } } = require('com')
+const context = require('../context')
+const { ObjectId } = require('mongodb')
 
 module.exports = userId => {
     validateId(userId)
 
-    readFile(`${process.env.DB_PATH}/users.json`, 'utf8', (error, usersJson) => {
-        if (error) {
-            callback(error)
+    const { users, posts } = context
 
-            return
-        }
+    return users.findOne({ _id: new ObjectId(userId) })
+        .then(user => {
+            if (!user) throw new Error(`User with id ${userId} not found`)
 
-        const users = JSON.parse(usersJson)
+            return users.find().toArray()
+                .then(users => {
+                    return posts.find().toArray()
+                        .then(_posts => {
+                            const posts = _posts.filter(post => post.author.toString() === userId)
+                            posts.forEach(post => {
+                                post.id = post._id.toString()
+                                delete post._id
 
-        const user = users.find(user => user.id === userId)
+                                const author = users.find(user => user._id.toString() === post.author.toString())
 
-        if (!user) {
-            callback(new Error(`user with id ${userId} not found`))
+                                const { _id, name, avatar } = author
 
-            return
-        }
+                                post.author = {
+                                    id: _id.toString(),
+                                    name,
+                                    avatar
+                                }
 
-        readFile('./data/posts.json', 'utf8', (error, postsJson) => {
-            if (error) {
-                callback(error)
-
-                return
-            }
-
-            const posts = JSON.parse(postsJson)
-
-            callback(null, posts.filter(post => user.savedPosts.includes(post.id)).reverse())
+                                post.isFav = user.savedPosts.some(fav => fav.toString() === post.id)
+                            })
+                            return posts
+                        })
+                })
         })
-    })
 }

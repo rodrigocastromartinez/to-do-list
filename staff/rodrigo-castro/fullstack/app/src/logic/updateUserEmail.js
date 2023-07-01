@@ -17,35 +17,50 @@ export const changeEmail = (token, email, newEmail, password, callback) => {
     validateEmail(newEmail)
     validatePassword(password)
 
-    const xhr = new XMLHttpRequest
+    if (callback) {
 
-    xhr.onload = () => {
-        const { status } = xhr
+        const xhr = new XMLHttpRequest
 
-        if (status !== 204) {
-            const { response: json } = xhr
-            const { error } = JSON.parse(json)
+        xhr.onload = () => {
+            const { status } = xhr
 
-            callback(new Error(error))
+            if (status !== 204) {
+                const { response: json } = xhr
+                const { error } = JSON.parse(json)
 
-            return
+                callback(new Error(error))
+
+                return
+            }
+
+            callback(null)
         }
 
-        callback(null)
-    }
+        xhr.onerror = () => {
+            callback(new Error('connection error'))
+        }
 
-    xhr.onerror = () => {
-        callback(new Error('connection error'))
-    }
+        xhr.open('PATCH', `${import.meta.env.VITE_API_URL}/users/email`)
 
-    xhr.open('PATCH', `${import.meta.env.VITE_API_URL}/users/email`)
+        xhr.setRequestHeader('Content-Type', 'application/json')
 
-    xhr.setRequestHeader('Content-Type', 'application/json')
+        xhr.setRequestHeader('Authorization', `Bearer ${token}`)
 
-    xhr.setRequestHeader('Authorization', `Bearer ${token}`)
+        const data = { email, newEmail, password }
+        const json = JSON.stringify(data)
 
-    const data = { email, newEmail, password }
-    const json = JSON.stringify(data)
-
-    xhr.send(json)
+        xhr.send(json)
+    } else
+        return fetch(`${import.meta.env.VITE_API_URL}/users/email`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({ email, newEmail, password })
+        })
+            .then(res => {
+                if (res.status !== 204)
+                    return res.json().then(({ error: message }) => { throw new Error(message) })
+            })
 }

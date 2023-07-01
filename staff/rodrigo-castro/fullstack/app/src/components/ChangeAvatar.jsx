@@ -14,17 +14,12 @@ export default function ChangeAvatar({ onCancel, onAvatarChanged }) {
         try {
             freeze()
 
-            updateUserAvatar(context.token, avatar, error => {
-                unfreeze()
+            updateUserAvatar(context.token, avatar)
+                .then(() => {
+                    unfreeze()
 
-                if (error) {
-                    alert(error.message)
-
-                    return
-                }
-
-                onAvatarChanged()
-            })
+                    onAvatarChanged()
+                })
         } catch (error) {
             unfreeze()
             alert(error.message)

@@ -19,7 +19,7 @@ export default function Login({ onRegisterClick, onUserLoggedIn }) {
             password = event.target.password.value
 
         try {
-            // freeze()
+            freeze()
 
             // authenticateUser(email, password, (error, token) => {
             //     unfreeze()
@@ -37,11 +37,12 @@ export default function Login({ onRegisterClick, onUserLoggedIn }) {
 
             authenticateUser(email, password)
                 .then(token => {
+                    unfreeze()
+
                     context.token = token
 
                     onUserLoggedIn()
                 })
-
         } catch (error) {
             unfreeze()
             alert(error.message, 'warn')

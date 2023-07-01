@@ -13,32 +13,45 @@ export default (token, postId, callback) => {
     validateToken(token, 'user id')
     validateId(postId, 'post id')
 
-    const xhr = new XMLHttpRequest
+    if (callback) {
+        const xhr = new XMLHttpRequest
 
-    xhr.onload = () => {
-        const { status } = xhr
+        xhr.onload = () => {
+            const { status } = xhr
 
-        if (status !== 201) {
-            const { response: json } = xhr
-            const { error } = JSON.parse(json)
+            if (status !== 201) {
+                const { response: json } = xhr
+                const { error } = JSON.parse(json)
 
-            callback(new Error(error))
+                callback(new Error(error))
 
-            return
+                return
+            }
+
+            callback(null)
         }
 
-        callback(null)
-    }
+        xhr.onerror = () => {
+            callback(new Error('connection error'))
+        }
 
-    xhr.onerror = () => {
-        callback(new Error('connection error'))
-    }
+        xhr.open('PATCH', `${import.meta.env.VITE_API_URL}/posts/${postId}/like`)
 
-    xhr.open('PATCH', `${import.meta.env.VITE_API_URL}/posts/${postId}/like`)
+        xhr.setRequestHeader('Content-Type', 'application/json')
 
-    xhr.setRequestHeader('Content-Type', 'application/json')
+        xhr.setRequestHeader('Authorization', `Bearer ${token}`)
 
-    xhr.setRequestHeader('Authorization', `Bearer ${token}`)
-
-    xhr.send()
+        xhr.send()
+    } else
+        return fetch(`${import.meta.env.VITE_API_URL}/posts/${postId}/like`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        })
+            .then(res => {
+                if (res.status !== 201)
+                    return res.json().then(({ error: message }) => { throw new Error(message) })
+            })
 }
