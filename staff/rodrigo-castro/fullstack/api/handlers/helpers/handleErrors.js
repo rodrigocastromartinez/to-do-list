@@ -2,7 +2,8 @@ const { errors: {
     DuplicityError,
     ContentError,
     AuthError,
-    ExistenceError
+    ExistenceError,
+    AuthorizationError
 } } = require('com')
 
 module.exports = callback => {
@@ -17,6 +18,8 @@ module.exports = callback => {
                     else if (error instanceof ExistenceError)
                         status = 404
                     else if (error instanceof AuthError)
+                        status = 401
+                    else if (error instanceof AuthorizationError)
                         status = 401
 
                     res.status(status).json({ error: error.message })

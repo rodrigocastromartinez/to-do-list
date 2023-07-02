@@ -30,9 +30,18 @@ class AuthError extends Error {
     get name() { return AuthError.name }
 }
 
+class AuthorizationError extends Error {
+    constructor(message) {
+        super(message)
+    }
+
+    get name() { return AuthorizationError.name }
+}
+
 module.exports = {
     DuplicityError,
     ContentError,
     ExistenceError,
-    AuthError
+    AuthError,
+    AuthorizationError
 }

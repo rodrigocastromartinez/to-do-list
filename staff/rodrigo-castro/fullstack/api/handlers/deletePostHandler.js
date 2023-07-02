@@ -1,16 +1,11 @@
 const { deletePost } = require('../logic')
-const { extractUserId } = require('./helpers')
+const { extractUserId, handleErrors } = require('./helpers')
 
-module.exports = (req, res) => {
-    try {
-        const { postId } = req.params
+module.exports = handleErrors((req, res) => {
+    const { postId } = req.params
 
-        const userId = extractUserId(req)
+    const userId = extractUserId(req)
 
-        deletePost(userId, postId)
-            .then(() => res.send())
-            .catch(error => res.status(400).json({ error: error.message }))
-    } catch (error) {
-        res.status(400).json({ error: error.message })
-    }
-}
+    return deletePost(userId, postId)
+        .then(() => res.send())
+})
