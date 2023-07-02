@@ -1,6 +1,6 @@
 const {
     validators: { validateEmail, validatePassword, validateUserName },
-    errors: DuplicityError
+    errors: { DuplicityError }
 } = require('com')
 const context = require('../context')
 
