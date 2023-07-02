@@ -4,6 +4,14 @@ const {
 } = require('com')
 const context = require('../context')
 
+/**
+ * 
+ * @param {string} name user's name
+ * @param {string} email user's email
+ * @param {string} password user's password
+ * @returns Promise
+ */
+
 module.exports = (name, email, password) => {
     validateUserName(name)
     validateEmail(email)

@@ -23,7 +23,7 @@ function validateUserName(userName) {
 }
 
 function validatePassword(userPassword, message = 'password') {
-    if (userPassword.length < 8) throw new RangeError(`${message} must have at least 8 characters`)
+    if (userPassword.length < 8) throw new RangeError(`${message} is shorter than 8 characters`)
     if (!passwordExpression.test(userPassword)) throw new ContentError(`${message} format is not valid`)
 }
 

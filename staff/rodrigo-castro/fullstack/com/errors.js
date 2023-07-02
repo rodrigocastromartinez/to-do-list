@@ -14,7 +14,25 @@ class ContentError extends Error {
     get name() { return ContentError.name }
 }
 
+class ExistenceError extends Error {
+    constructor(message) {
+        super(message)
+    }
+
+    get name() { return ExistenceError.name }
+}
+
+class AuthError extends Error {
+    constructor(message) {
+        super(message)
+    }
+
+    get name() { return AuthError.name }
+}
+
 module.exports = {
     DuplicityError,
-    ContentError
+    ContentError,
+    ExistenceError,
+    AuthError
 }

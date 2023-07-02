@@ -2,6 +2,15 @@ const { validators: { validateId, validateEmail, validatePassword } } = require(
 const context = require('../context')
 const { ObjectId } = require('mongodb')
 
+/**
+ * 
+ * @param {string} userId user's id
+ * @param {string} userPreviousEmail user's previous email
+ * @param {string} userNewEmail user's new email
+ * @param {string} userPassword user's password
+ * @returns Promise<>
+ */
+
 module.exports = (userId, userPreviousEmail, userNewEmail, userPassword) => {
     validateId(userId)
     validateEmail(userPreviousEmail)
