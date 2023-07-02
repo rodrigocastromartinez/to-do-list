@@ -1,4 +1,7 @@
-const { validators: { validateId, validateEmail, validatePassword } } = require('com')
+const {
+    validators: { validateId, validateEmail, validatePassword },
+    errors: { DuplicityError }
+} = require('com')
 const context = require('../context')
 const { ObjectId } = require('mongodb')
 
@@ -23,13 +26,13 @@ module.exports = (userId, userPreviousEmail, userNewEmail, userPassword) => {
 
     return users.findOne({ email: userNewEmail })
         .then(user => {
-            if (user) throw new Error('new email is already registered')
+            if (user) throw new DuplicityError('new email is already registered')
 
             return users.findOne({ _id: new ObjectId(userId) })
                 .then(user => {
-                    if (!user) throw new Error('user not found')
+                    if (!user) throw new ExistenceError('user not found')
 
-                    if (user.email !== userPreviousEmail || user.password !== userPassword) throw new Error(`email or password incorrect`)
+                    if (user.email !== userPreviousEmail || user.password !== userPassword) throw new AuthError(`email or password incorrect`)
 
                     return users.updateOne({ _id: new ObjectId(userId) }, { $set: { email: userNewEmail } })
                 })

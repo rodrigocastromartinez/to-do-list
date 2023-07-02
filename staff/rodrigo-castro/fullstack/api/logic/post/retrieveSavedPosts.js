@@ -1,5 +1,7 @@
-const { readFile } = require('fs')
-const { validators: { validateId } } = require('com')
+const {
+    validators: { validateId },
+    errors: { ExistenceError }
+} = require('com')
 const context = require('../context')
 const { ObjectId } = require('mongodb')
 
@@ -16,7 +18,7 @@ module.exports = userId => {
 
     return users.findOne({ _id: new ObjectId(userId) })
         .then(user => {
-            if (!user) throw new Error(`User with id ${userId} not found`)
+            if (!user) throw new ExistenceError(`User with id ${userId} not found`)
 
             return users.find().toArray()
                 .then(users => {

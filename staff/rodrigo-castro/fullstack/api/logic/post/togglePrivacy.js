@@ -1,4 +1,7 @@
-const { validators: { validateId } } = require('com')
+const {
+    validators: { validateId },
+    errors: { ExistenceError, AuthorizationError }
+} = require('com')
 const context = require('../context')
 const { ObjectId } = require('mongodb')
 
@@ -17,13 +20,13 @@ module.exports = (userId, postId) => {
 
     return users.findOne({ _id: new ObjectId(userId) })
         .then(user => {
-            if (!user) throw new Error(`user with id ${userId}, not found`)
+            if (!user) throw new ExistenceError(`user with id ${userId}, not found`)
 
             return posts.findOne({ _id: new ObjectId(postId) })
                 .then(post => {
-                    if (!post) throw new Error(`post with id ${postId} not found`)
+                    if (!post) throw new ExistenceError(`post with id ${postId} not found`)
 
-                    if (post.author.toString() !== userId) throw new Error(`post with id ${postId} does not belong to user with id ${userId}`)
+                    if (post.author.toString() !== userId) throw new AuthorizationError(`post with id ${postId} does not belong to user with id ${userId}`)
 
                     if (post.privacy === 'public') {
                         post.privacy = 'privated'
