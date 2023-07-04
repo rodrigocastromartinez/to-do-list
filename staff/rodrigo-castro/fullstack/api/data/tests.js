@@ -1,22 +1,21 @@
-const mongodb = require('mongodb')
+const mongoose = require('mongoose')
 
-const { MongoClient, ObjectId } = mongodb
+const { User, Post } = require('./models')
 
-const client = new MongoClient('mongodb://127.0.0.1:27017/data')
+mongoose.connect('mongodb://127.0.0.1:27017/data')
+    .then(() => Promise.all([User.deleteMany(), Post.deleteMany()]))
+    .then(() => {
+        const user = new User({ name: 'Pepito Grillo', email: 'pepito@grillo.com', password: '123123123' })
+        const post = new Post({ author: user.id, image: 'http://image.com/cool', text: 'cool image' })
 
-client.connect()
-    .then(connection => {
-        const users = connection.db().collection('users')
-        const posts = connection.db().collection('posts')
+        post.author = user.id
 
-        // return users.insertOne({ name: 'Pepita Grilla', email: 'pepita@grilla.com', password: '123123123'})
-        // return posts.insertOne({ author: new ObjectId("6492c912a531dc9f747efebb"), image: "http://www.image.com/hello.jpg", text: "hello", date: new Date})
-        return posts.find({ author: new ObjectId("6492c912a531dc9f747efebb") }).toArray()
+        return Promise.all([user.save(), post.save()])
     })
-    .then(result => {
-        console.log(result)
+    .then(([user, post]) => {
+
     })
     .catch(error => {
         console.error(error)
     })
-    .finally(() => client.close())
+    .finally(() => mongoose.disconnect())

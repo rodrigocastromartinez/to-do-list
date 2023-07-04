@@ -20,16 +20,10 @@ const { helloApiHandler,
     retrievePostHandler,
     retrieveSavedPostsHandler
 } = require('./handlers')
-const { MongoClient } = require('mongodb')
-const context = require('./logic/context')
+const mongoose = require('mongoose')
 
-const client = new MongoClient(process.env.MONGODB_URL)
-
-client.connect()
-    .then(connection => {
-        context.users = connection.db().collection('users')
-        context.posts = connection.db().collection('posts')
-
+mongoose.connect(process.env.MONGODB_URL)
+    .then(() => {
         const api = express()
 
         const jsonBodyParser = bodyParser.json()

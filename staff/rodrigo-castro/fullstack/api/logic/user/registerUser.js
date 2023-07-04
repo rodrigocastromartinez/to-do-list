@@ -2,7 +2,7 @@ const {
     validators: { validateEmail, validatePassword, validateUserName },
     errors: { DuplicityError }
 } = require('com')
-const context = require('../context')
+const { User } = require('../../data/models')
 
 /**
  * 
@@ -17,9 +17,7 @@ module.exports = (name, email, password) => {
     validateEmail(email)
     validatePassword(password)
 
-    const { users } = context
-
-    return users.insertOne({ name, email, password, savedPosts: [] })
+    return User.create({ name, email, password, savedPosts: [] })
         .catch(error => {
             if (error.message.includes('E11000'))
                 throw new DuplicityError(`user with email ${email} already exists`)
