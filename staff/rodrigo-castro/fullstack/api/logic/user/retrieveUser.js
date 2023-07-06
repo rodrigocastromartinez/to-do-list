@@ -2,8 +2,7 @@ const {
     validators: { validateId },
     errors: { ExistenceError }
 } = require('com')
-const context = require('../context')
-const { ObjectId } = require('mongodb')
+const { User } = require('../../data/models')
 
 /**
  * 
@@ -14,14 +13,14 @@ const { ObjectId } = require('mongodb')
 module.exports = userId => {
     validateId(userId)
 
-    const { users } = context
-
-    return users.findOne({ _id: new ObjectId(userId) })
+    return User.findById(userId).lean()
         .then(user => {
             if (!user) throw new ExistenceError('user not found')
 
             delete user._id
             delete user.password
+            delete user.savedPosts
+            delete user.__v
 
             return user
         })
