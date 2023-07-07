@@ -1,11 +1,10 @@
+const mongoose = require('mongoose')
+const { User, Post } = require('../../data/models')
 const createPost = require('./createPost')
 
-createPost('user-1', 'https://cdn0.geoenciclopedia.com/es/posts/8/0/0/montanas_8_orig.jpg', 'create post test', error => {
-    if(error) {
-        console.error(error)
-
-        return
-    }
-
-    console.log('post created')
-})
+mongoose.connect('mongodb://127.0.0.1:27017/data-test')
+    .then(() => Promise.all([User.deleteMany(), Post.deleteMany()]))
+    .then(() => User.create({ name: 'pepe.grillo', email: 'pepe@grillo.com', password: '123123123' }))
+    .then(user => createPost(user.id, 'http://www.image.com/post.jpeg', 'my post'))
+    .catch(error => console.error(error))
+    .finally(() => mongoose.disconnect())

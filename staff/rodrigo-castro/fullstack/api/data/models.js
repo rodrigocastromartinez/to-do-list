@@ -47,9 +47,14 @@ const post = new Schema({
         required: true,
         default: Date.now
     },
-    likes: {
+    likedBy: {
         type: [ObjectId],
         ref: 'User'
+    },
+    privacy: {
+        type: String,
+        required: true,
+        default: 'public'
     }
 })
 
