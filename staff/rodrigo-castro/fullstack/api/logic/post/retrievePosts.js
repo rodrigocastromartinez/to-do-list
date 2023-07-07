@@ -15,7 +15,7 @@ module.exports = userId => {
 
     return Promise.all([
         User.findById(userId).lean(),
-        Post.find().sort('-date').populate('author', '-password -savedPosts -__v').lean()
+        Post.find().sort('date').populate('author', '-password -savedPosts -__v').lean()
     ])
         .then(([user, posts]) => {
             if (!user) throw new ExistenceError(`User with id ${userId} not found`)

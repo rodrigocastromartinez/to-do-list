@@ -2,8 +2,7 @@ const {
     validators: { validateId },
     errors: { ExistenceError, AuthorizationError }
 } = require('com')
-const context = require('../context')
-const { ObjectId } = require('mongodb')
+const { User, Post } = require('../../data/models')
 
 /**
  * 
@@ -16,19 +15,17 @@ module.exports = (userId, postId) => {
     validateId(userId)
     validateId(postId)
 
-    const { users, posts } = context
-
-    return users.findOne({ _id: new ObjectId(userId) })
+    return User.findById(userId)
         .then(user => {
             if (!user) throw new ExistenceError(`user with id ${userId} not found`)
 
-            return posts.findOne({ _id: new ObjectId(postId) })
+            return Post.findById(postId)
                 .then(post => {
                     if (!post) throw new ExistenceError(`post with id ${postId} not found`)
 
                     if (post.author.toString() !== userId) throw new AuthorizationError(`post with id ${postId} does not belong to user with id ${userId}`)
 
-                    return posts.deleteOne({ _id: new ObjectId(postId) })
+                    return Post.deleteOne({ _id: postId })
                 })
         })
 }
