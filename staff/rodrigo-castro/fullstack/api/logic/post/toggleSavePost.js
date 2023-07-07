@@ -2,8 +2,7 @@ const {
     validators: { validateId },
     errors: { ExistenceError }
 } = require('com')
-const context = require('../context')
-const { ObjectId } = require('mongodb')
+const { User, Post } = require('../../data/models')
 
 /**
  * 
@@ -16,13 +15,11 @@ module.exports = (userId, postId) => {
     validateId(userId)
     validateId(postId)
 
-    const { users, posts } = context
-
-    return users.findOne({ _id: new ObjectId(userId) })
+    return User.findById(userId)
         .then(user => {
             if (!user) throw new ExistenceError(`user with id ${userId} not found`)
 
-            return posts.findOne({ _id: new ObjectId(postId) })
+            return Post.findById(postId)
                 .then(post => {
                     if (!post) throw new ExistenceError(`post with id ${postId} not found`)
 
@@ -34,7 +31,7 @@ module.exports = (userId, postId) => {
                         user.savedPosts.splice(index, 1)
                     }
 
-                    return users.updateOne({ _id: new ObjectId(userId) }, { $set: { savedPosts: user.savedPosts } })
+                    return User.updateOne({ _id: userId }, { $set: { savedPosts: user.savedPosts } })
                 })
         })
 }
