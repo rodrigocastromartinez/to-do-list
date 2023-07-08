@@ -21,20 +21,6 @@ export default function Login({ onRegisterClick, onUserLoggedIn }) {
         try {
             freeze()
 
-            // authenticateUser(email, password, (error, token) => {
-            //     unfreeze()
-
-            //     if (error) {
-            //         alert(error.message, 'error')
-
-            //         return
-            //     }
-
-            //     context.token = token
-
-            //     onUserLoggedIn()
-            // })
-
             authenticateUser(email, password)
                 .then(token => {
                     unfreeze()
