@@ -1,6 +1,5 @@
 import retrievePost from '../logic/retrievePost'
 import editPost from '../logic/editPost'
-import { context } from '../ui'
 import { useEffect, useState } from 'react'
 import { useAppContext } from '../hooks'
 
@@ -20,7 +19,7 @@ export default function EditPost({ onCancel, postId, onPostEdited, onPostDeleted
             try {
                 freeze()
 
-                editPost(context.token, postId, image, text)
+                editPost(postId, image, text)
                     .then(() => {
                         unfreeze()
 
@@ -38,7 +37,7 @@ export default function EditPost({ onCancel, postId, onPostEdited, onPostDeleted
         try {
             freeze()
 
-            retrievePost(context.token, postId)
+            retrievePost(postId)
                 .then(post => {
                     unfreeze()
 

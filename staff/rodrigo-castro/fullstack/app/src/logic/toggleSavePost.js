@@ -1,16 +1,15 @@
 import { validators } from 'com'
+import context from './context'
 
-const { validateToken, validateId } = validators
+const { validateId } = validators
 
 /**
  * Adds or removes post id from the favourites list of the post
- * @param {string} token user's id
  * @param {string} postId post's id
  * @param {function} callback 
  */
 
-export default (token, postId, callback) => {
-    validateToken(token, 'token')
+export default (postId, callback) => {
     validateId(postId, 'post id')
 
     if (callback) {
@@ -39,7 +38,7 @@ export default (token, postId, callback) => {
 
         xhr.setRequestHeader('Content-Type', 'application/json')
 
-        xhr.setRequestHeader('Authorization', `Bearer ${token}`)
+        xhr.setRequestHeader('Authorization', `Bearer ${context.token}`)
 
         xhr.send()
     } else
@@ -47,7 +46,7 @@ export default (token, postId, callback) => {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
+                'Authorization': `Bearer ${context.token}`
             }
         })
             .then(res => {

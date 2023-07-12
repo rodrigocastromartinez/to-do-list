@@ -1,5 +1,4 @@
-import { changePassword } from '../logic/updateUserPassword'
-import { context } from '../ui'
+import { updateUserPassword } from '../logic/updateUserPassword'
 import { useAppContext } from '../hooks'
 
 export default function ChangePassword({ onCancel, onPasswordChanged }) {
@@ -16,7 +15,7 @@ export default function ChangePassword({ onCancel, onPasswordChanged }) {
         try {
             freeze()
 
-            changePassword(context.token, previousPassword, newPassword, repeatNewPassword, error => {
+            updateUserPassword(previousPassword, newPassword, repeatNewPassword, error => {
                 unfreeze()
 
                 if (error) {

@@ -1,5 +1,4 @@
 import { updateUserAvatar } from '../logic/updateUserAvatar'
-import { context } from '../ui'
 import { useAppContext } from '../hooks'
 
 export default function ChangeAvatar({ onCancel, onAvatarChanged }) {
@@ -14,7 +13,7 @@ export default function ChangeAvatar({ onCancel, onAvatarChanged }) {
         try {
             freeze()
 
-            updateUserAvatar(context.token, avatar)
+            updateUserAvatar(avatar)
                 .then(() => {
                     unfreeze()
 

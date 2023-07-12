@@ -1,4 +1,3 @@
-import { context } from "../ui"
 import toggleLikePost from '../logic/toggleLikePost'
 import toggleSavePost from '../logic/toggleSavePost'
 import deletePost from "../logic/deletePost"
@@ -7,9 +6,7 @@ import './Post.css'
 import { useState } from "react"
 import togglePrivacy from "../logic/togglePrivacy"
 import { useAppContext } from '../hooks'
-import { utils } from 'com'
-
-const { extractSubFromToken } = utils
+import extractUserId from '../logic/extractUserId'
 
 export default function Post({ post: { id, image, text, date, likedBy, author: { id: authorId, name, avatar }, isFav, privacy }, onToggledLikePost, onEdit, onPostDeleted, onToggleSavePost, onToggledPrivacy }) {
     const { alert, freeze, unfreeze } = useAppContext()
@@ -25,7 +22,7 @@ export default function Post({ post: { id, image, text, date, likedBy, author: {
         try {
             freeze()
 
-            toggleLikePost(context.token, id)
+            toggleLikePost(id)
                 .then(() => {
                     unfreeze()
 
@@ -41,7 +38,7 @@ export default function Post({ post: { id, image, text, date, likedBy, author: {
         try {
             freeze()
 
-            toggleSavePost(context.token, id)
+            toggleSavePost(id)
                 .then(() => {
                     unfreeze()
 
@@ -61,7 +58,7 @@ export default function Post({ post: { id, image, text, date, likedBy, author: {
         try {
             freeze()
 
-            togglePrivacy(context.token, id)
+            togglePrivacy(id)
                 .then(() => {
                     unfreeze()
 
@@ -85,7 +82,7 @@ export default function Post({ post: { id, image, text, date, likedBy, author: {
         if (confirm('Are you sure you want to delete?')) {
             try {
                 freeze()
-                deletePost(context.token, id, error => {
+                deletePost(id, error => {
                     unfreeze()
 
                     if (error) {
@@ -109,7 +106,7 @@ export default function Post({ post: { id, image, text, date, likedBy, author: {
 
     console.debug('Post -> render')
 
-    const userId = extractSubFromToken(context.token)
+    const userId = extractUserId()
 
     return <>
         {authorId && <><article className="post-container">

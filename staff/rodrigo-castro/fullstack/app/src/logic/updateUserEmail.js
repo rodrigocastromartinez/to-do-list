@@ -1,18 +1,16 @@
 import { validators } from 'com'
 
-const { validateEmail, validateToken, validatePassword } = validators
+const { validateEmail, validatePassword } = validators
 
 /**
  * Updates user email
- * @param {string} token user token
  * @param {string} email current user email
  * @param {string} newEmail new email
  * @param {string} password user password
  * @param {function} callback 
  */
 
-export const changeEmail = (token, email, newEmail, password, callback) => {
-    validateToken(token)
+export const changeEmail = (email, newEmail, password, callback) => {
     validateEmail(email)
     validateEmail(newEmail)
     validatePassword(password)
@@ -44,7 +42,7 @@ export const changeEmail = (token, email, newEmail, password, callback) => {
 
         xhr.setRequestHeader('Content-Type', 'application/json')
 
-        xhr.setRequestHeader('Authorization', `Bearer ${token}`)
+        xhr.setRequestHeader('Authorization', `Bearer ${context.token}`)
 
         const data = { email, newEmail, password }
         const json = JSON.stringify(data)
@@ -55,7 +53,7 @@ export const changeEmail = (token, email, newEmail, password, callback) => {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
+                'Authorization': `Bearer ${context.token}`
             },
             body: JSON.stringify({ email, newEmail, password })
         })

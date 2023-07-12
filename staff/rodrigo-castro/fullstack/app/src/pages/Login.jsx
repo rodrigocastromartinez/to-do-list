@@ -1,16 +1,10 @@
-import authenticateUser from '../logic/authenticateUser'
-import { context } from '../ui'
+import loginUser from '../logic/loginUser'
 import { useAppContext } from '../hooks'
 import Container from '../library/Container'
+import { Link } from 'react-router-dom'
 
-export default function Login({ onRegisterClick, onUserLoggedIn }) {
-    const { alert, freeze, unfreeze } = useAppContext()
-
-    function handleRegisterClick(event) {
-        event.preventDefault()
-
-        onRegisterClick()
-    }
+export default function Login() {
+    const { alert, freeze, unfreeze, navigate } = useAppContext()
 
     function handleLogin(event) {
         event.preventDefault()
@@ -21,13 +15,11 @@ export default function Login({ onRegisterClick, onUserLoggedIn }) {
         try {
             freeze()
 
-            authenticateUser(email, password)
-                .then(token => {
+            loginUser(email, password)
+                .then(() => {
                     unfreeze()
 
-                    context.token = token
-
-                    onUserLoggedIn()
+                    navigate('/')
                 })
         } catch (error) {
             unfreeze()
@@ -45,7 +37,7 @@ export default function Login({ onRegisterClick, onUserLoggedIn }) {
                 <div>Remember me</div>
             </div>
             <div>Forgot your <a className="link">password</a>?</div>
-            <div>Dont have an account? <a className="link" onClick={handleRegisterClick}>Register now</a></div>
+            <div>Dont have an account? <Link to='/register' className='link'>Register now</Link></div>
             <button className="submit-buttons" type="submit">Login</button>
         </form>
     </Container>

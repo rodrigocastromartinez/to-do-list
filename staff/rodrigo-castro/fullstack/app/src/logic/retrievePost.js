@@ -1,6 +1,7 @@
 import { validators } from 'com'
+import context from './context'
 
-const { validateId, validateToken } = validators
+const { validateId } = validators
 
 /**
  * Retrieves a specific post
@@ -10,8 +11,7 @@ const { validateId, validateToken } = validators
  * @returns {object} the found post
  */
 
-export default function retrievePost(token, postId, callback) {
-    validateToken(token, 'token')
+export default function retrievePost(postId, callback) {
     validateId(postId, 'post id')
 
     if (callback) {
@@ -43,7 +43,7 @@ export default function retrievePost(token, postId, callback) {
 
         xhr.setRequestHeader('Content-Type', 'application/json')
 
-        xhr.setRequestHeader('Authorization', `Bearer ${token}`)
+        xhr.setRequestHeader('Authorization', `Bearer ${context.token}`)
 
         xhr.send()
     } else
@@ -51,7 +51,7 @@ export default function retrievePost(token, postId, callback) {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
+                'Authorization': `Bearer ${context.token}`
             }
         })
             .then(res => {

@@ -1,6 +1,7 @@
 import { validators } from 'com'
+import context from './context'
 
-const { validateToken, validateUrl, validateText } = validators
+const { validateUrl, validateText } = validators
 
 /**
  * Creates a post from an image url and a text, and assign it to a user id
@@ -10,8 +11,7 @@ const { validateToken, validateUrl, validateText } = validators
  * @param {function} callback 
  */
 
-export function createPost(token, image, text, callback) {
-    validateToken(token)
+export function createPost(image, text, callback) {
     validateUrl(image)
     validateText(text)
 
@@ -41,7 +41,7 @@ export function createPost(token, image, text, callback) {
 
         xhr.setRequestHeader('Content-Type', 'application/json')
 
-        xhr.setRequestHeader('Authorization', `Bearer ${token}`)
+        xhr.setRequestHeader('Authorization', `Bearer ${context.token}`)
 
         const post = { image, text }
         const json = JSON.stringify(post)
@@ -53,7 +53,7 @@ export function createPost(token, image, text, callback) {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
+                'Authorization': `Bearer ${context.token}`
             },
             body: JSON.stringify({ image, text })
         })

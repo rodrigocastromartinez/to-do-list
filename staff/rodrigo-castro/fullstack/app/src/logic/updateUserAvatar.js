@@ -1,16 +1,15 @@
 import { validators } from 'com'
+import context from './context'
 
-const { validateToken, validateUrl } = validators
+const { validateUrl } = validators
 
 /**
  * Updates user avatar
- * @param {string} token user's token
  * @param {string} avatar avatar url
  * @param {function} callback 
  */
 
-export const updateUserAvatar = (token, avatar, callback) => {
-    validateToken(token, 'token')
+export const updateUserAvatar = (avatar, callback) => {
     validateUrl(avatar, 'Avatar url')
 
     if (callback) {
@@ -39,7 +38,7 @@ export const updateUserAvatar = (token, avatar, callback) => {
 
         xhr.setRequestHeader('Content-Type', 'application/json')
 
-        xhr.setRequestHeader('Authorization', `Bearer ${token}`)
+        xhr.setRequestHeader('Authorization', `Bearer ${context.token}`)
 
         const data = { avatar }
         const json = JSON.stringify(data)
@@ -50,7 +49,7 @@ export const updateUserAvatar = (token, avatar, callback) => {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
+                'Authorization': `Bearer ${context.token}`
             },
             body: JSON.stringify({ avatar })
         })

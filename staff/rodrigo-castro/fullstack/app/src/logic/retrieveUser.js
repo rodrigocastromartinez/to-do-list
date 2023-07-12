@@ -1,8 +1,6 @@
 console.debug('load retrieve user')
 
-import { validators } from 'com'
-
-const { validateToken } = validators
+import context from './context'
 
 /**
  * Retrieves the found user
@@ -11,8 +9,7 @@ const { validateToken } = validators
  * @returns {object} user found
  */
 
-export const retrieveUser = (token, callback) => {
-    validateToken(token, 'token')
+export const retrieveUser = (callback) => {
 
     if (callback) {
         const xhr = new XMLHttpRequest
@@ -43,7 +40,7 @@ export const retrieveUser = (token, callback) => {
 
         xhr.setRequestHeader('Content-Type', 'application/json')
 
-        xhr.setRequestHeader('Authorization', `Bearer ${token}`)
+        xhr.setRequestHeader('Authorization', `Bearer ${context.token}`)
 
         xhr.send()
     } else
@@ -51,7 +48,7 @@ export const retrieveUser = (token, callback) => {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
+                'Authorization': `Bearer ${context.token}`
             }
         })
             .then(res => {

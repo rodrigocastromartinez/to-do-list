@@ -1,18 +1,17 @@
 import { validators } from 'com'
+import context from './context'
 
-const { validateId, validateText, validateUrl, validateToken } = validators
+const { validateId, validateText, validateUrl } = validators
 
 /**
  * Edits an existing post
- * @param {string} token post owner's token
  * @param {string} postId post id
  * @param {string} image post image - can be the same or change
  * @param {string} text post caption - can be the same or change
  * @param {function} callback 
  */
 
-export default function editPost(token, postId, image, text, callback) {
-    validateToken(token, 'user id')
+export default function editPost(postId, image, text, callback) {
     validateId(postId, 'post id')
     validateUrl(image, 'image url')
     validateText(text)
@@ -43,7 +42,7 @@ export default function editPost(token, postId, image, text, callback) {
 
         xhr.setRequestHeader('Content-Type', 'application/json')
 
-        xhr.setRequestHeader('Authorization', `Bearer ${token}`)
+        xhr.setRequestHeader('Authorization', `Bearer ${context.token}`)
 
         const post = { image, text }
         const json = JSON.stringify(post)
@@ -54,7 +53,7 @@ export default function editPost(token, postId, image, text, callback) {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
+                'Authorization': `Bearer ${context.token}`
             },
             body: JSON.stringify({ image, text })
         })

@@ -1,70 +1,87 @@
-# Getting Started with Create React App
+# App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Intro
 
-## Available Scripts
+This app is the final result of the work done during ISDI Coders Online Full-Stack Development Bootcamp
 
-In the project directory, you can run:
+![](https://i.giphy.com/media/4JXNjv3MR21YXfsaqQ/giphy.webp)
 
-### `npm start`
+## Functional description
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### Use cases
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- add post
+- modify post
+- delete post
+- toggle like post
+- toggle fav post
 
-### `npm test`
+## Technical description
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Data model
 
-### `npm run build`
+User
+- id (string)
+- name (string)
+- email (string)
+- password (string)
+- avatar (string)
+- favs (string array, refers to Post id)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Post
+- id (string)
+- author (string, refers to User id)
+- image (string)
+- text (string)
+- likes (strings array, refers to User id)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Planning
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Stories
 
-### `npm run eject`
+##### Add post
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+As a client, I want to write a text and choose an image from disk to create a post
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+##### UI
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+- add 'new post' button in the footer
+- on click open a modal window
+- in modal show a form with post and cancel buttons, and an input field for the text
+- on click post creates a new post in database by means of create-post logic
+- on click cancel closes the modal window
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+##### Data
 
-## Learn More
+- add post data model with fields: date, author, image, text, likedBy
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+#### List posts
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+- show all the posts from the different users with all the information including the number of likes
+- in each post, show if it has already been liked by the current authenticated user
 
-### Code Splitting
+#### Update post
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+- discern my posts in post list (presentation) and show edit button on them
+- open edit modal on edit button click
+- call update post logic on edit form submit
+- re render posts
+- implement update post logic
 
-### Analyzing the Bundle Size
+#### Author name and avatar in post
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+- for every post show the information of the post and also the information of the author, like avatar and username
 
-### Making a Progressive Web App
+#### Like / unlike in post
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+- add heart button in each post
+- call toggle like on heart button click
+- re render posts
+- implement toggle like logic
 
-### Advanced Configuration
+#### Save / unsave in posts
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- TODO add save button in each post
+- call save post on save button click
+- re render posts
+- implement save post logic

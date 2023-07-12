@@ -10,11 +10,12 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@rollup/plugin-commonjs": "^25.0.0",
     "@uiball/loaders": "^1.2.6",
+    "com": "file:../com",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "@rollup/plugin-commonjs": "^25.0.0",
-    "com": "file:../com"
+    "react-router-dom": "^6.14.1"
   },
   "devDependencies": {
     "@types/react": "^18.0.28",

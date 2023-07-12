@@ -1,16 +1,12 @@
-import { validators } from 'com'
-
-const { validateToken } = validators
+import context from './context'
 
 /**
  * Retrieves all posts
- * @param {string} token user token
  * @param {function} callback 
  * @returns {array} an array of objects with all the posts found
  */
 
-export default function retrievePosts(token, callback) {
-    validateToken(token, 'token')
+export default function retrievePosts(callback) {
 
     if (callback) {
         const xhr = new XMLHttpRequest
@@ -41,7 +37,7 @@ export default function retrievePosts(token, callback) {
 
         xhr.setRequestHeader('Content-Type', 'application/json')
 
-        xhr.setRequestHeader('Authorization', `Bearer ${token}`)
+        xhr.setRequestHeader('Authorization', `Bearer ${context.token}`)
 
         xhr.send()
     } else
@@ -49,7 +45,7 @@ export default function retrievePosts(token, callback) {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
+                'Authorization': `Bearer ${context.token}`
             }
         })
             .then(res => {

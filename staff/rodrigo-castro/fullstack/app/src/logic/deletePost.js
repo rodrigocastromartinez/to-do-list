@@ -1,6 +1,7 @@
 import { validators } from 'com'
+import context from './context'
 
-const { validateId, validateToken } = validators
+const { validateId } = validators
 
 /**
  * Deletes a post (from its owner) identified by it's id
@@ -9,8 +10,7 @@ const { validateId, validateToken } = validators
  * @param {function} callback 
  */
 
-export default function deletePost(token, postId, callback) {
-    validateToken(token)
+export default function deletePost(postId, callback) {
     validateId(postId)
 
     if (callback) {
@@ -39,7 +39,7 @@ export default function deletePost(token, postId, callback) {
 
         xhr.setRequestHeader('Content-Type', 'application/json')
 
-        xhr.setRequestHeader('Authorization', `Bearer ${token}`)
+        xhr.setRequestHeader('Authorization', `Bearer ${context.token}`)
 
         xhr.send()
     } else
@@ -47,7 +47,7 @@ export default function deletePost(token, postId, callback) {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
+                'Authorization': `Bearer ${context.token}`
             }
         })
             .then(res => {

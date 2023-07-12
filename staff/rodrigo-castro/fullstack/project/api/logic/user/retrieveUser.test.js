@@ -1,0 +1,11 @@
+const mongoose = require('mongoose')
+const { User, Post } = require('../../data/models')
+const retrieveUser = require('./retrieveUser')
+
+mongoose.connect('mongodb://127.0.0.1:27017/data-project-test')
+    .then(() => Promise.all([User.deleteMany(), Post.deleteMany()]))
+    .then(() => User.create({ name: 'pepe.grillo', email: 'pepe@grillo.com', password: '123123123' }))
+    .then(user => retrieveUser(user.id))
+    .then(console.log)
+    .catch(error => console.error(error))
+    .finally(() => mongoose.disconnect())

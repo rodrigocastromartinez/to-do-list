@@ -1,5 +1,4 @@
 import { changeEmail } from '../logic/updateUserEmail'
-import { context } from '../ui'
 import { useAppContext } from '../hooks'
 
 export default function ChangeEmail({ onCancel, onEmailChanged }) {
@@ -14,7 +13,7 @@ export default function ChangeEmail({ onCancel, onEmailChanged }) {
         try {
             freeze()
 
-            changeEmail(context.token, previousEmail, newEmail, password)
+            changeEmail(previousEmail, newEmail, password)
                 .then(() => {
                     unfreeze()
 

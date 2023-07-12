@@ -1,4 +1,5 @@
 import { validators } from 'com'
+import context from './context'
 
 const { validateToken } = validators
 
@@ -8,9 +9,7 @@ const { validateToken } = validators
  * @param {*} callback 
  */
 
-export default function retrieveSavedPosts(token, callback) {
-    validateToken(token, 'token')
-
+export default function retrieveSavedPosts(callback) {
     if (callback) {
         const xhr = new XMLHttpRequest
 
@@ -40,7 +39,7 @@ export default function retrieveSavedPosts(token, callback) {
 
         xhr.setRequestHeader('Content-Type', 'application/json')
 
-        xhr.setRequestHeader('Authorization', `Bearer ${token}`)
+        xhr.setRequestHeader('Authorization', `Bearer ${context.token}`)
 
         xhr.send()
     } else
@@ -48,7 +47,7 @@ export default function retrieveSavedPosts(token, callback) {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
+                'Authorization': `Bearer ${context.token}`
             }
         })
             .then(res => {

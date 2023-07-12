@@ -1,6 +1,5 @@
 import Posts from '../components/Posts'
 import { retrieveUser } from '../logic/retrieveUser'
-import { context } from '../ui'
 import { useState, useEffect } from 'react'
 import AddPostModal from '../components/AddPostModal'
 import ChangeEmail from '../components/ChangeEmail'
@@ -12,6 +11,7 @@ import './Home.css'
 import ProfileBar from '../components/ProfileBar'
 import NavigationBar from '../components/NavigationBar'
 import { useAppContext } from '../hooks'
+import logoutUser from '../logic/logoutUser'
 
 export default function Home(props) {
     const [modal, setModal] = useState(null)
@@ -21,26 +21,19 @@ export default function Home(props) {
     const [user, setUser] = useState()
     const [view, setView] = useState('posts')
 
-    const { freeze, unfreeze } = useAppContext()
+    const { freeze, unfreeze, navigate } = useAppContext()
 
     useEffect(() => {
         try {
             freeze()
 
-            retrieveUser(context.token, (error, user) => {
-                unfreeze()
+            retrieveUser()
+                .then(user => {
+                    unfreeze()
 
-                if (error) {
-                    alert(error.message)
-
-                    return
-                }
-
-                setUser(user)
-            })
-
-            freeze()
-
+                    setUser(user)
+                })
+                .catch(error => alert(error.message))
         } catch (error) {
             unfreeze()
             alert(error.message)
@@ -104,20 +97,17 @@ export default function Home(props) {
         try {
             freeze()
 
-            retrieveUser(context.token, (error, user) => {
-                unfreeze()
+            retrieveUser()
+                .then(user => {
+                    unfreeze()
 
-                if (error) {
-                    alert(error.message)
-                }
+                    setModal(null)
 
-                setModal(null)
+                    setUser(user)
 
-                setUser(user)
-
-                setLastPostsUpdate(Date.now())
-            })
-
+                    setLastPostsUpdate(Date.now())
+                })
+                .catch(error => alert(error.message))
         } catch (error) {
             unfreeze()
             alert(error.message)
@@ -133,9 +123,9 @@ export default function Home(props) {
     const handleLogout = (event) => {
         event.preventDefault()
 
-        delete context.token
+        logoutUser()
 
-        props.onLogout()
+        navigate('/login')
     }
 
     return <div className="home-page">

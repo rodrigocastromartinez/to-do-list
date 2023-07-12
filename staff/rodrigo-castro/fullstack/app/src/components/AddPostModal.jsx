@@ -1,4 +1,3 @@
-import { context } from '../ui'
 import { createPost } from '../logic/createPost'
 import { useAppContext } from '../hooks'
 
@@ -20,7 +19,7 @@ export default function AddPostModal({ onCancel, onPostCreated }) {
         try {
             freeze()
 
-            createPost(context.token, image, text)
+            createPost(image, text)
                 .then(() => {
                     unfreeze()
 

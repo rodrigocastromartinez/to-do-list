@@ -1,19 +1,17 @@
-// import { validateId, validatePassword } from './helpers/validators'
 import { validators } from 'com'
+import context from './context'
 
-const { validateToken, validatePassword } = validators
+const { validatePassword } = validators
 
 /**
  * Updates user password
- * @param {string} token user id
  * @param {string} password current password
  * @param {string} newPassword new password 
  * @param {string} newPasswordConfirm new password confirmation
  * @param {function} callback 
  */
 
-export const changePassword = (token, password, newPassword, newPasswordConfirm, callback) => {
-    validateToken(token)
+export const updateUserPassword = (password, newPassword, newPasswordConfirm, callback) => {
     validatePassword(password)
     validatePassword(newPassword, 'new password')
     validatePassword(newPasswordConfirm, 'new password confirm')
@@ -44,7 +42,7 @@ export const changePassword = (token, password, newPassword, newPasswordConfirm,
 
         xhr.setRequestHeader('Content-Type', 'application/json')
 
-        xhr.setRequestHeader('Authorization', `Bearer ${token}`)
+        xhr.setRequestHeader('Authorization', `Bearer ${context.token}`)
 
         const data = { password, newPassword, newPasswordConfirm }
         const json = JSON.stringify(data)
@@ -55,7 +53,7 @@ export const changePassword = (token, password, newPassword, newPasswordConfirm,
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
+                'Authorization': `Bearer ${context.token}`
             },
             body: JSON.stringify({ password, newPassword, newPasswordConfirm })
         })
