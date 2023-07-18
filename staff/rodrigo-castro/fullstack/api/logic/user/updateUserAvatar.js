@@ -15,10 +15,11 @@ module.exports = (userId, avatarUrl) => {
     validateId(userId)
     validateUrl(avatarUrl)
 
-    return User.findById(userId).lean()
-        .then(user => {
-            if (!user) throw new ExistenceError(`user with id ${userId} not found`)
+    return (async () => {
+        const user = await User.findById(userId).lean()
 
-            return User.updateOne({ _id: userId }, { $set: { avatar: avatarUrl } })
-        })
+        if (!user) throw new ExistenceError(`user with id ${userId} not found`)
+
+        return User.updateOne({ _id: userId }, { $set: { avatar: avatarUrl } })
+    })()
 }

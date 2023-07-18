@@ -21,12 +21,17 @@ module.exports = (email, password) => {
     validateEmail(email)
     validatePassword(password)
 
-    return User.findOne({ email })
-        .then(user => {
+    return (async () => {
+        try {
+            const user = await User.findOne({ email })
+
             if (!user) throw new ExistenceError('user not found')
 
             if (password !== user.password) throw new AuthError('wrong credentials')
 
             return user.id
-        })
+        } catch(error){
+            throw error
+        }
+    })()
 }

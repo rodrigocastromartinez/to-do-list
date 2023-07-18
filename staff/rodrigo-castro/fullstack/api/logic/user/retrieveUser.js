@@ -13,15 +13,20 @@ const { User } = require('../../data/models')
 module.exports = userId => {
     validateId(userId)
 
-    return User.findById(userId).lean()
-        .then(user => {
+    return (async () => {
+        try{
+            const user = await User.findById(userId).lean()
+    
             if (!user) throw new ExistenceError('user not found')
-
-            delete user._id
-            delete user.password
-            delete user.savedPosts
-            delete user.__v
-
-            return user
-        })
+    
+                delete user._id
+                delete user.password
+                delete user.savedPosts
+                delete user.__v
+    
+                return user
+        } catch(error) {
+            throw error
+        }
+    })()
 }
