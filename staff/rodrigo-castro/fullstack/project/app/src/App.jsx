@@ -46,13 +46,13 @@ export default function App() {
     }
 
     return <Provider value={{ alert: handleShowAlert, freeze, unfreeze }}>
-        {/* {view === 'login' && <Login onRegisterClick={handleGoToRegister} onUserLoggedIn={handleGoToHome} />}
-        {view === 'register' && <Register onLoginClick={handleGoToLogin} onUserRegistered={handleGoToLogin} />}
+        {view === 'login' && <Login onRegisterClick={handleGoToRegister} onUserLoggedIn={handleGoToHome} />}
+        {/* {view === 'register' && <Register onLoginClick={handleGoToLogin} onUserRegistered={handleGoToLogin} />}
         {view === 'home' && <Home onLogout={handleLogout} />}
         {feedback && <Alert message={feedback.message} level={feedback.level} onAccept={handleAcceptAlert} />}
-        {loader && <Loader />} */}
+        {loader && <Loader />}
         <Recording>
 
-        </Recording>
+        </Recording> */}
     </Provider>
 }

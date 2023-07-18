@@ -1,0 +1,62 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+
+  --white-000: rgba(255, 255, 255, 1);
+  --grey-100: #F5F7FA;
+  --grey-150: #e5eaf1;
+  --grey-200: #E4E7EB;
+  --grey-300: #CBD2D9;
+  --grey-400: #9AA5B1;
+  --grey-500: #7B8794;
+  --grey-600: #616E7C;
+  --grey-700: #52606D;
+  --black-100: #000000;
+
+  --red-alert: rgb(255, 128, 128);
+  --green-alert: rgb(153, 255, 153);
+  --blue: blue;
+  --red: red;
+  --yellow: rgb(234, 202, 22);
+  --transparent: rgba(0, 0, 0, 0);
+  --black-transparent: rgba(0, 0, 0, 0.8);
+  --transition: 0;
+
+  --orange-000: #ff9340bd;
+  --orange-100: #FF9440;
+  --orange-150: #EB8733;
+  --orange-200: #D97B2A;
+  --orange-300: #C56F21;
+  --orange-400: #D16D23;
+  --orange-500: #B35B1E;
+  --orange-600: #9E491A;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+}
+
+@layer components {
+  .input {
+    @apply text-base h-fit m-0 font-extralight p-2 px-4 rounded-2xl w-full text-[var(--black-100)] focus:outline-input
+  }
+  
+  .submit-buttons{
+    @apply text-lg bg-[var(--orange-400)] p-2 rounded-2xl w-full font-medium
+  }
+}
+
+@layer utilities {
+  .outline-input {
+    outline: 2px solid var(--orange-400);
+  }
+}

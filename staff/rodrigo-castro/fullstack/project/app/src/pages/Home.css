@@ -23,7 +23,7 @@ header {
   top: 0;
   min-width: 100vw;
   height: 4rem;
-  background-color: var(--grey-100);
+  background-color: var(--black-100);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -35,7 +35,7 @@ header {
 
 .menu-buttons  {
   height: 100%;
-  color: var(--black-100);
+  color: var(--orange-300);
   font-size: 2rem;
   cursor: pointer;
 }
@@ -44,7 +44,7 @@ header {
   width: 100vw;
   position: absolute;
   font-size: clamp(1rem, 0.9625rem + 0.2vw, 1.125rem);
-  color: var(--black-100);
+  color: var(--orange-500);
   top: 4rem;
   height: auto;
   display: flex;
@@ -53,24 +53,6 @@ header {
   align-items: center;
   margin: 0;
   border: 0;
-}
-
-.weather {
-  width: 100%;
-}
-
-.weather p {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 0;
-  padding-right: 1rem;
-  font-weight: 300;
-}
-
-.weather p img {
-  width: 3rem;
-  height: 3rem;
 }
 
 footer {

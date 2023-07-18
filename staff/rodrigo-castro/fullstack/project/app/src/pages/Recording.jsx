@@ -3,6 +3,7 @@ import RecordingChannel from '../components/RecordingChannel'
 import RecordingControls from '../components/RecordingControls'
 import { context } from '../ui'
 import { useState } from 'react'
+import WaveSurfer from 'https://unpkg.com/wavesurfer.js@7/dist/wavesurfer.esm.js'
 
 
 export default function Recording({ }) {
@@ -10,6 +11,8 @@ export default function Recording({ }) {
     const stop = document.querySelector(".stop")
     const soundClips = document.querySelector(".sound-clips")
     const [recording, setRecording] = useState()
+    const [chunks, setChunks] = useState()
+    const [audioUrls, setAudioUrl] = useState([])
 
     const handleStartRecording = () => {
         console.log('handleStartRecording')
@@ -28,6 +31,8 @@ export default function Recording({ }) {
                 .then((stream) => {
                     const mediaRecorder = new MediaRecorder(stream);
 
+                    setRecording(mediaRecorder)
+
                     mediaRecorder.start(2000) // el 2000 son los ms antes de comenzar a grabar entiendo
                     console.log(mediaRecorder.state)
                     console.log("recorder started")
@@ -38,6 +43,7 @@ export default function Recording({ }) {
                         chunks.push(chunk.data)
                     }
 
+                    setChunks(chunks)
                 })
 
                 // Error callback
@@ -47,16 +53,46 @@ export default function Recording({ }) {
         } else {
             console.log("getUserMedia not supported on your browser!");
         }
-
     }
 
     const handleStopRecording = () => {
         console.log('handleStopRecording')
 
-        mediaRecorder.stop();
-        console.log(mediaRecorder.state);
-        console.log("recorder stopped");
+        recording.stop()
+        console.log(recording.state)
+        console.log("recorder stopped")
+
+        console.log("recorder stopped")
+
+        const clipName = prompt("Enter a name for your sound clip")
+
+        const blob = new Blob(chunks, { type: "audio/ogg; codecs=opus" })
+
+        setChunks([])
+
+        // const urlsArray = audioUrls
+
+        audioUrls.push(window.URL.createObjectURL(blob))
+
+        setAudioUrl(audioUrls)
+
+        // const audioURL = window.URL.createObjectURL(blob)
+        // audio.src = audioURL
+
+        console.log(audioUrls)
     }
+
+    const wavesurfer = WaveSurfer.create({
+        container: document.body,
+        waveColor: 'rgb(200, 0, 200)',
+        progressColor: 'rgb(100, 0, 100)',
+        url: '/examples/audio/audio.wav',
+    })
+
+    wavesurfer.once('interaction', () => {
+        wavesurfer.play()
+    })
+
 
 
     return <Container tag="div" className='gap-2'>
@@ -71,7 +107,7 @@ export default function Recording({ }) {
 
         </Container>
 
-        <div className="bg-slate-400 h-12 w-48 p-4 flex items-center justify-between">
+        {/* <div className="bg-slate-400 h-12 w-96 p-4 flex items-center justify-between">
             <div className="flex items-center"><span className="material-symbols-rounded">piano</span></div>
             <div>xxxxxxxxxx</div>
             <div className="flex items-center"><span className="material-symbols-rounded">
@@ -80,7 +116,28 @@ export default function Recording({ }) {
             <div className="flex items-center"><span className="material-symbols-rounded">
                 more_horiz
             </span></div>
-        </div>
+        </div> */}
+
+        {audioUrls !== [] && audioUrls.map(audioUrl => {
+            const wavesurfer = WaveSurfer.create({
+                container: `#audiowave-${audioUrl}`,
+                waveColor: 'rgb(200, 0, 200)',
+                progressColor: 'rgb(100, 0, 100)',
+                url: audioUrl,
+            })
+
+            return <div className="bg-slate-400 h-12 w-72 p-4 flex items-center justify-between gap-4">
+                <div className="flex items-center"><span className="material-symbols-rounded">piano</span></div>
+                <div id={`audiowave-${audioUrl}`} className="w-36 h-8 bg-slate-500" ></div>
+                <div className="flex items-center"><span className="material-symbols-rounded">
+                    fiber_manual_record
+                </span></div>
+                <div className="flex items-center"><span className="material-symbols-rounded">
+                    more_horiz
+                </span></div>
+            </div>
+        })
+        }
 
         <div className="bg-slate-400 h-12 w-48 p-4 flex items-center justify-between">
             <div className="flex items-center"><span className="material-symbols-rounded">
@@ -96,6 +153,8 @@ export default function Recording({ }) {
                 play_arrow
             </span></div>
         </div>
+
+
 
     </Container>
 }

@@ -23,6 +23,15 @@
     --transparent: rgba(0, 0, 0, 0);
     --black-transparent: rgba(0, 0, 0, 0.8);
     --transition: 0;
+
+    --orange-000: #ff9340bd;
+    --orange-100: #FF9440;
+    --orange-150: #EB8733;
+    --orange-200: #D97B2A;
+    --orange-300: #C56F21;
+    --orange-400: #D16D23;
+    --orange-500: #B35B1E;
+    --orange-600: #9E491A;
   }
 
   :root.dark {
@@ -94,7 +103,8 @@
 
 @layer utilities {
   .outline-input {
-    outline: 1px solid var(--grey-300);
+    outline: 2px solid var(--orange-400);
+    transition: 200ms;
   }
 
   .h-custom {
@@ -110,7 +120,7 @@
     justify-content: baseline;
     transition: var(--transition);
   }
-  
+
   .dark {
     display: flex;
     justify-content: end;
@@ -139,14 +149,14 @@ html {
 body {
   margin: auto;
   overflow: auto;
-  background: var(--grey-100);
+  background: var(--black-100);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   cursor: default;
-  font-family: 'Lato', sans-serif;
+  font-family: 'Roboto', sans-serif;
   font-weight: 300;
   transition: var(--transition);
 }
@@ -155,13 +165,19 @@ body {
   height: auto;
   width: fit-content;
   padding: 0.7rem 1.5rem;
-  font-family: 'Lato', sans-serif;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 600;
   font-size: 1rem;
   border-radius: 1.5rem;
-  background-color: var(--white-000);
-  color: var(--black-100);
+  background-color: var(--orange-400);
+  color: var(--white-000);
   border: none;
   cursor: pointer;
+  transition: 200ms;
+}
+
+.submit-buttons:hover {
+  background-color: var(--orange-500);
 }
 
 .updating-menus {

@@ -35,8 +35,8 @@ export default function Login({ onRegisterClick, onUserLoggedIn }) {
         }
     }
 
-    return <Container tag="div">
-        <h1 className="title">LOGIN</h1>
+    return <Container tag="div" className='bg-[var(--black-100)] text-[var(--white-000)]'>
+        <h1 className="title">Login</h1>
         <form className="inputs" onSubmit={handleLogin}>
             <input className="input-field" type="email" name="email" placeholder="Email" />
             <input className="input-field" type="password" name="password" placeholder="Password" />
