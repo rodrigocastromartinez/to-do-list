@@ -23,12 +23,13 @@ module.exports = (userId, previousPassword, newPassword, newPasswordRepeated) =>
 
     if (newPassword !== newPasswordRepeated) throw new ContentError('Passwords do not match')
 
-    return User.findById(userId).lean()
-        .then(user => {
-            if (!user) throw new ExistenceError(`user with id ${userId} not found`)
+    return (async () => {
+        const user = await User.findById(userId).lean()
 
-            if (user.password !== previousPassword) throw new AuthError('password is incorrect')
+        if (!user) throw new ExistenceError(`user with id ${userId} not found`)
 
-            return User.updateOne({ _id: userId }, { $set: { password: newPassword } })
-        })
+        if (user.password !== previousPassword) throw new AuthError('password is incorrect')
+
+        await User.updateOne({ _id: userId }, { $set: { password: newPassword } })
+    })()
 }

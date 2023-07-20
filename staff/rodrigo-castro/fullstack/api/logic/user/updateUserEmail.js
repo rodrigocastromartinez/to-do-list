@@ -21,17 +21,17 @@ module.exports = (userId, userPreviousEmail, userNewEmail, userPassword) => {
 
     if (userPreviousEmail === userNewEmail) throw new Error('new email must be different than previous')
 
-    return User.findOne({ email: userNewEmail })
-        .then(user => {
-            if (user) throw new DuplicityError('new email is already registered')
+    return (async () => {
+        const _user = await User.findOne({ email: userNewEmail })
 
-            return User.findById(userId).lean()
-                .then(user => {
-                    if (!user) throw new ExistenceError('user not found')
+        if (_user) throw new DuplicityError('new email is already registered')
 
-                    if (user.email !== userPreviousEmail || user.password !== userPassword) throw new AuthError(`email or password incorrect`)
+        const user = await User.findById(userId).lean()
 
-                    return User.updateOne({ _id: userId }, { $set: { email: userNewEmail } })
-                })
-        })
+        if(!user) throw new ExistenceError('user not found')
+
+        if (user.email !== userPreviousEmail || user.password !== userPassword) throw new AuthError(`email or password incorrect`)
+
+        await User.updateOne({ _id: userId }, { $set: { email: userNewEmail } })        
+    })()
 }

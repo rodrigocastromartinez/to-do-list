@@ -14,7 +14,6 @@ module.exports = userId => {
     validateId(userId)
 
     return (async () => {
-        try{
             const user = await User.findById(userId).lean()
     
             if (!user) throw new ExistenceError('user not found')
@@ -25,8 +24,5 @@ module.exports = userId => {
                 delete user.__v
     
                 return user
-        } catch(error) {
-            throw error
-        }
     })()
 }
