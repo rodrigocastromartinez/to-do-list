@@ -5,7 +5,7 @@ export default function ChangeAvatar({ onCancel, onAvatarChanged }) {
     const { freeze, unfreeze } = useAppContext()
     const handleCancel = () => onCancel()
 
-    const handleChangeAvatar = (event) => {
+    const handleChangeAvatar = async (event) => {
         event.preventDefault()
 
         const avatar = event.target.avatarurl.value
@@ -13,14 +13,14 @@ export default function ChangeAvatar({ onCancel, onAvatarChanged }) {
         try {
             freeze()
 
-            updateUserAvatar(avatar)
-                .then(() => {
-                    unfreeze()
+            await updateUserAvatar(avatar)
+                
+            unfreeze()
 
-                    onAvatarChanged()
-                })
+            onAvatarChanged()
         } catch (error) {
             unfreeze()
+            
             alert(error.message)
         }
     }

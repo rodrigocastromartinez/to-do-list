@@ -8,7 +8,7 @@ import extractUserId from '../logic/extractUserId'
 
 const { extractSubFromToken } = utils
 
-export default function Posts({ onEditClicked, onPostDeleted, postsToShow, lastPostsUpdate, user }) {
+export default function Posts({ onEditClicked, onPostDeleted, postsToShow, lastPostsUpdate }) {
     const { freeze, unfreeze } = useAppContext()
     const [posts, setPosts] = useState()
 
@@ -23,55 +23,51 @@ export default function Posts({ onEditClicked, onPostDeleted, postsToShow, lastP
         }
     }, [])
 
-    const handleRefreshPosts = () => {
+    const handleRefreshPosts = async () => {
         try {
             freeze()
 
             switch (postsToShow) {
                 case 'all':
-                    retrievePosts()
-                        .then(posts => {
-                            unfreeze()
+                    const posts = await retrievePosts()
 
-                            setPosts(posts.reverse())
-                        })
+                    unfreeze()
+
+                    setPosts(posts.reverse())
                     break;
 
                 case 'saved':
-                    retrievePosts()
-                        .then(posts => {
-                            unfreeze()
+                    const savedPosts = await retrievePosts()
+                        
+                    unfreeze()
 
-                            const _posts = posts.filter(post => post.isFav)
+                    const _savedPosts = savedPosts.filter(post => post.isFav)
 
-                            setPosts(_posts.reverse())
-                        })
+                    setPosts(_savedPosts.reverse())
                     break;
 
                 case 'mine':
-                    retrievePosts()
-                        .then(posts => {
-                            unfreeze()
+                    const myPosts = await retrievePosts()
+                        
+                    unfreeze()
 
-                            const userId = extractUserId()
+                    const _userId = extractUserId()
 
-                            const _posts = posts.filter(post => post.author.id === userId)
+                    const _myPosts = myPosts.filter(post => post.author.id === _userId)
 
-                            setPosts(_posts.reverse())
-                        })
+                    setPosts(_myPosts.reverse())
                     break;
 
                 case 'liked':
-                    retrievePosts()
-                        .then(posts => {
-                            unfreeze()
+                    const likedPosts = await retrievePosts()
+                    
+                    unfreeze()
 
-                            const userId = extractUserId()
+                    const userId_ = extractUserId()
 
-                            const _posts = posts.filter(post => post.likedBy.includes(userId))
+                    const _likedPosts = likedPosts.filter(post => post.likedBy.includes(userId))
 
-                            setPosts(_posts.reverse())
-                        })
+                    setPosts(_likedPosts.reverse())
                     break;
             }
         } catch (error) {

@@ -5,7 +5,7 @@ export default function ChangePassword({ onCancel, onPasswordChanged }) {
     const { freeze, unfreeze } = useAppContext()
     const handleCancelChangePassword = () => onCancel()
 
-    const handleChangePassword = (event) => {
+    const handleChangePassword = async (event) => {
         event.preventDefault()
 
         const previousPassword = event.target['previous-password'].value
@@ -15,17 +15,11 @@ export default function ChangePassword({ onCancel, onPasswordChanged }) {
         try {
             freeze()
 
-            updateUserPassword(previousPassword, newPassword, repeatNewPassword, error => {
-                unfreeze()
+            await updateUserPassword(previousPassword, newPassword, repeatNewPassword)
+            
+            unfreeze()
 
-                if (error) {
-                    alert(error.message)
-
-                    return
-                }
-
-                onPasswordChanged()
-            })
+            onPasswordChanged()
         } catch (error) {
             unfreeze()
             alert(error.message)

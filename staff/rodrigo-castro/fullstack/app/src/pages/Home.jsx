@@ -13,7 +13,7 @@ import NavigationBar from '../components/NavigationBar'
 import { useAppContext } from '../hooks'
 import logoutUser from '../logic/logoutUser'
 
-export default function Home(props) {
+export default function Home() {
     const [modal, setModal] = useState(null)
     const [postId, setPostId] = useState(null)
     const [lastPostsUpdate, setLastPostsUpdate] = useState(Date.now())
@@ -25,17 +25,18 @@ export default function Home(props) {
 
     useEffect(() => {
         try {
-            freeze()
+            freeze();
 
-            retrieveUser()
-                .then(user => {
-                    unfreeze()
+            (async () => {
+                const user = await retrieveUser()
 
-                    setUser(user)
-                })
-                .catch(error => alert(error.message))
+                unfreeze()
+
+                setUser(user)
+            })()
         } catch (error) {
             unfreeze()
+
             alert(error.message)
         }
     }, [])
@@ -93,23 +94,22 @@ export default function Home(props) {
 
     const handleOpenChangeAvatar = () => setModal('change-avatar')
 
-    const handleAvatarChanged = () => {
+    const handleAvatarChanged = async () => {
         try {
             freeze()
 
-            retrieveUser()
-                .then(user => {
-                    unfreeze()
+            const user = await retrieveUser()
+            
+            unfreeze()
 
-                    setModal(null)
+            setModal(null)
 
-                    setUser(user)
+            setUser(user)
 
-                    setLastPostsUpdate(Date.now())
-                })
-                .catch(error => alert(error.message))
+            setLastPostsUpdate(Date.now())
         } catch (error) {
             unfreeze()
+
             alert(error.message)
         }
     }

@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom'
 export default function Register() {
     const { freeze, unfreeze, navigate } = useAppContext()
 
-    function handleRegister(event) {
+    async function handleRegister(event) {
         event.preventDefault()
 
         const email = event.target.email.value
@@ -15,13 +15,12 @@ export default function Register() {
 
         try {
             freeze()
-            registerUser(email, username, password)
-                .then(() => {
-                    unfreeze()
+            
+            await registerUser(email, username, password)
 
-                    navigate('/login')
-                })
-                .catch(error => alert(error.message))
+            unfreeze()
+
+            navigate('/login')
         } catch (error) {
             unfreeze()
             alert(error.message)

@@ -10,7 +10,7 @@ const { validateEmail, validatePassword } = validators
  * @returns {string} user's id
  */
 
-export default function authenticateUser(email, password) {
+export default function loginUser(email, password) {
     validateEmail(email)
     validatePassword(password)
 

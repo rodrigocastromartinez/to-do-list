@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom'
 export default function Login() {
     const { alert, freeze, unfreeze, navigate } = useAppContext()
 
-    function handleLogin(event) {
+    async function handleLogin(event) {
         event.preventDefault()
 
         const email = event.target.email.value,
@@ -15,14 +15,14 @@ export default function Login() {
         try {
             freeze()
 
-            loginUser(email, password)
-                .then(() => {
-                    unfreeze()
+            await loginUser(email, password)
 
-                    navigate('/')
-                })
+            unfreeze()
+
+            navigate('/')
         } catch (error) {
             unfreeze()
+            
             alert(error.message, 'warn')
         }
     }

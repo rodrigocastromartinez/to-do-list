@@ -10,7 +10,7 @@ export default function AddPostModal({ onCancel, onPostCreated }) {
         onCancel()
     }
 
-    function handleCreatePost(event) {
+    async function handleCreatePost(event) {
         event.preventDefault()
 
         const image = event.target.url.value,
@@ -19,15 +19,14 @@ export default function AddPostModal({ onCancel, onPostCreated }) {
         try {
             freeze()
 
-            createPost(image, text)
-                .then(() => {
-                    unfreeze()
+            await createPost(image, text)
+                
+            unfreeze()
 
-                    onPostCreated()
-                })
-                .catch(error => alert(error.message))
+            onPostCreated()
         } catch (error) {
             unfreeze()
+            
             alert(error.message)
         }
     }

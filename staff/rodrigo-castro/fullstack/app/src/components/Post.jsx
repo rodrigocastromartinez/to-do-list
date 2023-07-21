@@ -18,34 +18,34 @@ export default function Post({ post: { id, image, text, date, likedBy, author: {
     const month = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'][newDate.getMonth()]
     const year = newDate.getFullYear()
 
-    const handleToggleLikePost = () => {
+    const handleToggleLikePost = async () => {
         try {
             freeze()
 
-            toggleLikePost(id)
-                .then(() => {
-                    unfreeze()
+            await toggleLikePost(id)
 
-                    onToggledLikePost()
-                })
+            unfreeze()
+
+            onToggledLikePost()
         } catch (error) {
             unfreeze()
+
             alert(error.message)
         }
     }
 
-    const handleToggleSavePost = () => {
+    const handleToggleSavePost = async () => {
         try {
             freeze()
 
-            toggleSavePost(id)
-                .then(() => {
-                    unfreeze()
+            await toggleSavePost(id)
+                
+            unfreeze()
 
-                    onToggleSavePost()
-                })
+            onToggleSavePost()
         } catch (error) {
             unfreeze()
+
             alert(error.message)
         }
     }
@@ -54,20 +54,20 @@ export default function Post({ post: { id, image, text, date, likedBy, author: {
         setPostOptions('show')
     }
 
-    const handleToggleHide = () => {
+    const handleToggleHide = async () => {
         try {
             freeze()
 
-            togglePrivacy(id)
-                .then(() => {
-                    unfreeze()
+            await togglePrivacy(id)
+                
+            unfreeze()
 
-                    setPostOptions(null)
+            setPostOptions(null)
 
-                    onToggledPrivacy()
-                })
+            onToggledPrivacy()
         } catch (error) {
             unfreeze()
+
             alert(error.message)
         }
     }
@@ -78,23 +78,19 @@ export default function Post({ post: { id, image, text, date, likedBy, author: {
         onEdit(id)
     }
 
-    const handleDelete = () => {
+    const handleDelete = async () => {
         if (confirm('Are you sure you want to delete?')) {
             try {
                 freeze()
-                deletePost(id, error => {
-                    unfreeze()
+                
+                await deletePost(id)
+                
+                unfreeze()
 
-                    if (error) {
-                        alert(error.message)
-
-                        return
-                    }
-
-                    onPostDeleted()
-                })
+                onPostDeleted()
             } catch (error) {
                 unfreeze()
+
                 alert(error.message)
             }
         }

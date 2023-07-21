@@ -3,7 +3,7 @@ import { useAppContext } from '../hooks'
 
 export default function ChangeEmail({ onCancel, onEmailChanged }) {
     const { freeze, unfreeze } = useAppContext()
-    const handleChangeEmail = (event) => {
+    const handleChangeEmail = async (event) => {
         event.preventDefault()
 
         const previousEmail = event.target['previous-email'].value
@@ -13,14 +13,14 @@ export default function ChangeEmail({ onCancel, onEmailChanged }) {
         try {
             freeze()
 
-            changeEmail(previousEmail, newEmail, password)
-                .then(() => {
-                    unfreeze()
+            await changeEmail(previousEmail, newEmail, password)
+                
+            unfreeze()
 
-                    onEmailChanged()
-                })
+            onEmailChanged()
         } catch (error) {
             unfreeze()
+            
             alert(error.message)
         }
     }

@@ -9,7 +9,7 @@ export default function EditPost({ onCancel, postId, onPostEdited, onPostDeleted
 
     const handleCancelEdit = () => onCancel()
 
-    const handleUpdatePost = (event) => {
+    const handleUpdatePost = async (event) => {
         event.preventDefault()
 
         if (confirm('Are you sure you want to edit?')) {
@@ -19,15 +19,14 @@ export default function EditPost({ onCancel, postId, onPostEdited, onPostDeleted
             try {
                 freeze()
 
-                editPost(postId, image, text)
-                    .then(() => {
-                        unfreeze()
+                await editPost(postId, image, text)
+                
+                unfreeze()
 
-                        onPostEdited()
-                    })
-                    .catch(error => alert(error.message))
+                onPostEdited()
             } catch (error) {
                 unfreeze()
+
                 alert(error.message)
             }
         }
@@ -37,15 +36,16 @@ export default function EditPost({ onCancel, postId, onPostEdited, onPostDeleted
         try {
             freeze()
 
-            retrievePost(postId)
-                .then(post => {
-                    unfreeze()
+            ;(async () => {
+                const post = await retrievePost(postId)
 
-                    setPost(post)
-                })
-                .catch(error => alert(error.message))
+                unfreeze()
+    
+                setPost(post)
+            })()
         } catch (error) {
             unfreeze()
+            
             alert(error.message)
         }
     }, [])
