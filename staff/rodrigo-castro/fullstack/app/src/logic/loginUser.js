@@ -10,59 +10,26 @@ const { validateEmail, validatePassword } = validators
  * @returns {string} user's id
  */
 
-export default function authenticateUser(email, password, callback) {
+export default function authenticateUser(email, password) {
     validateEmail(email)
     validatePassword(password)
 
-    if (callback) {
-        const xhr = new XMLHttpRequest
+    return (async () => {
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/users/auth`,
+        {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ email, password })
+        })
 
-        xhr.onload = () => {
-            const { status } = xhr
+        if (res.status !== 200){
+            const { message } = await res.json()
 
-            if (status !== 200) {
-                const { response: json } = xhr
-                const { error } = JSON.parse(json)
-
-                callback(new Error(error))
-
-                return
-            }
-
-            const { response: json } = xhr
-            const token = JSON.parse(json)
-
-            callback(null, token)
+            throw new Error(message)
         }
-
-        xhr.onerror = () => {
-            callback(new Error('connection error'))
-        }
-
-        xhr.open('POST', `${import.meta.env.VITE_API_URL}/users/auth`)
-
-        xhr.setRequestHeader('Content-Type', 'application/json')
-
-        const user = { email, password }
-        const json = JSON.stringify(user)
-
-        xhr.send(json)
-    } else
-        return fetch(`${import.meta.env.VITE_API_URL}/users/auth`,
-            {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ email, password })
-            })
-            .then(res => {
-                if (res.status !== 200)
-                    return res.json().then(({ error: message }) => { throw new Error(message) })
-
-                return res.json()
-            })
-            .then(token => {
-                context.token = token
-            })
+        
+        context.token = await res.json()
+    })()
 }
