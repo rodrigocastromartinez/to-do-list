@@ -15,23 +15,23 @@ module.exports = (userId, postId) => {
     validateId(userId)
     validateId(postId)
 
-    return User.findById(userId)
-        .then(user => {
-            if (!user) throw new ExistenceError(`user with id ${userId}, not found`)
+    return (async () => {
+        const user = await User.findById(userId)
 
-            return Post.findById(postId)
-                .then(post => {
-                    if (!post) throw new ExistenceError(`post with id ${postId} not found`)
+        if (!user) throw new ExistenceError(`user with id ${userId}, not found`)
 
-                    if (post.author.toString() !== userId) throw new AuthorizationError(`post with id ${postId} does not belong to user with id ${userId}`)
+        const post = await Post.findById(postId)
 
-                    if (post.privacy === 'public') {
-                        post.privacy = 'privated'
-                    } else {
-                        post.privacy = 'public'
-                    }
+        if (!post) throw new ExistenceError(`post with id ${postId} not found`)
 
-                    return Post.updateOne({ _id: postId }, { $set: { privacy: post.privacy } })
-                })
-        })
+        if (post.author.toString() !== userId) throw new AuthorizationError(`post with id ${postId} does not belong to user with id ${userId}`)
+
+        if (post.privacy === 'public') {
+            post.privacy = 'privated'
+        } else {
+            post.privacy = 'public'
+        }
+
+        await Post.updateOne({ _id: postId }, { $set: { privacy: post.privacy } })
+    })()
 }

@@ -1,11 +1,17 @@
+const mongoose = require('mongoose')
+const { User, Post } = require('../../data/models')
 const toggleLikePost = require('./toggleLikePost')
 
-toggleLikePost('user-1', 'post-1', error => {
-    if (error) {
+;(async () => {
+    try {
+        await mongoose.connect('mongodb://127.0.0.1:27017/data-test')
+        await Promise.all([User.deleteMany(), Post.deleteMany()])
+        const user = await User.create({ name: 'pepe.grillo', email: 'pepe@grillo.com', password: '123123123' })
+        const post = await Post.create({ image: 'http://www.image.com/post.jpeg', text: 'my post', author: user.id })
+        await toggleLikePost(user.id, post.id)
+    } catch(error) {
         console.error(error)
-
-        return
+    } finally {
+        mongoose.disconnect()
     }
-
-    console.log('post like toggled')
-})
+})()

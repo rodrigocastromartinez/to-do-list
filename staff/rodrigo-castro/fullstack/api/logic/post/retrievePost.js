@@ -15,15 +15,16 @@ module.exports = (userId, postId) => {
     validateId(userId)
     validateId(postId)
 
-    return Promise.all([
-        User.findById(userId).lean(),
-        Post.findById(postId, '-_id -__v -likedBy -date -author').lean()
-    ])
-        .then(([user, post]) => {
-            if (!user) throw new ExistenceError(`user with id ${userId} not found`)
+    return (async () => {
+        const [user, post] = await Promise.all([
+            User.findById(userId).lean(),
+            Post.findById(postId, '-_id -__v -likedBy -date -author').lean()
+        ])
 
-            if (!post) throw new ExistenceError(`post with id ${postId} not found`)
+        if (!user) throw new ExistenceError(`user with id ${userId} not found`)
 
-            return post
-        })
+        if (!post) throw new ExistenceError(`post with id ${postId} not found`)
+
+        return post
+    })()
 }

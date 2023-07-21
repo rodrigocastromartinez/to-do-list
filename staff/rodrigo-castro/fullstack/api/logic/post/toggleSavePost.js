@@ -15,23 +15,23 @@ module.exports = (userId, postId) => {
     validateId(userId)
     validateId(postId)
 
-    return User.findById(userId)
-        .then(user => {
-            if (!user) throw new ExistenceError(`user with id ${userId} not found`)
+    return (async () => {
+        const user = await User.findById(userId)
 
-            return Post.findById(postId)
-                .then(post => {
-                    if (!post) throw new ExistenceError(`post with id ${postId} not found`)
+        if (!user) throw new ExistenceError(`user with id ${userId} not found`)
 
-                    const index = user.savedPosts.indexOf(postId)
+        const post = await Post.findById(postId)
 
-                    if (index < 0)
-                        user.savedPosts.push(postId)
-                    else {
-                        user.savedPosts.splice(index, 1)
-                    }
+        if (!post) throw new ExistenceError(`post with id ${postId} not found`)
 
-                    return User.updateOne({ _id: userId }, { $set: { savedPosts: user.savedPosts } })
-                })
-        })
+        const index = user.savedPosts.indexOf(postId)
+
+        if (index < 0)
+            user.savedPosts.push(postId)
+        else {
+            user.savedPosts.splice(index, 1)
+        }
+
+        await User.updateOne({ _id: userId }, { $set: { savedPosts: user.savedPosts } })
+    })()
 }

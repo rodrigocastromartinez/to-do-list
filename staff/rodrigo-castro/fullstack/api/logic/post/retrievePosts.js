@@ -13,12 +13,13 @@ const { User, Post } = require('../../data/models')
 module.exports = userId => {
     validateId(userId)
 
-    return Promise.all([
-        User.findById(userId).lean(),
-        Post.find().sort('date').populate('author', '-password -savedPosts -__v').lean()
-    ])
-        .then(([user, posts]) => {
-            if (!user) throw new ExistenceError(`User with id ${userId} not found`)
+    return (async () => {
+        const [user, posts] = await Promise.all([
+            User.findById(userId).lean(),
+            Post.find().sort('date').populate('author', '-password -savedPosts -__v').lean()
+        ])
+
+        if (!user) throw new ExistenceError(`User with id ${userId} not found`)
 
             posts.forEach(post => {
                 post.id = post._id.toString()
@@ -33,5 +34,5 @@ module.exports = userId => {
             })
 
             return posts
-        })
+    })()
 }

@@ -19,17 +19,17 @@ module.exports = (userId, postId, image, text) => {
     validateUrl(image)
     validateText(text)
 
-    return User.findById(userId)
-        .then(user => {
-            if (!user) throw new ExistenceError(`user with id ${userId} not found`)
+    return (async () => {
+        const user = await User.findById(userId)
 
-            return Post.findById(postId)
-                .then(post => {
-                    if (!post) throw new ExistenceError(`post with id ${postId} not found`)
+        if (!user) throw new ExistenceError(`user with id ${userId} not found`)
 
-                    if (post.author.toString() !== userId) throw new AuthorizationError(`post with id ${postId} does not belong to user with id ${userId}`)
+        const post = await Post.findById(postId)
 
-                    return Post.updateOne({ _id: postId }, { $set: { image, text } })
-                })
-        })
+        if (!post) throw new ExistenceError(`post with id ${postId} not found`)
+
+        if (post.author.toString() !== userId) throw new AuthorizationError(`post with id ${postId} does not belong to user with id ${userId}`)
+
+        await Post.updateOne({ _id: postId }, { $set: { image, text } })
+    })()
 }

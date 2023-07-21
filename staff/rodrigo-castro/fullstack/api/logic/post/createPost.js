@@ -14,15 +14,15 @@ module.exports = (userId, image, text) => {
     validateUrl(image)
     validateText(text)
 
-    return User.findById(userId).lean()
-        .then(user => {
-            if (!user) throw new Error(`user with id ${userId} not found`)
+    return (async () => {
+        const user = await User.findById(userId).lean()
 
-            return Post.create({
-                author: userId,
-                image,
-                text,
-            })
+        if (!user) throw new Error(`user with id ${userId} not found`)
+
+        await Post.create({
+            author: userId,
+            image,
+            text,
         })
-        .then(() => { })
+    })()
 }
