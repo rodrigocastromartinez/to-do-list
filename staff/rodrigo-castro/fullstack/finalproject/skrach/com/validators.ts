@@ -1,5 +1,5 @@
 console.debug('validators loaded')
-const { ContentError } = require('./errors')
+import { ContentError } from './errors'
 
 function validateEmail(email : string) {
     if (typeof email !== 'string') throw new TypeError('Email is not a string')
