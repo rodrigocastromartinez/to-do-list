@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { Roboto } from 'next/font/google'
 import Container from '../library/Container'
-import registerUser from '../logic/registerUser'
+import registerUser from '../logic/client/registerUser'
 import { useAppContext } from '../hooks'
 import React, { FormEvent } from 'react'
 

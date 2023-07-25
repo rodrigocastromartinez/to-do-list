@@ -1,34 +1,30 @@
-console.debug('load register user')
-import { validators } from '../../com/index'
+import { validators, errors } from '../../com'
+const { validateEmail, validatePassword, validateUserName } = validators
+import { User } from '../models/models'
 
-const { validateUserName, validateEmail, validatePassword } = validators
+const { DuplicityError } = errors 
 
 /**
- * Registers a new user
+ * 
+ * @param {string} name user's name
  * @param {string} email user's email
- * @param {string} name username
  * @param {string} password user's password
+ * @returns Promise
  */
 
-export default function registerUser(email : string, name : string, password : string) {
+export default function registerUser (name: string, email: string, password: string) {
     validateUserName(name)
     validateEmail(email)
     validatePassword(password)
 
     return (async () => {
-        const res = await fetch(`${process.env.URL}/users`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ name, email, password })
-        })
+        try {
+            await User.create({ name, email, password, savedPosts: [] })
+        } catch(error: any) {
+            if (error.message.includes('E11000'))
+                throw new DuplicityError(`user with email ${email} already exists`)
 
-        if(res.status === 201)
-            return
-
-        const { message } = await res.json()
-
-        throw new Error(message)
+            throw error
+        }
     })()
 }

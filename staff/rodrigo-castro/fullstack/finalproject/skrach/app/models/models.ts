@@ -1,4 +1,4 @@
-const mongoose = require('mongoose')
+import mongoose from 'mongoose'
 
 const { Schema, Schema: { Types: { ObjectId } }, model } = mongoose
 
@@ -61,7 +61,7 @@ const post = new Schema({
 const User = model('User', user)
 const Post = model('Post', post)
 
-module.exports = {
+export {
     User,
     Post
 }
