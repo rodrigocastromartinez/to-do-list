@@ -1,34 +1,112 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# APP SKRACH
 
-## Getting Started
+## INTRO
 
-First, run the development server:
+This is an app that allows users to sign up, log in, and start recording music just like they would in a professional studio. It offers the convenience of using independent channels to record multiple tracks and then blend them seamlessly.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+Mixing the tracks involves adjusting their relative volumes and, if necessary, panning them to the right or left. 
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The app supports collaborative track recording, allowing multiple users (such as band members) to contribute to the same project. Each member can record their instrument and see the recordings of others reflected in the project. 
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+The aim is to streamline the recording process for what is commonly known as 'demos'—the initial approach to bringing a musical project to life, rather than focusing on studio-quality recordings.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+---
+---
 
-## Learn More
+![](https://64.media.tumblr.com/0af36b02db0e8579f795ac6a39951458/tumblr_n33ud0gyKT1sdilswo1_400.gif)
 
-To learn more about Next.js, take a look at the following resources:
+---
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## FUNCTIONAL DESCRIPTION
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+### USE CASES
 
-## Deploy on Vercel
+- Create project
+- Modify project
+- Record track
+- Delete track
+- Listen project
+- Set up track relative volumes
+- Set up tracks panning
+- Equalize track
+- Save project
+- Export project as mp3
+- Delete project
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## TECHNICAL DESCRIPTION
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+### DATA MODEL
+
+User
+- id (Object Id)
+- name (string)
+- email (string)
+- password (string)
+- avatar (string)
+- projects
+
+Track
+- id
+- audio file
+- volume
+- pan
+
+Project
+- id (string)
+- name (string)
+- authors ([Object Id], refers to User Ids)
+- tracks ([track])
+
+
+---
+---
+
+## PLANNING
+
+### TASKS
+
+https://www.notion.so/SKRACH-Project-3355f5c9f8d7480493c90527e86468aa
+
+### STORIES
+
+#### Sign up
+
+- Register new user providing name, email and password
+
+##### Create project
+
+- Create a new project, select participants by email (they must be previously registered in the db)
+
+##### UI
+
+- add 'new project' button in the footer of the home page
+- on click open modal window
+- in modal show a form with create and cancel buttons, and the following input fields: project name, participants (email)
+- on click create, it creates a new project in database by means of create-project logic
+- on click cancel closes the modal window
+
+##### Data
+
+- add project data model with fields: id, name, authors, tracks
+
+#### List projects
+
+- show all the projects in which the user is participating, including name ¿and option to play?
+- order by... ¿last modified?
+
+#### Open project
+
+- by clicking on a project, open it in a project page
+
+#### Project opened
+
+- by opening a project, show name and the already recorded tracks and the empty channels available to recording
+- allow to record on an empty channel
+- allow to delete a recorded track
+- allow to set relative volume of the tracks
+- allow to play the mix
+- allow to save changes / ¿or auto-save?
+- allow to change project name
+- allow to add or remove project participants
+- allow to export as mp3
