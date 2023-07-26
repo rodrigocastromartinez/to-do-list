@@ -4,14 +4,15 @@ import Link from 'next/link'
 import { Roboto } from 'next/font/google'
 import Container from '../library/Container'
 import registerUser from '../logic/client/registerUser'
-import { useAppContext } from '../hooks'
+// import { useAppContext } from '../hooks'
 import React, { FormEvent } from 'react'
-
+import { useRouter } from 'next/navigation'
 
 const roboto = Roboto({ subsets: ['latin'], weight: ['300'] })
 
 export default function Register() {
-    const navigate = useAppContext() as (path: string) => void;
+    // const navigate = useAppContext() as (path: string) => void
+    const router = useRouter()
 
     async function handleRegister(event: FormEvent) {
         event.preventDefault()
@@ -29,7 +30,9 @@ export default function Register() {
         try {
             await registerUser(email, username, password)
 
-            navigate('/login')
+            console.log('user registered')
+
+            router.push('/login')
         } catch (error: any) {
             alert(error.message)
         }

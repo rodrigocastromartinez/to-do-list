@@ -1,7 +1,8 @@
 import mongoose from 'mongoose'
 import { NextRequest, NextResponse } from 'next/server'
-import { registerUser } from '../../logic'
+import { authenticateUser } from '../../../logic'
 import { headers } from 'next/headers'
+import jwt from 'jsonwebtoken'
 
 interface RequestBody {
     name: string,
@@ -25,11 +26,17 @@ export async function POST(req: NextRequest) {
 
         const body = await req.text()
         
-        const {name, email, password}: RequestBody = JSON.parse(body)
+        const { email, password }: RequestBody = JSON.parse(body)
 
-        await registerUser(name, email, password)
+        const userId = await authenticateUser(email, password)
 
-        return NextResponse.json({message: 'user registered'}, {status: 200})
+        const payload = { sub: userId }
+
+        const { JWT_SECRET, JWT_EXPIRATION } = process.env
+
+        const token = jwt.sign(payload, JWT_SECRET!, { expiresIn: JWT_EXPIRATION })
+
+        return NextResponse.json(token)
     } catch(error: any){
         return NextResponse.json({error: error.message}, {status: 500})
     } finally {

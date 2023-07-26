@@ -17,7 +17,7 @@ export default function registerUser(email : string, name : string, password : s
 
     return (async () => {
         // const res = await fetch(`${process.env.URL}/users`, {
-        const res = await fetch(`http://localhost:3000/users`, {
+        const res = await fetch(`http://localhost:3000/api/users`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
