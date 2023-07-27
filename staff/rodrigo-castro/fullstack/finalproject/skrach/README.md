@@ -44,7 +44,7 @@ User
 - email (string)
 - password (string)
 - avatar (string)
-- projects
+- projects (array ids refering Project ids)
 
 Track
 - id
@@ -66,19 +66,11 @@ Project
 
 ### TASKS
 
+#### Dashboard
+
 https://www.notion.so/SKRACH-Project-3355f5c9f8d7480493c90527e86468aa
 
-### STORIES
-
-#### Sign up
-
-- Register new user providing name, email and password
-
-##### Create project
-
-- Create a new project, select participants by email (they must be previously registered in the db)
-
-##### UI
+#### UI
 
 - add 'new project' button in the footer of the home page
 - on click open modal window
@@ -86,7 +78,7 @@ https://www.notion.so/SKRACH-Project-3355f5c9f8d7480493c90527e86468aa
 - on click create, it creates a new project in database by means of create-project logic
 - on click cancel closes the modal window
 
-##### Data
+#### Data
 
 - add project data model with fields: id, name, authors, tracks
 
@@ -98,15 +90,25 @@ https://www.notion.so/SKRACH-Project-3355f5c9f8d7480493c90527e86468aa
 #### Open project
 
 - by clicking on a project, open it in a project page
+- by opening a project, show name and the already recorded tracks and the empty channels available to recording
+
+### STORIES
+
+#### Sign up
+
+- Register new user providing name, email and password
+
+#### Create project
+
+- Create a new project, select participants by email (they must be previously registered in the db)
 
 #### Project opened
 
-- by opening a project, show name and the already recorded tracks and the empty channels available to recording
-- allow to record on an empty channel
-- allow to delete a recorded track
-- allow to set relative volume of the tracks
-- allow to play the mix
-- allow to save changes / ¿or auto-save?
-- allow to change project name
-- allow to add or remove project participants
-- allow to export as mp3
+- Record on an empty channel
+- Delete a recorded track
+- Set relative volume of the tracks
+- Play the mix
+- Save changes / ¿or auto-save?
+- Change project name
+- Add or remove project participants
+- Export as mp3/wav

@@ -1,7 +1,7 @@
 import { validators, errors } from '../../com'
 const { validateEmail, validatePassword } = validators
 const { ExistenceError, AuthError } = errors
-import { User } from '../models/models'
+import { User } from '../data/models'
 
 /**
  * 

@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { authenticateUser } from '../../../logic'
 import { headers } from 'next/headers'
 import jwt from 'jsonwebtoken'
+import dbConnect from '../../../data/dbConnect'
 
 interface RequestBody {
     name: string,
@@ -12,7 +13,7 @@ interface RequestBody {
 
 export async function POST(req: NextRequest) {
     try {
-        await mongoose.connect(process.env.MONGODB_URL!)
+        await dbConnect()
 
         const headersList = headers()
 
@@ -39,7 +40,5 @@ export async function POST(req: NextRequest) {
         return NextResponse.json(token)
     } catch(error: any){
         return NextResponse.json({error: error.message}, {status: 500})
-    } finally {
-        await mongoose.disconnect()
     }
 }

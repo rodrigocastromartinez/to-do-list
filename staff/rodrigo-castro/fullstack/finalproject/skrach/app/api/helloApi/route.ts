@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import { User } from '../../models/models'
+import { User } from '../../data/models'
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function GET(req: NextRequest) {

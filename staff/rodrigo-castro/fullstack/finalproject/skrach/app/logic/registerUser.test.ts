@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import { User, Post } from '../models/models'
+import { User, Post } from '../data/models'
 import registerUser from './registerUser'
 import dotenv from 'dotenv'
 

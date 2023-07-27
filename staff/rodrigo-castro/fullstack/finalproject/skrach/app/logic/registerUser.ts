@@ -1,6 +1,6 @@
 import { validators, errors } from '../../com'
 const { validateEmail, validatePassword, validateUserName } = validators
-import { User } from '../models/models'
+import { User } from '../data/models'
 
 const { DuplicityError } = errors 
 

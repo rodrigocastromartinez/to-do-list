@@ -58,8 +58,9 @@ const post = new Schema({
     }
 })
 
-const User = model('User', user)
-const Post = model('Post', post)
+
+const User = mongoose.models.User || model('User', user)
+const Post = mongoose.models.Post || model('Post', post)
 
 export {
     User,
