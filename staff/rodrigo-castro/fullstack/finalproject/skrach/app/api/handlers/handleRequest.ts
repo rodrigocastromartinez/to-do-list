@@ -3,7 +3,7 @@ import { headers } from 'next/headers'
 import { NextResponse, NextRequest } from 'next/server'
 
 
-const handleRequest = async (callback: () => Promise<NextResponse<string>>) => {
+const handleRequest = async (callback: (() => Promise<NextResponse<string>>) | (() => Promise<NextResponse<{ message: string; }>>)) => {
         try {
             await dbConnect()
             
@@ -24,4 +24,4 @@ const handleRequest = async (callback: () => Promise<NextResponse<string>>) => {
 
 }
 
-export default handleConnect
+export default handleRequest
