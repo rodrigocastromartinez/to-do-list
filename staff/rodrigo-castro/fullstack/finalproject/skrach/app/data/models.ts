@@ -1,8 +1,9 @@
 import mongoose from 'mongoose'
+import { UserModel, PostModel } from './interfaces'; // Import the interfaces
 
 const { Schema, Schema: { Types: { ObjectId } }, model } = mongoose
 
-const user = new Schema({
+const user = new Schema<UserModel>({
     name: {
         type: String,
         required: true
@@ -21,10 +22,6 @@ const user = new Schema({
     avatar: {
         type: String,
         required: false
-    },
-    savedPosts: {
-        type: [ObjectId],
-        ref: 'Post'
     }
 })
 
@@ -59,7 +56,7 @@ const post = new Schema({
 })
 
 
-const User = mongoose.models.User || model('User', user)
+const User = mongoose.models.User || model<UserModel>('User', user)
 const Post = mongoose.models.Post || model('Post', post)
 
 export {
