@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { loginUser } from '../logic/client'
 import React, { FormEvent } from 'react'
 import { useRouter } from 'next/navigation'
+import Button from '../components/Button'
 // import { useAppContext } from '../hooks' al usarlo habría que agregar 'warn' en el alerta, luego de error.message
 
 const roboto = Roboto({ subsets: ['latin'], weight: ['300'] })
@@ -28,7 +29,7 @@ export default function Login() {
 
             console.log('user logged in')
 
-            router.push('/')
+            router.push('/app')
         } catch (error: any) {
             alert(error.message)
         }
@@ -45,7 +46,7 @@ export default function Login() {
         </div>
         <div>Forgot your <a className="text-blue-700">password</a>?</div>
         <div>Dont have an account? <Link href='/register' className='text-blue-700'>Register now</Link></div>
-        <button className="submit-buttons" type="submit">Login</button>
+        <Button submit={true} size={"wide"} type={"primary"} text='Login'></Button>
     </form>
 </div>
 }

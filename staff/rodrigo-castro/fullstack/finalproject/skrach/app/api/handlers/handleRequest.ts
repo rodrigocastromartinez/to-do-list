@@ -2,8 +2,8 @@ import dbConnect from '../../data/dbConnect'
 import { headers } from 'next/headers'
 import { NextResponse, NextRequest } from 'next/server'
 
-
-const handleRequest = async (callback: (() => Promise<NextResponse<string>>) | (() => Promise<NextResponse<{ message: string; }>>) | (() => Promise<NextResponse<{ name: string; email: string; avatar: string | undefined; }>>)) => {
+ // @ts-ignore 
+const handleRequest = async (callback) => {
         try {
             await dbConnect()
             const headersList = headers()

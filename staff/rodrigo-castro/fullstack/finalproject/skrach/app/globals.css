@@ -27,6 +27,7 @@
   --black-transparent: rgba(0, 0, 0, 0.8);
   --transition: 0;
 
+  --orange-white: #debc9c;
   --orange-000: #ff9340bd;
   --orange-100: #FF9440;
   --orange-150: #EB8733;
@@ -51,12 +52,28 @@
   }
   
   .submit-buttons{
-    @apply text-lg bg-[var(--orange-400)] p-2 rounded-2xl w-full font-medium
+    @apply text-lg bg-[var(--orange-300)] rounded-2xl font-medium
+  }
+
+  .primary {
+    @apply bg-[var(--orange-300)] rounded-2xl text-base font-medium
+  }
+
+  .secondary {
+    @apply bg-[var(--orange-white)] rounded-2xl text-base font-medium text-[var(--orange-300)]
+  }
+
+  .wide-button {
+    @apply w-full p-2 text-lg
+  }
+
+  .fit-button {
+    @apply w-fit py-2 px-4
   }
 }
 
 @layer utilities {
   .outline-input {
-    outline: 2px solid var(--orange-400);
+    outline: 2px solid var(--orange-300);
   }
 }
