@@ -13,6 +13,6 @@ export async function PATCH(req: NextRequest) {
 
         await updateUserAvatar(userId, avatar)
 
-        return NextResponse.json({message: 'avatar updated'}, {status: 204})
+        return NextResponse.json({message: 'avatar updated'}, {status: 200})
     })
 }
