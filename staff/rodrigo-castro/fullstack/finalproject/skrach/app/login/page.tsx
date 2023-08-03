@@ -29,7 +29,7 @@ export default function Login() {
 
             console.log('user logged in')
 
-            router.push('/app')
+            router.push('/dashboard')
         } catch (error: any) {
             alert(error.message)
         }

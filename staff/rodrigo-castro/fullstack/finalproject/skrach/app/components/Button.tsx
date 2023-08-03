@@ -5,16 +5,19 @@ interface ButtonProps {
     size: string,
     type: string,
     text: string,
+    rounded: boolean,
     onClick?: (event: React.SyntheticEvent) => void
 }
 
-export default function Button({ submit = false, size, type, text, onClick, ...props }: ButtonProps) {
+export default function Button({ submit = false, size, type, text, rounded = false, onClick, ...props }: ButtonProps) {
     return <>
         <button type={`${submit ? "submit" : "button"}`} className={`
             ${size === "fit" && "fit-button" }
             ${size === "wide" && "wide-button"}
             ${type === "primary" && "primary"}
             ${type === "secondary" && "secondary"}
+            ${type === "no-fill" && "no-fill"}
+            ${rounded && 'rounded-full'}
         `}{...props} onClick={onClick}>{text}</button>
     </>
 }

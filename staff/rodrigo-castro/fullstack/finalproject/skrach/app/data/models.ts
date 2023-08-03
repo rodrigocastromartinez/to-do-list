@@ -25,17 +25,8 @@ const user = new Schema<UserModel>({
     }
 })
 
-const post = new Schema({
-    author: {
-        type: ObjectId,
-        ref: 'User',
-        required: true
-    },
-    image: {
-        type: String,
-        required: true
-    },
-    text: {
+const project = new Schema({
+    name: {
         type: String,
         required: true
     },
@@ -44,22 +35,25 @@ const post = new Schema({
         required: true,
         default: Date.now
     },
-    likedBy: {
+    owners: {
         type: [ObjectId],
         ref: 'User'
     },
     privacy: {
         type: String,
         required: true,
-        default: 'public'
+        default: 'privated'
+    },
+    tracks: {
+        type: [String],
     }
 })
 
 
 const User = mongoose.models.User || model<UserModel>('User', user)
-const Post = mongoose.models.Post || model('Post', post)
+const Project = mongoose.models.Project || model('Project', project)
 
 export {
     User,
-    Post
+    Project
 }

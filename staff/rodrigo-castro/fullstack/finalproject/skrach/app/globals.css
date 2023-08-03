@@ -15,7 +15,7 @@
   --grey-400: #9AA5B1;
   --grey-500: #7B8794;
   --grey-600: #616E7C;
-  --grey-700: #52606D;
+  --grey-700: #2B2D32;
   --black-100: #000000;
 
   --red-alert: rgb(255, 128, 128);
@@ -48,7 +48,11 @@
 
 @layer components {
   .input {
-    @apply text-base h-fit m-0 font-extralight p-2 px-4 rounded-2xl w-full text-[var(--black-100)] focus:outline-input
+    @apply text-base h-fit m-0 font-extralight py-2 px-4 rounded-2xl w-full text-[var(--black-100)] focus:outline-input
+  }
+
+  .search {
+    @apply text-base text-[var(--grey-300)] rounded-full bg-[var(--grey-700)] h-fit m-0 font-light py-2 px-4 w-full focus:outline-input
   }
   
   .submit-buttons{
@@ -63,6 +67,10 @@
     @apply bg-[var(--orange-white)] rounded-2xl text-base font-medium text-[var(--orange-300)]
   }
 
+  .no-fill {
+    @apply bg-[var(--transparent)] rounded-2xl text-base font-medium text-[var(--grey-300)] box-border outline-2 outline-[var(--orange-300)] outline outline-inner hover:bg-[var(--grey-700)]
+  }
+
   .wide-button {
     @apply w-full p-2 text-lg
   }
@@ -75,5 +83,9 @@
 @layer utilities {
   .outline-input {
     outline: 2px solid var(--orange-300);
+  }
+
+  .outline-inner {
+    outline-offset: -2px;
   }
 }
