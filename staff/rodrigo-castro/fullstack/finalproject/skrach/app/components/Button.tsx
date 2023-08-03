@@ -15,8 +15,7 @@ export default function Button({ submit = false, size, type, text, onClick, ...p
             ${size === "wide" && "wide-button"}
             ${type === "primary" && "primary"}
             ${type === "secondary" && "secondary"}
-            {...props}
-        `} onClick={onClick}>{text}</button>
+        `}{...props} onClick={onClick}>{text}</button>
     </>
 }
 

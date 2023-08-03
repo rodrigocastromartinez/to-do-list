@@ -8,13 +8,13 @@ import context from './context'
  * @returns {object} user found
  */
 
-export const retrieveUser = (token: string) => {
+export const retrieveUser = () => {
     return (async () => {
         const res = await fetch(`http://localhost:3000/api/users/retrieveuser`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
+                'Authorization': `Bearer ${context.token}`
             }
         })
 
