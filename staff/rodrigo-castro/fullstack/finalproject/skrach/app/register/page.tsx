@@ -4,14 +4,13 @@ import Link from 'next/link'
 import { Roboto } from 'next/font/google'
 import Container from '../library/Container'
 import registerUser from '../logic/client/registerUser'
-// import { useAppContext } from '../hooks'
 import React, { FormEvent } from 'react'
 import { useRouter } from 'next/navigation'
+import Button from '../components/Button'
 
 const roboto = Roboto({ subsets: ['latin'], weight: ['300'] })
 
 export default function Register() {
-    // const navigate = useAppContext() as (path: string) => void
     const router = useRouter()
 
     async function handleRegister(event: FormEvent) {
@@ -45,7 +44,7 @@ export default function Register() {
         <input className={`input ${roboto.className}`} type="email" name="email" placeholder="Email" />
         <input className={`input ${roboto.className}`} type="password" name="password" placeholder="Password" />
         <div>Already registered? <Link href='/login' className='text-blue-700'>Sign in</Link></div>
-        <button className="submit-buttons" type="submit">Register</button>
+        <Button submit={true} size={"wide"} type={"primary"} text='Register'></Button>
     </form>
 </Container>
 }

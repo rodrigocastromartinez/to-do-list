@@ -24,6 +24,10 @@ export default function createProject (userId: string, name: string, owners: Own
         
         const _owners = await Promise.all(owners.map(async function(owner) {
             const _owner = await User.findOne({ email: owner })
+
+            if(!_owner){
+                throw new Error(`user with email ${owner} not found`)
+            }
             
             return _owner.id
         }))

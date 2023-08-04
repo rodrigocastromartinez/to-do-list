@@ -21,7 +21,7 @@ export default function RootLayout({ children }: {children: React.ReactNode}) {
   return (
     <html lang="en" className={`w-screen h-screen`}>
       <body className={`w-full h-full bg-black text-white`}>
-        <NavigationBar token={token} />
+        <NavigationBar />
         {children}
       </body>
     </html>

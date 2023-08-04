@@ -12,7 +12,7 @@
   --grey-150: #e5eaf1;
   --grey-200: #E4E7EB;
   --grey-300: #CBD2D9;
-  --grey-400: #9AA5B1;
+  --grey-400: #9aa4b1;
   --grey-500: #7B8794;
   --grey-600: #616E7C;
   --grey-700: #2B2D32;
@@ -67,6 +67,10 @@
     @apply bg-[var(--orange-white)] rounded-2xl text-base font-medium text-[var(--orange-300)]
   }
 
+  .grey {
+    @apply bg-[var(--grey-700)] rounded-2xl text-base font-medium text-[var(--white-000)]
+  }
+
   .no-fill {
     @apply bg-[var(--transparent)] rounded-2xl text-base font-medium text-[var(--grey-300)] box-border outline-2 outline-[var(--orange-300)] outline outline-inner hover:bg-[var(--grey-700)]
   }
@@ -83,6 +87,10 @@
 @layer utilities {
   .outline-input {
     outline: 2px solid var(--orange-300);
+  }
+
+  .font-large {
+    font-size: 32px;
   }
 
   .outline-inner {

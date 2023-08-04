@@ -28,18 +28,10 @@ export default function ProfileData() {
       fetchData()
     }, [])
   
-    if (loading) {
-      return <div className="flex flex-col">
-        <div className="h-20 w-20">
-        <img src='https://i.pinimg.com/originals/f1/0f/f7/f10ff70a7155e5ab666bcdd1b45b726d.jpg'></img>
-        </div>
-        <section>
-            <p>Loading...</p>
-            <p>Loading...</p>
-            <p>Loading...</p>
-        </section>
-    </div>
-    }
+    // AGREGAR LOADER/SPINNER
+    // if (loading) {
+    //   return 
+    // }
   
     if (!user) {
       console.error('Error: Unable to retrieve user data.')
