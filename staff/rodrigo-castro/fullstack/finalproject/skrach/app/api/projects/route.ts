@@ -12,11 +12,7 @@ export async function POST(req: NextRequest) {
     return handleRequest(async () => {
         const userId = extractUserId(req)
 
-        const body = await req.text()
-        
-        const {name, owners}: RequestBody = JSON.parse(body)
-
-        await createProject(userId, name, owners)
+        await createProject(userId)
 
         return NextResponse.json({message: 'project created'}, {status: 200})
     })

@@ -7,12 +7,15 @@ import { useState } from 'react'
 import DynamicTitle from "../components/DynamicTitle"
 import Controls from "../components/Controls"
 import Track from "../components/Track"
+import { createProject } from "../logic/client/createProject"
 
 export default function Home() {
     const [newProject, setNewProject] = useState(false)
 
     const handleNewProject = () => {
         try {
+            createProject()
+
             setNewProject(true)
         } catch(error: any){
             alert(error.message)

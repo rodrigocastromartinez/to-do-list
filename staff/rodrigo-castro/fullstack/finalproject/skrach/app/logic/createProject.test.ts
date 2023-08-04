@@ -11,7 +11,7 @@ dotenv.config()
         await Promise.all([User.deleteMany(), Project.deleteMany()])
         const user1 = await User.create({ name: 'pepe.grillo', email: 'pepe@grillo.com', password: '123123123' })
         const user2 = await User.create({ name: 'pepe.grillo2', email: 'pepe2@grillo.com', password: '123123123' })
-        await createProject(user1.id, 'my project', [user1.email, user2.email])
+        await createProject(user1.id)
     } catch(error) {
         console.error(error)
     } finally {

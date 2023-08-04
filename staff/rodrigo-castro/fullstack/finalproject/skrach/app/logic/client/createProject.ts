@@ -13,7 +13,7 @@ const { validateUrl, validateText } = validators
 
 type Owners = string[]
 
-export function createProject(name: string, owners: Owners) {
+export function createProject() {
     validateText(name)
 
     return (async () => {
@@ -23,7 +23,6 @@ export function createProject(name: string, owners: Owners) {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${context.token}`
             },
-            body: JSON.stringify({ name, owners })
         })
 
         if (res.status !== 200)
