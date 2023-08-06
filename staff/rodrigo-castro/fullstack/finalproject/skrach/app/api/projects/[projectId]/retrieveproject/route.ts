@@ -9,8 +9,8 @@ export async function GET(req: NextRequest, { params }) {
         
         const userId = extractUserId(req)
 
-        const post = await retrieveProject(userId, projectId)
+        const project = await retrieveProject(userId, projectId)
 
-        return NextResponse.json(post)
+        return NextResponse.json(project)
     })
 }
