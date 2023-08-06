@@ -52,6 +52,10 @@ const project = new Schema({
     },
     tracks: {
         type: [String],
+    },
+    image: {
+        type: String,
+        default: 'https://picsum.photos/500/500?random=1'
     }
 })
 

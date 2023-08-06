@@ -11,12 +11,12 @@ interface IUser {
 }
 
 interface IPost {
-  author: string
-  image: string
-  text: string
+  name: string
   date: Date
-  likedBy?: string[]
+  owners: typeof ObjectId[]
   privacy: string
+  tracks: string[]
+  image: string
 }
 
 export interface UserModel extends IUser, Document {}
