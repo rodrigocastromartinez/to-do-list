@@ -19,7 +19,7 @@ export default function registerUser (name: string, email: string, password: str
 
     return (async () => {
         try {
-            await User.create({ name, email, password, savedPosts: [] })
+            await User.create({ name, email, password, projects: [] })
         } catch(error: any) {
             if (error.message.includes('E11000'))
                 throw new DuplicityError(`user with email ${email} already exists`)

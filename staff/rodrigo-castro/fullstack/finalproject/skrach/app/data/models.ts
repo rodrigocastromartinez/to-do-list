@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import { UserModel, PostModel } from './interfaces'; // Import the interfaces
+import { UserModel, PostModel } from './interfaces' // Import the interfaces
 
 const { Schema, Schema: { Types: { ObjectId } }, model } = mongoose
 
@@ -22,6 +22,12 @@ const user = new Schema<UserModel>({
     avatar: {
         type: String,
         required: false
+    },
+    projects: {
+        type: [ObjectId],
+        ref: 'Project',
+        required: true,
+        default: []
     }
 })
 

@@ -1,9 +1,10 @@
 import { NextRequest } from "next/server"
 import { headers } from 'next/headers'
+import { NextApiRequest } from "next"
 
 const jwt = require('jsonwebtoken')
 
-function extractUserId(req: NextRequest) {
+function extractUserId(req: NextRequest | NextApiRequest) {
     const headersList = headers()
         
     const authorization = headersList.get('authorization')!

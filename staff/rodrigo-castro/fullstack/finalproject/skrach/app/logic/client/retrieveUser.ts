@@ -18,8 +18,11 @@ export const retrieveUser = () => {
             }
         })
 
-        if (res.status !== 200)
-                return res.json().then(({ error: message }) => { throw new Error(message) })
+        if (res.status !== 200){
+            const { message } = await res.json()
+    
+            throw new Error (message)
+        }
 
         return await res.json()
     })()

@@ -3,41 +3,56 @@
 import Avatar from "./Avatar"
 import { useState, useEffect } from "react"
 import { retrieveUser } from "../logic/client/retrieveUser"
+import { useAppContext } from "../hooks"
 
 interface User {
     avatar: string
     name: string
   }
 
+  type AppContext = {
+    freeze: () => void;
+    unfreeze: () => void;
+  };
+
 export default function ProfileData() {
     const [user, setUser] = useState<User | null>(null)
     const [loading, setLoading] = useState(true)
+    
+    const { freeze, unfreeze } = useAppContext() as AppContext
+
   
     useEffect(() => {
       const fetchData = async () => {
+        freeze()
         try {
+          unfreeze()
           const userData = await retrieveUser()
           setUser(userData)
           setLoading(false)
         } catch (error) {
+          unfreeze()
           console.error('Error fetching user data:', error)
           setLoading(false)
         }
       }
   
       fetchData()
-    }, [])
+    }, [freeze, unfreeze])
   
-    // AGREGAR LOADER/SPINNER
-    // if (loading) {
-    //   return 
-    // }
+    if (loading) {
+      return freeze()
+    }
   
     if (!user) {
+      unfreeze()
+
       console.error('Error: Unable to retrieve user data.')
   
       return
     }
+
+    unfreeze()
 
     return <div className="flex items-center gap-4">
         <div className="h-24 w-24">

@@ -1,10 +1,13 @@
-import { Document, Model } from 'mongoose';
+import { Document, Model, Schema } from 'mongoose'
+
+const { Types: { ObjectId } } = Schema
 
 interface IUser {
   name: string
   email: string
   password: string
   avatar?: string
+  projects: typeof ObjectId[]
 }
 
 interface IPost {

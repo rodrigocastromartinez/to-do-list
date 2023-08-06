@@ -26,6 +26,8 @@ export default function Home() {
 
     }
 
+    const handleBack = () => setNewProject(false)
+
     return <>
     {!newProject && <div className="w-screen relative top-20 flex flex-col px-8 gap-4">
         <div>
@@ -35,7 +37,11 @@ export default function Home() {
             <SearchBar></SearchBar>
             <Button size='fit' type='no-fill' rounded={true} text={'New'} onClick={handleNewProject} ></Button>
         </div>
+        <div>
+
+        </div>
     </div>}
+
     {newProject && <div className="w-screen h-full relative pt-20 flex flex-col justify-between px-8 gap-4" >
         <div className="flex flex-col gap-2" >
             <DynamicTitle></DynamicTitle>
@@ -51,7 +57,7 @@ export default function Home() {
             <Controls></Controls>
             <div className="flex gap-2" >
                 <Button size='wide' type='primary' text={'Save'} onClick={handleSaveChanges} ></Button>
-                <Button size='wide' type='grey' text={'Back'} onClick={handleSaveChanges} ></Button>
+                <Button size='wide' type='grey' text={'Back'} onClick={handleBack} ></Button>
             </div>
         </div>
     </div> }

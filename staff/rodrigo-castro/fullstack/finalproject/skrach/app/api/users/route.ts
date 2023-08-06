@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { registerUser } from '../../logic'
 import handleRequest from '../handlers/handleRequest'
+import { User } from '../../data/models'
 
 interface RequestBody {
     name: string,

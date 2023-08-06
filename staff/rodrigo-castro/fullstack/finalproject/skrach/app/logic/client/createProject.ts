@@ -14,8 +14,6 @@ const { validateUrl, validateText } = validators
 type Owners = string[]
 
 export function createProject() {
-    validateText(name)
-
     return (async () => {
         const res = await fetch(`http://localhost:3000/api/projects`, {
             method: 'POST',
