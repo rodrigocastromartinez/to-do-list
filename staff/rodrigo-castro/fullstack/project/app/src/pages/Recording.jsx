@@ -82,16 +82,16 @@ export default function Recording({ }) {
         console.log(audioUrls)
     }
 
-    const wavesurfer = WaveSurfer.create({
-        container: document.body,
-        waveColor: 'rgb(200, 0, 200)',
-        progressColor: 'rgb(100, 0, 100)',
-        url: '/examples/audio/audio.wav',
-    })
+    // const wavesurfer = WaveSurfer.create({
+    //     container: document.body,
+    //     waveColor: 'rgb(200, 0, 200)',
+    //     progressColor: 'rgb(100, 0, 100)',
+    //     url: '/examples/audio/audio.wav',
+    // })
 
-    wavesurfer.once('interaction', () => {
-        wavesurfer.play()
-    })
+    // wavesurfer.once('interaction', () => {
+    //     wavesurfer.play()
+    // })
 
 
 
@@ -119,12 +119,12 @@ export default function Recording({ }) {
         </div> */}
 
         {audioUrls !== [] && audioUrls.map(audioUrl => {
-            const wavesurfer = WaveSurfer.create({
+            {/* const wavesurfer = WaveSurfer.create({
                 container: `#audiowave-${audioUrl}`,
                 waveColor: 'rgb(200, 0, 200)',
                 progressColor: 'rgb(100, 0, 100)',
                 url: audioUrl,
-            })
+            }) */}
 
             return <div className="bg-slate-400 h-12 w-72 p-4 flex items-center justify-between gap-4">
                 <div className="flex items-center"><span className="material-symbols-rounded">piano</span></div>
@@ -134,7 +134,8 @@ export default function Recording({ }) {
                 </span></div>
                 <div className="flex items-center"><span className="material-symbols-rounded">
                     more_horiz
-                </span></div>
+                </span>
+                <audio controls src={audioUrl}></audio></div>
             </div>
         })
         }
