@@ -8,6 +8,7 @@ import DynamicTitle from "../components/DynamicTitle"
 import Controls from "../components/Controls"
 import Track from "../components/Track"
 import { createProject } from "../logic/client/createProject"
+import Projects from "../components/Projects"
 
 export default function Home() {
     const [newProject, setNewProject] = useState(false)
@@ -38,7 +39,7 @@ export default function Home() {
             <Button size='fit' type='no-fill' rounded={true} text={'New'} onClick={handleNewProject} ></Button>
         </div>
         <div>
-
+            <Projects></Projects>
         </div>
     </div>}
 
