@@ -4,19 +4,15 @@ import Avatar from "./Avatar"
 import { useState, useEffect } from "react"
 import { retrieveUser } from "../logic/client/retrieveUser"
 import { useAppContext } from "../hooks"
-
-interface User {
-    avatar: string
-    name: string
-  }
+import { User } from '../data/models'
 
   type AppContext = {
     freeze: () => void;
     unfreeze: () => void;
-  };
+  }
 
 export default function ProfileData() {
-    const [user, setUser] = useState<User | null>(null)
+    const [user, setUser] = useState<typeof User | null>(null)
     const [loading, setLoading] = useState(true)
     
     const { freeze, unfreeze } = useAppContext() as AppContext
@@ -38,10 +34,10 @@ export default function ProfileData() {
       }
   
       fetchData()
-    }, [freeze, unfreeze])
+    }, [])
   
     if (loading) {
-      return freeze()
+      return <></>
     }
   
     if (!user) {
