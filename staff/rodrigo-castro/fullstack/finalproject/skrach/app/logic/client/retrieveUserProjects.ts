@@ -6,7 +6,7 @@ import context from './context'
  * @returns {array} an array of objects with all the posts found
  */
 
-export default function retrievePosts() {
+export default function retrieveUserProjects() {
     return (async () => {
         const res = await fetch(`http://localhost:3000/api/projects/retrieveall`, {
             method: 'GET',

@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import { UserModel, PostModel } from './interfaces' // Import the interfaces
+import { UserModel, ProjectModel } from './interfaces' // Import the interfaces
 
 const { Schema, Schema: { Types: { ObjectId } }, model } = mongoose
 
@@ -31,7 +31,7 @@ const user = new Schema<UserModel>({
     }
 })
 
-const project = new Schema({
+const project = new Schema<ProjectModel>({
     name: {
         type: String,
         required: true
@@ -61,7 +61,7 @@ const project = new Schema({
 
 
 const User = mongoose.models.User || model<UserModel>('User', user)
-const Project = mongoose.models.Project || model('Project', project)
+const Project = mongoose.models.Project || model<ProjectModel>('Project', project)
 
 export {
     User,

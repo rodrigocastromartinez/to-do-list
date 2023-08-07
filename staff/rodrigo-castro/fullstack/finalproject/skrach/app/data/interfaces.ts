@@ -10,7 +10,7 @@ interface IUser {
   projects: typeof ObjectId[]
 }
 
-interface IPost {
+interface IProject {
   name: string
   date: Date
   owners: typeof ObjectId[]
@@ -20,4 +20,4 @@ interface IPost {
 }
 
 export interface UserModel extends IUser, Document {}
-export interface PostModel extends IPost, Document {}
+export interface ProjectModel extends IProject, Document {}
