@@ -28,5 +28,7 @@ export default function createProject (userId: string) {
         user.projects.push(projectId)
 
         await user.save()
+
+        return projectId
     })()
 }

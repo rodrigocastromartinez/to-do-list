@@ -25,5 +25,7 @@ export function createProject() {
 
         if (res.status !== 200)
                 return res.json().then(({ error: message }) => { throw new Error(message) })
+
+        return res.json()
     })()
 }

@@ -11,13 +11,16 @@ import { createProject } from "../logic/client/createProject"
 import Projects from "../components/Projects"
 
 export default function Home() {
-    const [newProject, setNewProject] = useState(false)
+    const [edition, setEdition] = useState(false)
+    const [projectId, setProjectId] = useState()
 
-    const handleNewProject = () => {
+    const handleNewProject = async () => {
         try {
-            createProject()
+            const res = await createProject()
 
-            setNewProject(true)
+            setProjectId(res.id)
+
+            setEdition(true)
         } catch(error: any){
             alert(error.message)
         }
@@ -27,10 +30,13 @@ export default function Home() {
 
     }
 
-    const handleBack = () => setNewProject(false)
+    const handleBack = () => {
+        setProjectId(undefined)
+        setEdition(false)
+    }
 
     return <>
-    {!newProject && <div className="w-screen relative top-20 flex flex-col px-8 gap-4">
+    {!edition && <div className="w-screen relative top-20 flex flex-col px-8 gap-4">
         <div>
             <ProfileData></ProfileData>
         </div>
@@ -43,7 +49,7 @@ export default function Home() {
         </div>
     </div>}
 
-    {newProject && <div className="w-screen h-full relative pt-20 flex flex-col justify-between px-8 gap-4" >
+    {edition && <div className="w-screen h-full relative pt-20 flex flex-col justify-between px-8 gap-4" >
         <div className="flex flex-col gap-2" >
             <DynamicTitle></DynamicTitle>
             <div className="flex gap-2" >
