@@ -9,6 +9,7 @@ import Controls from "../components/Controls"
 import Track from "../components/Track"
 import { createProject } from "../logic/client/createProject"
 import Projects from "../components/Projects"
+import Edition from "../components/Edition"
 
 export default function Home() {
     const [edition, setEdition] = useState(false)
@@ -30,7 +31,7 @@ export default function Home() {
 
     }
 
-    const handleBack = () => {
+    const handleGoBack = () => {
         setProjectId(undefined)
         setEdition(false)
     }
@@ -49,7 +50,9 @@ export default function Home() {
         </div>
     </div>}
 
-    {edition && <div className="w-screen h-full relative pt-20 flex flex-col justify-between px-8 gap-4" >
+    {edition &&  <Edition onSaveChanges={handleSaveChanges} onGoBack={handleGoBack} /> }
+
+    {/* {edition && <div className="w-screen h-full relative pt-20 flex flex-col justify-between px-8 gap-4" >
         <div className="flex flex-col gap-2" >
             <DynamicTitle></DynamicTitle>
             <div className="flex gap-2" >
@@ -67,6 +70,7 @@ export default function Home() {
                 <Button size='wide' type='grey' text={'Back'} onClick={handleBack} ></Button>
             </div>
         </div>
-    </div> }
+    </div> } */}
+
     </>
 }
