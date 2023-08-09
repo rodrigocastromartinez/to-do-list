@@ -11,9 +11,9 @@ interface EditionProps {
 
 export default function Edition({ onSaveChanges, onGoBack }: EditionProps) {
     const [isRecording, setIsRecording] = useState(false)
-    const [recording, setRecording] = useState()
-    const [chunks, setChunks] = useState()
-    const [audioUrl, setAudioUrl] = useState()
+    const [recording, setRecording] = useState<MediaRecorder>()
+    const [chunks, setChunks] = useState<Blob[]>()
+    const [audioUrl, setAudioUrl] = useState<string>()
 
     const startRecording = () => {
         console.log('handleStartRecording')
@@ -38,7 +38,7 @@ export default function Edition({ onSaveChanges, onGoBack }: EditionProps) {
                     console.log(mediaRecorder.state)
                     console.log("recorder started")
 
-                    let chunks = []
+                    let chunks: Blob[] = []
 
                     mediaRecorder.ondataavailable = (chunk) => {
                         chunks.push(chunk.data)
@@ -59,15 +59,16 @@ export default function Edition({ onSaveChanges, onGoBack }: EditionProps) {
     const stopRecording = () => {
         console.log('handleStopRecording')
 
-        recording.stop()
-        console.log(recording.state)
-        console.log("recorder stopped")
+        recording!.stop()
+        console.log(recording!.state)
 
         console.log("recorder stopped")
 
         // const clipName = prompt("Enter a name for your sound clip")
 
         const blob = new Blob(chunks, { type: "audio/ogg; codecs=opus" })
+
+        console.log(blob)
 
         setChunks([])
 
@@ -76,7 +77,8 @@ export default function Edition({ onSaveChanges, onGoBack }: EditionProps) {
         // esto sería si quisiera grabar cada toma en un array:
         // audioUrl.push(window.URL.createObjectURL(blob))
 
-        const track = window.URL.createObjectURL(blob)
+        // const track = window.URL.createObjectURL(blob)
+        const track = URL.createObjectURL(blob)
 
         setAudioUrl(track)
 
@@ -85,6 +87,7 @@ export default function Edition({ onSaveChanges, onGoBack }: EditionProps) {
 
         console.log(track)
         console.log(audioUrl)
+
     }
 
     const handleToggleRec = () => {
@@ -110,6 +113,7 @@ export default function Edition({ onSaveChanges, onGoBack }: EditionProps) {
         </div>
         <div>
             <Track></Track>
+            <p>{audioUrl}</p>
         </div>
         <div className="flex flex-col mb-4">
             <Controls onToggleRec={handleToggleRec}></Controls>
