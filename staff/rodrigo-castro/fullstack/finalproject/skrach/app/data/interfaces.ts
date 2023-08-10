@@ -15,9 +15,16 @@ interface IProject {
   date: Date
   owners: typeof ObjectId[]
   privacy: string
-  tracks: string[]
+  tracks: typeof ObjectId[]
   image: string
+}
+
+interface ITrack {
+  project: typeof ObjectId
+  date: Date
+  audio: string
 }
 
 export interface UserModel extends IUser, Document {}
 export interface ProjectModel extends IProject, Document {}
+export interface TrackModel extends ITrack, Document {}

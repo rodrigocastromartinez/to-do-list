@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import { UserModel, ProjectModel } from './interfaces' // Import the interfaces
+import { UserModel, ProjectModel, TrackModel } from './interfaces' // Import the interfaces
 
 const { Schema, Schema: { Types: { ObjectId } }, model } = mongoose
 
@@ -59,11 +59,30 @@ const project = new Schema<ProjectModel>({
     }
 })
 
+const track = new Schema<TrackModel>({
+    project: {
+        type: ObjectId,
+        ref: 'Project',
+        required: true
+    },
+    date: {
+        type: Date,
+        required: true,
+        default: Date.now
+    },
+    audio: {
+        type: String,
+        required: false,
+    }
+})
+
 
 const User = mongoose.models.User || model<UserModel>('User', user)
 const Project = mongoose.models.Project || model<ProjectModel>('Project', project)
+const Track = mongoose.models.Track || model<TrackModel>('Track', track)
 
 export {
     User,
-    Project
+    Project,
+    Track
 }
