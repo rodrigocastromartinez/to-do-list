@@ -3,6 +3,10 @@ import Button from "./Button"
 import Track from "./Track"
 import Controls from "./Controls"
 import { useState } from "react"
+import { saveAudio } from "../logic/client/saveAudio"
+// import { storage } from '../firebase'
+import { firebase } from '../firebase'
+// import { ref, uploadBytes } from 'firebase/storage'
 
 interface EditionProps {
     onSaveChanges: () => void
@@ -56,7 +60,7 @@ export default function Edition({ onSaveChanges, onGoBack }: EditionProps) {
         }
     }
 
-    const stopRecording = () => {
+    const stopRecording = async() => {
         console.log('handleStopRecording')
 
         recording!.stop()
@@ -67,8 +71,33 @@ export default function Edition({ onSaveChanges, onGoBack }: EditionProps) {
         // const clipName = prompt("Enter a name for your sound clip")
 
         const blob = new Blob(chunks, { type: "audio/ogg; codecs=opus" })
+        // const blob = new Blob(chunks, { type: "audio/mp3" })
+
+
+        // PARA ENVIAR A FIREBASE DESDE EL FRONT
+        // const { ref } = await firebase.storage().ref().child(`tracks/64d4e8c7ad2c4e0e1k40a8de.ogg`).put(blob)
+
+        // const url = await ref.getDownloadURL()
+
+        // return console.log(url)
+
+
+        // const audioRef = ref(storage, `tracks/64d4e8c7ad2c4e0e1c50a8de`)
+
+        // await uploadBytes(audioRef, blob)
+        
+        // alert('Audio uploaded')
 
         console.log(blob)
+
+        const formData = new FormData()
+
+        formData.append('audio-file', blob)
+
+        console.log('Form data:')
+        console.log(formData)
+
+        // saveAudio(formData, '64d28d78e64cc3a30cefff82', '64d4e8c7ad2c4e0e1c50a8de')
 
         setChunks([])
 
