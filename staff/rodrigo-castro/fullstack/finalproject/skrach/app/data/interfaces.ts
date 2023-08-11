@@ -23,6 +23,7 @@ interface ITrack {
   project: typeof ObjectId
   date: Date
   audio: string
+  instrument: string
 }
 
 export interface UserModel extends IUser, Document {}
