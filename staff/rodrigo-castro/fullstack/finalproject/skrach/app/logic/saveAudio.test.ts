@@ -12,7 +12,8 @@ dotenv.config()
         const user = await User.create({ name: 'pepe.grillo', email: 'pepe@grillo.com', password: '123123123' })
         const project = await Project.create({name: 'example', owners: [user.id]})
         const track = await Track.create({project: project.id})
-        const url = await 
+        
+        const url = await saveAudio(user.id, project.id, track.id, )
         console.log(track)
     } catch(error) {
         console.error(error)
