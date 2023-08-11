@@ -75,11 +75,10 @@ export default function Edition({ onSaveChanges, onGoBack }: EditionProps) {
 
 
         // PARA ENVIAR A FIREBASE DESDE EL FRONT
-        // const { ref } = await firebase.storage().ref().child(`tracks/64d4e8c7ad2c4e0e1k40a8de.ogg`).put(blob)
+        const { ref } = await firebase.storage().ref().child(`tracks/64d4e8c7ad2c4e0e1k40a8de.ogg`).put(blob)
 
-        // const url = await ref.getDownloadURL()
+        const url = await ref.getDownloadURL()
 
-        // return console.log(url)
 
 
         // const audioRef = ref(storage, `tracks/64d4e8c7ad2c4e0e1c50a8de`)
@@ -88,14 +87,16 @@ export default function Edition({ onSaveChanges, onGoBack }: EditionProps) {
         
         // alert('Audio uploaded')
 
-        console.log(blob)
 
-        const formData = new FormData()
+        // PARA ENVIAR A API Y SUBIR A FIREBASE DESDE API ---NO FUNKA---
+        // console.log(blob)
 
-        formData.append('audio-file', blob)
+        // const formData = new FormData()
 
-        console.log('Form data:')
-        console.log(formData)
+        // formData.append('audio-file', blob)
+
+        // console.log('Form data:')
+        // console.log(formData)
 
         // saveAudio(formData, '64d28d78e64cc3a30cefff82', '64d4e8c7ad2c4e0e1c50a8de')
 
@@ -116,6 +117,9 @@ export default function Edition({ onSaveChanges, onGoBack }: EditionProps) {
 
         console.log(track)
         console.log(audioUrl)
+
+        return console.log(url)
+
 
     }
 

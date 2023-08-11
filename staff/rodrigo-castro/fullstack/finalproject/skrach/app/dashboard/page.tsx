@@ -1,15 +1,8 @@
 'use client'
 
-import ProfileData from "../components/ProfileData"
-import SearchBar from "../components/SearchBar"
-import Button from "../components/Button"
 import { useState } from 'react'
-import DynamicTitle from "../components/DynamicTitle"
-import Controls from "../components/Controls"
-import Track from "../components/Track"
 import { createProject } from "../logic/client/createProject"
-import Projects from "../components/Projects"
-import Edition from "../components/Edition"
+import { Edition, Button, SearchBar, ProfileData, Projects } from '../components'
 
 export default function Home() {
     const [edition, setEdition] = useState(false)
