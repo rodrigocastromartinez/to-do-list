@@ -18,7 +18,7 @@ export default function Recording({ }) {
         console.log('handleStartRecording')
 
         if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-            console.log("getUserMedia supported.");
+            console.log("getUserMedia supported.")
             navigator.mediaDevices
                 .getUserMedia(
                     // constraints - es para indicar que solamente se grabe audio
