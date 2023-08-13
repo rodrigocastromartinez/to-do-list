@@ -1,7 +1,5 @@
-import { validators } from '../../../com'
+import { validateId } from '../../../com'
 import context from './context'
-
-const { validateId } = validators
 
 /**
  * Retrieves a specific project

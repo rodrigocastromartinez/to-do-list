@@ -1,7 +1,6 @@
-import { validators } from "../../com"
+import { validateId } from "../../com"
 import { User, Project, Track } from '../data/models'
 
-const { validateId, validateText } = validators
 /**
  * 
  * @param {string} userId user's id
@@ -23,14 +22,14 @@ export default function createTrack (userId: string, projectId: string) {
         
         if (!project) throw new Error(`project with id ${projectId} not found`)
 
-        const trackId = await Track.create({
+        const track = await Track.create({
             project: projectId
         })
 
-        project.tracks.push(trackId)
+        project.tracks.push(track) // COMO VINCULO EL MODELO EMBEBIDO EN EL PADRE?
 
         await project.save()
 
-        return trackId
+        return track
     })()
 }

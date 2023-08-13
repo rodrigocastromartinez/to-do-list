@@ -1,7 +1,6 @@
-import { validators } from "../../com"
+import { validateId } from "../../com"
 import { User, Project } from '../data/models'
 
-const { validateId, validateText } = validators
 /**
  * 
  * @param {string} userId user's id

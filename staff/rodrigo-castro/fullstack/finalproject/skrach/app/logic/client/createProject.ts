@@ -1,7 +1,5 @@
-import { validators } from '../../../com'
+import { validateUrl, validateText } from '../../../com'
 import context from './context'
-
-const { validateUrl, validateText } = validators
 
 /**
  * Creates a post from an image url and a text, and assign it to a user id

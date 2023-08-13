@@ -1,8 +1,5 @@
-import { validators, errors } from '../../com'
+import { validateId, ExistenceError } from '../../com'
 import { User, Project } from '../data/models'
-
-const { validateId } = validators
-const { ExistenceError } = errors
 
 /**
  * 

@@ -1,8 +1,6 @@
-import { validators, errors } from '../../com'
-const { validateEmail, validatePassword, validateUserName } = validators
+import { validateEmail, validatePassword, validateUserName, DuplicityError } from '../../com'
 import { User } from '../data/models'
 
-const { DuplicityError } = errors 
 
 /**
  * 

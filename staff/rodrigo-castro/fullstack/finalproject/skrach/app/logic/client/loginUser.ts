@@ -1,7 +1,5 @@
-import { validators } from '../../../com'
+import { validateEmail, validatePassword } from '../../../com'
 import context from './context'
-
-const { validateEmail, validatePassword } = validators
 
 /**
  * Authenticates a user by email and password

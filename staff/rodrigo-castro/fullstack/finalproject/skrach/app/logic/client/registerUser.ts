@@ -1,7 +1,5 @@
 console.debug('load register user')
-import { validators } from '../../../com/index'
-
-const { validateUserName, validateEmail, validatePassword } = validators
+import { validateUserName, validateEmail, validatePassword } from '../../../com/index'
 
 /**
  * Registers a new user

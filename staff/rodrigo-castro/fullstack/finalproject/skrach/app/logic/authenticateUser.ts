@@ -1,6 +1,4 @@
-import { validators, errors } from '../../com'
-const { validateEmail, validatePassword } = validators
-const { ExistenceError, AuthError } = errors
+import { validateEmail, validatePassword, ExistenceError, AuthError } from '../../com'
 import { User } from '../data/models'
 
 /**
