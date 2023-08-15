@@ -1,11 +1,7 @@
-interface ProjectWithId {
-    _id: string // This is the 'id' property that is automatically added by Mongoose
-    name: string
-    image: string
-}
+import { ProjectModel } from "../data/interfaces"
 
 interface ProjectSummaryProps {
-    project: ProjectWithId
+    project: ProjectModel
     setProjectId: (arg0: string) => void
     setEdition: (arg0: boolean) => void
     key: string

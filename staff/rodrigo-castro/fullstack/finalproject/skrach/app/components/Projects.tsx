@@ -3,16 +3,17 @@
 import { useState, useEffect } from "react"
 import retrieveUserProjects from "../logic/client/retrieveUserProjects"
 import extractUserId from "../logic/client/extractUserId"
-import { Project } from "../data"
+import { ProjectModel } from "../data/interfaces"
 import ProjectSummary from "./ProjectSummary"
+import React, { Dispatch, SetStateAction } from 'react'
 
 interface ProjectsProps {
-    setProjectId: string | undefined
-    setEdition: boolean
+    setProjectId: Dispatch<SetStateAction<string | undefined>>
+    setEdition: Dispatch<SetStateAction<boolean>>
 }
 
 export default function Projects({ setProjectId, setEdition }: ProjectsProps) {
-    const [userProjects, setUserProjects] = useState<[typeof Project]>()
+    const [userProjects, setUserProjects] = useState<[ProjectModel]>()
 
     useEffect(() => {
         const fetchData = async () => {
@@ -31,6 +32,6 @@ export default function Projects({ setProjectId, setEdition }: ProjectsProps) {
     console.log(userId)
     
     return <div className="flex flex-col gap-4">
-        {userProjects && userProjects.map((project: typeof Project) => project.owners.includes(userId) && <ProjectSummary key={project._id} project={project} setProjectId={setProjectId} setEdition={setEdition} />) }
+        {userProjects && userProjects.map((project: ProjectModel) => project.owners.includes(userId) && <ProjectSummary key={project._id} project={project} setProjectId={setProjectId} setEdition={setEdition} />) }
     </div>
 }

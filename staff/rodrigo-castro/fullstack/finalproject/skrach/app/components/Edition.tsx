@@ -5,12 +5,10 @@ import Button from "./Button"
 import TrackCompo from "./TrackCompo"
 import Controls from "./Controls"
 import { useState, useEffect } from "react"
-import { saveAudio } from "../logic/client/saveAudio"
-// import { storage } from '../firebase'
 import { firebase } from '../firebase'
 import { createTrack } from "../logic/client/createTrack"
-// import { ref, uploadBytes } from 'firebase/storage'
 import retrieveProject from "../logic/client/retrieveProject"
+import { TrackModel } from "../data/interfaces"
 
 interface EditionProps {
     onSaveChanges: () => void
@@ -24,7 +22,7 @@ export default function Edition({ onSaveChanges, onGoBack, projectId }: EditionP
     const [chunks, setChunks] = useState<Blob[]>()
     const [audioUrl, setAudioUrl] = useState<string>()
     const [trackId, setTrackId] = useState<string | undefined>()
-    const [tracks, setTracks] = useState<[typeof TrackCompo]>()
+    const [tracks, setTracks] = useState<[TrackModel]>()
 
     useEffect(() => {
         const fetchData = (async () => {
@@ -49,7 +47,6 @@ export default function Edition({ onSaveChanges, onGoBack, projectId }: EditionP
             console.log("getUserMedia supported.")
             navigator.mediaDevices
                 .getUserMedia(
-                    // constraints - es para indicar que solamente se grabe audio
                     {
                         audio: true,
                     },
@@ -75,8 +72,8 @@ export default function Edition({ onSaveChanges, onGoBack, projectId }: EditionP
                 })
 
                 // Error callback
-                .catch((err) => {
-                    console.error(`The following getUserMedia error occurred: ${err}`);
+                .catch((error) => {
+                    console.error(`The following getUserMedia error occurred: ${error}`);
                 });
         } else {
             console.log("getUserMedia not supported on your browser!");
@@ -85,8 +82,6 @@ export default function Edition({ onSaveChanges, onGoBack, projectId }: EditionP
 
     const stopRecording = async() => {
         try {
-
-        
         console.log('handleStopRecording')
 
         recording!.stop()
@@ -96,28 +91,16 @@ export default function Edition({ onSaveChanges, onGoBack, projectId }: EditionP
 
         const blob = new Blob(chunks, { type: "audio/ogg; codecs=opus" })
 
-        // PARA ENVIAR A FIREBASE DESDE EL FRONT
-        // const { ref } = await firebase.storage().ref().child(`${projectId}/${trackId}.ogg`).put(blob)
+        const { ref } = await firebase.storage().ref().child(`${projectId}/${trackId}.ogg`).put(blob)
 
-        // const url = await ref.getDownloadURL()
+        const url = await ref.getDownloadURL()
 
-        // PARA ENVIAR A API Y SUBIR A FIREBASE DESDE API ---NO VA---
-        console.log(blob)
-        const formData = new FormData()
-        formData.append('audio-file', blob)
-        console.log('Form data:')
-        console.log(formData)
-        await saveAudio(formData, '64da33cd801596bb4be8172e', '64da33db801596bb4be81736')
-        } catch(error: any) {
-            console.error(error.message)
-        }
+        console.log(url)
 
-        // setAudioUrl(url)
-        // console.log(url)
-
-        // return console.log(url)
-        
+    } catch (error: any) {
+        console.log(error.message)
     }
+}
 
     const handleToggleRec = () => {
         if(!isRecording) {
@@ -141,9 +124,12 @@ export default function Edition({ onSaveChanges, onGoBack, projectId }: EditionP
             </div>
         </div>
         <div>
-            {/* {tracks && tracks.map(track => {
-                <p>{track.id}</p>
+            {/* {tracks && tracks.map((track: TrackModel) => {
+                <>
+                    <TrackCompo trackData={track} />
+                </>
             })} */}
+            {tracks && tracks.map(track => track.project.toString())}
         </div>
         <div className="flex flex-col mb-4">
             <Controls onToggleRec={handleToggleRec}></Controls>

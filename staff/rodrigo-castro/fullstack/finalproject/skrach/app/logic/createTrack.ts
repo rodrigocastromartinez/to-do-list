@@ -22,11 +22,9 @@ export default function createTrack (userId: string, projectId: string) {
         
         if (!project) throw new Error(`project with id ${projectId} not found`)
 
-        const track = await Track.create({
-            project: projectId
-        })
+        const track = new Track({project: projectId})
 
-        project.tracks.push(track) // EL TRACK ME QUEDA EN DB.TRACKS Y EN DB.PROJECTS - ESTA OK?
+        project.tracks.push(track)
 
         await project.save()
 
