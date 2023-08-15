@@ -76,6 +76,9 @@ const project = new Schema<ProjectModel>({
     image: {
         type: String,
         default: 'https://picsum.photos/500/500?random=1'
+    },
+    key: {
+        type: String
     }
 })
 

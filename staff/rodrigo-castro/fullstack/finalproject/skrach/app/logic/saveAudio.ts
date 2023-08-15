@@ -1,5 +1,5 @@
 import { validateId } from "../../com"
-import { User, Project } from '../data/models'
+import { User, Project, Track } from '../data/models'
 import { firebase } from '../firebase'
 
 /**
@@ -10,7 +10,7 @@ import { firebase } from '../firebase'
  * @returns {Promise<>} 
  */
 
-export default function saveAudio (userId: string, projectId: string, trackId: string, file: Blob) {
+export default function saveAudio (userId: string, projectId: string, trackId: string, file: Buffer) {
     validateId(userId)
     validateId(projectId)
     validateId(trackId)
@@ -24,11 +24,11 @@ export default function saveAudio (userId: string, projectId: string, trackId: s
         
         if (!project) throw new Error(`project with id ${projectId} not found`)
 
-        const track = await User.findById(trackId)
+        const track = project.tracks.find((track: any) => track.id === trackId)
         
         if (!track) throw new Error(`track with id ${trackId} not found`)
 
-        const { ref } = await firebase.storage().ref().child(`tracks/64d4e8c7ad2k4e0e1k40a8de.ogg`).put(file) // HACER DINAMICA
+        const { ref } = await firebase.storage().ref().child(`${projectId}/${trackId}.ogg`).put(file)
 
         const url = await ref.getDownloadURL()
 

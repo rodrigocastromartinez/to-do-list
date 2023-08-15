@@ -1,23 +1,46 @@
+'use client'
+
 import DynamicTitle from "./DynamicTitle"
 import Button from "./Button"
-import Track from "./Track"
+import TrackCompo from "./TrackCompo"
 import Controls from "./Controls"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { saveAudio } from "../logic/client/saveAudio"
 // import { storage } from '../firebase'
 import { firebase } from '../firebase'
+import { createTrack } from "../logic/client/createTrack"
 // import { ref, uploadBytes } from 'firebase/storage'
+import retrieveProject from "../logic/client/retrieveProject"
 
 interface EditionProps {
     onSaveChanges: () => void
     onGoBack: () => void
+    projectId: string
 }
 
-export default function Edition({ onSaveChanges, onGoBack }: EditionProps) {
-    const [isRecording, setIsRecording] = useState(false)
+export default function Edition({ onSaveChanges, onGoBack, projectId }: EditionProps) {
+    const [isRecording, setIsRecording] = useState<boolean>(false)
     const [recording, setRecording] = useState<MediaRecorder>()
     const [chunks, setChunks] = useState<Blob[]>()
     const [audioUrl, setAudioUrl] = useState<string>()
+    const [trackId, setTrackId] = useState<string | undefined>()
+    const [tracks, setTracks] = useState<[typeof TrackCompo]>()
+
+    useEffect(() => {
+        const fetchData = (async () => {
+            const project = await retrieveProject(projectId)
+
+            setTracks(project.tracks)
+        })()
+    }, [])
+
+    const handleAddTrack = async () => {
+        if (projectId) {
+            const { id: trackId } = await createTrack(projectId)
+
+            setTrackId(trackId)
+        }
+    }
 
     const startRecording = () => {
         console.log('handleStartRecording')
@@ -61,6 +84,9 @@ export default function Edition({ onSaveChanges, onGoBack }: EditionProps) {
     }
 
     const stopRecording = async() => {
+        try {
+
+        
         console.log('handleStopRecording')
 
         recording!.stop()
@@ -68,59 +94,29 @@ export default function Edition({ onSaveChanges, onGoBack }: EditionProps) {
 
         console.log("recorder stopped")
 
-        // const clipName = prompt("Enter a name for your sound clip")
-
         const blob = new Blob(chunks, { type: "audio/ogg; codecs=opus" })
-        // const blob = new Blob(chunks, { type: "audio/mp3" })
-
 
         // PARA ENVIAR A FIREBASE DESDE EL FRONT
-        const { ref } = await firebase.storage().ref().child(`tracks/64d4e8c7ad2c4e0e1k40a8de.ogg`).put(blob)
+        // const { ref } = await firebase.storage().ref().child(`${projectId}/${trackId}.ogg`).put(blob)
 
-        const url = await ref.getDownloadURL()
+        // const url = await ref.getDownloadURL()
 
+        // PARA ENVIAR A API Y SUBIR A FIREBASE DESDE API ---NO VA---
+        console.log(blob)
+        const formData = new FormData()
+        formData.append('audio-file', blob)
+        console.log('Form data:')
+        console.log(formData)
+        await saveAudio(formData, '64da33cd801596bb4be8172e', '64da33db801596bb4be81736')
+        } catch(error: any) {
+            console.error(error.message)
+        }
 
+        // setAudioUrl(url)
+        // console.log(url)
 
-        // const audioRef = ref(storage, `tracks/64d4e8c7ad2c4e0e1c50a8de`)
-
-        // await uploadBytes(audioRef, blob)
+        // return console.log(url)
         
-        // alert('Audio uploaded')
-
-
-        // PARA ENVIAR A API Y SUBIR A FIREBASE DESDE API ---NO FUNKA---
-        // console.log(blob)
-
-        // const formData = new FormData()
-
-        // formData.append('audio-file', blob)
-
-        // console.log('Form data:')
-        // console.log(formData)
-
-        // saveAudio(formData, '64d28d78e64cc3a30cefff82', '64d4e8c7ad2c4e0e1c50a8de')
-
-        setChunks([])
-
-        // const urlsArray = audioUrl
-
-        // esto sería si quisiera grabar cada toma en un array:
-        // audioUrl.push(window.URL.createObjectURL(blob))
-
-        // const track = window.URL.createObjectURL(blob)
-        const track = URL.createObjectURL(blob)
-
-        setAudioUrl(track)
-
-        // const audioURL = window.URL.createObjectURL(blob)
-        // audio.src = audioURL
-
-        console.log(track)
-        console.log(audioUrl)
-
-        return console.log(url)
-
-
     }
 
     const handleToggleRec = () => {
@@ -140,13 +136,14 @@ export default function Edition({ onSaveChanges, onGoBack }: EditionProps) {
         <div className="flex flex-col gap-2" >
             <DynamicTitle></DynamicTitle>
             <div className="flex gap-2" >
-                <Button size='wide' type='no-fill' text='Add Track' ></Button>
+                <Button size='wide' type='no-fill' text='Add Track' onClick={handleAddTrack} ></Button>
                 <Button size='wide' type='no-fill' text='Add Member' ></Button>
             </div>
         </div>
         <div>
-            <Track></Track>
-            <p>{audioUrl}</p>
+            {/* {tracks && tracks.map(track => {
+                <p>{track.id}</p>
+            })} */}
         </div>
         <div className="flex flex-col mb-4">
             <Controls onToggleRec={handleToggleRec}></Controls>

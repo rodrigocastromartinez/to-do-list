@@ -17,6 +17,7 @@ interface IProject {
   privacy: string
   tracks: typeof ObjectId[]
   image: string
+  key: string
 }
 
 interface ITrack {

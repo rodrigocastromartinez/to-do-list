@@ -1,29 +1,36 @@
+'use client'
+
 import { useState, useEffect } from "react"
 import retrieveUserProjects from "../logic/client/retrieveUserProjects"
+import extractUserId from "../logic/client/extractUserId"
+import { Project } from "../data"
+import ProjectSummary from "./ProjectSummary"
 
-export default function Projects() {
-    const [userProjects, setUserProjects] = useState()
+interface ProjectsProps {
+    setProjectId: string | undefined
+    setEdition: boolean
+}
+
+export default function Projects({ setProjectId, setEdition }: ProjectsProps) {
+    const [userProjects, setUserProjects] = useState<[typeof Project]>()
 
     useEffect(() => {
         const fetchData = async () => {
             const projects = await retrieveUserProjects()
 
-            // console.log(projects[0]._id)
+            console.log(projects)
 
             setUserProjects(projects)
         }
 
         fetchData()
     }, [])
+
+    const userId = extractUserId()
+
+    console.log(userId)
     
-    return <>
-        {userProjects && <div className="flex p-4 bg-[var(--grey-700)] justify-between rounded-lg" >
-            <div>
-                <h2>{userProjects[0].name}</h2>
-                <p>control buttons</p>
-                <p>progress bar</p>
-            </div>
-            <img src={userProjects[0].image} className="w-3/12" ></img>
-        </div> }
-    </>
+    return <div className="flex flex-col gap-4">
+        {userProjects && userProjects.map((project: typeof Project) => project.owners.includes(userId) && <ProjectSummary key={project._id} project={project} setProjectId={setProjectId} setEdition={setEdition} />) }
+    </div>
 }

@@ -10,11 +10,11 @@ import context from './context'
 
 export function saveAudio(formData: FormData, projectId: string, trackId: string) {
     return (async () => {
-        const res = await fetch(`http://localhost:3000/api/projects/${projectId}/tracks/${trackId}`, {
+        // const res = await fetch(`http://localhost:3000/api/projects/${projectId}/tracks/${trackId}`, {
+        const res = await fetch(`http://localhost:3000/api/helloApi/${projectId}/${trackId}`, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${context.token}`
+                Authorization: `Bearer ${context.token}`
             },
             body: formData,
         })

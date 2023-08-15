@@ -6,7 +6,7 @@ import { Edition, Button, SearchBar, ProfileData, Projects } from '../components
 
 export default function Home() {
     const [edition, setEdition] = useState(false)
-    const [projectId, setProjectId] = useState()
+    const [projectId, setProjectId] = useState<string | undefined>()
 
     const handleNewProject = async () => {
         try {
@@ -39,31 +39,10 @@ export default function Home() {
             <Button size='fit' type='no-fill' rounded={true} text={'New'} onClick={handleNewProject} ></Button>
         </div>
         <div>
-            <Projects></Projects>
+            <Projects setProjectId={setProjectId} setEdition={setEdition} ></Projects>
         </div>
     </div>}
 
-    {edition &&  <Edition onSaveChanges={handleSaveChanges} onGoBack={handleGoBack} /> }
-
-    {/* {edition && <div className="w-screen h-full relative pt-20 flex flex-col justify-between px-8 gap-4" >
-        <div className="flex flex-col gap-2" >
-            <DynamicTitle></DynamicTitle>
-            <div className="flex gap-2" >
-                <Button size='wide' type='no-fill' text='Add Track' ></Button>
-                <Button size='wide' type='no-fill' text='Add Member' ></Button>
-            </div>
-        </div>
-        <div>
-            <Track></Track>
-        </div>
-        <div className="flex flex-col mb-4">
-            <Controls></Controls>
-            <div className="flex gap-2" >
-                <Button size='wide' type='primary' text={'Save'} onClick={handleSaveChanges} ></Button>
-                <Button size='wide' type='grey' text={'Back'} onClick={handleBack} ></Button>
-            </div>
-        </div>
-    </div> } */}
-
+    {edition && projectId &&  <Edition onSaveChanges={handleSaveChanges} onGoBack={handleGoBack} projectId={projectId} /> }
     </>
 }

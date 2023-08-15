@@ -4,7 +4,7 @@ import handleRequest from '../../../../handlers/handleRequest'
 import { extractUserId } from '../../../../handlers/extractUserId'
 import saveAudio from '../../../../../logic/saveAudio'
 
-export async function POST(req: NextRequest, { params }) {
+export async function POST(req: NextRequest, { params }: { params: any}) {
     return handleRequest(async () => {
         const userId = extractUserId(req)
 

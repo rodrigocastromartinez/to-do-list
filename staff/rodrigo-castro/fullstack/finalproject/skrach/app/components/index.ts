@@ -8,6 +8,6 @@ import ProfileData from "./ProfileData"
 import Projects from "./Projects"
 import ProjectSummary from "./ProjectSummary"
 import SearchBar from "./SearchBar"
-import Track from "./Track"
+import Track from "./TrackCompo"
 
 export { Avatar, Button, Controls, DynamicTitle, Edition, NavigationBar, ProfileData, Projects, ProjectSummary, SearchBar, Track }

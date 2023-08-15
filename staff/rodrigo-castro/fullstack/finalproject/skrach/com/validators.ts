@@ -43,4 +43,4 @@ const passwordExpression = /^[a-zA-Z\d#$@!%&*?]{8,32}/
 // const tokenExpression = /^[a-zA-Z0-9]+\.[a-zA-Z0-9]+\.[a-zA-Z0-9]+$/
 // const passwordExpression = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%&*?])[a-zA-Z\d#$@!%&*?]{8,16}/
 
-module.exports = { validateEmail, validateUrl, validateId, validateUserName, validatePassword, validateText, validateToken }
+export { validateEmail, validateUrl, validateId, validateUserName, validatePassword, validateText, validateToken }

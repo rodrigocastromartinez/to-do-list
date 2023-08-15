@@ -2,8 +2,8 @@ import dbConnect from '../../data/dbConnect'
 import { headers } from 'next/headers'
 import { NextResponse, NextRequest } from 'next/server'
 
- // @ts-ignore 
-const handleRequest = async (callback) => {
+
+const handleRequest = async (callback: any) => {
         try {
             await dbConnect()
             const headersList = headers()
@@ -20,7 +20,6 @@ const handleRequest = async (callback) => {
         } catch(error: any){
             return NextResponse.json({error: error.message}, {status: 500})
         }
-
 }
 
 export default handleRequest

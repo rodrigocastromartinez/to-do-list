@@ -26,7 +26,7 @@ export default function createTrack (userId: string, projectId: string) {
             project: projectId
         })
 
-        project.tracks.push(track) // COMO VINCULO EL MODELO EMBEBIDO EN EL PADRE?
+        project.tracks.push(track) // EL TRACK ME QUEDA EN DB.TRACKS Y EN DB.PROJECTS - ESTA OK?
 
         await project.save()
 

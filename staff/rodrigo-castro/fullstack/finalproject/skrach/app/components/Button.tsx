@@ -1,5 +1,3 @@
-
-
 interface ButtonProps {
     submit?: boolean,
     size: string,
