@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { retrieveUser } from '../logic/client/retrieveUser'
+import retrieveUser from '../logic/client/retrieveUser'
 
 interface User {
     avatar: string;

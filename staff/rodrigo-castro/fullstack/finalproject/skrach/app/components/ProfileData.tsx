@@ -2,7 +2,7 @@
 
 import Avatar from "./Avatar"
 import { useState, useEffect } from "react"
-import { retrieveUser } from "../logic/client/retrieveUser"
+import retrieveUser from "../logic/client/retrieveUser"
 import { useAppContext } from "../hooks"
 import { User } from '../data/models'
 

@@ -6,9 +6,10 @@ import TrackCompo from "./TrackCompo"
 import Controls from "./Controls"
 import { useState, useEffect } from "react"
 import { firebase } from '../firebase'
-import { createTrack } from "../logic/client/createTrack"
+import createTrack from "../logic/client/createTrack"
 import retrieveProject from "../logic/client/retrieveProject"
 import { TrackModel } from "../data/interfaces"
+import InstrumentsModal from "./Instruments"
 
 interface EditionProps {
     onSaveChanges: () => void
@@ -93,7 +94,9 @@ export default function Edition({ onSaveChanges, onGoBack, projectId }: EditionP
 
         const { ref } = await firebase.storage().ref().child(`${projectId}/${trackId}.ogg`).put(blob)
 
-        const url = await ref.getDownloadURL()
+        const url = await ref.getDownloadURL() // GUARDAR URL EN DB (MODELO EMBEBIDO) PARA BUSCARLA LUEGO Y CARGARLA EN LA PANTALLA EDIT
+
+
 
         console.log(url)
 
@@ -123,13 +126,8 @@ export default function Edition({ onSaveChanges, onGoBack, projectId }: EditionP
                 <Button size='wide' type='no-fill' text='Add Member' ></Button>
             </div>
         </div>
-        <div>
-            {/* {tracks && tracks.map((track: TrackModel) => {
-                <>
-                    <TrackCompo trackData={track} />
-                </>
-            })} */}
-            {tracks && tracks.map(track => track.project.toString())}
+        <div className="flex flex-col justify-start h-full gap-4">
+            {tracks && tracks.map(track => <TrackCompo key={track._id} trackData={track} setTrackId={setTrackId} trackId={trackId} /> )}
         </div>
         <div className="flex flex-col mb-4">
             <Controls onToggleRec={handleToggleRec}></Controls>
