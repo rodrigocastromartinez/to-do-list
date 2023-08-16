@@ -8,7 +8,7 @@ import context from './context'
  * @param {function} callback 
  */
 
-export function createTrack(projectId: string) {
+export default function createTrack(projectId: string) {
     return (async () => {
         const res = await fetch(`http://localhost:3000/api/projects/${projectId}/tracks`, {
             method: 'POST',

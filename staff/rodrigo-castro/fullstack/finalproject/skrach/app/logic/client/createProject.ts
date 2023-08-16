@@ -11,7 +11,7 @@ import context from './context'
 
 type Owners = string[]
 
-export function createProject() {
+export default function createProject() {
     return (async () => {
         const res = await fetch(`http://localhost:3000/api/projects`, {
             method: 'POST',

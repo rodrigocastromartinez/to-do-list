@@ -8,7 +8,7 @@ import context from './context'
  * @returns {object} user found
  */
 
-export const retrieveUser = () => {
+export default function retrieveUser() {
     return (async () => {
         const res = await fetch(`http://localhost:3000/api/users/retrieveuser`, {
             method: 'GET',
