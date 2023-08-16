@@ -7,7 +7,7 @@ import context from './context'
  * @param {string} trackId track id
  */
 
-export default function saveUrl(url: string, projectId: string, trackId: string) {
+export default function saveUrl(projectId: string, trackId: string, url: string) {
     return (async () => {
         const res = await fetch(`http://localhost:3000/api/projects/${projectId}/tracks/${trackId}/url`, {
             method: 'POST',

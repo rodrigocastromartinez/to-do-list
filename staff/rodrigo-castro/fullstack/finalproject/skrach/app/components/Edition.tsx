@@ -9,7 +9,7 @@ import { firebase } from '../firebase'
 import createTrack from "../logic/client/createTrack"
 import retrieveProject from "../logic/client/retrieveProject"
 import { TrackModel } from "../data/interfaces"
-import InstrumentsModal from "./Instruments"
+import { saveUrl } from "../logic/client"
 
 interface EditionProps {
     onSaveChanges: () => void
@@ -96,7 +96,7 @@ export default function Edition({ onSaveChanges, onGoBack, projectId }: EditionP
 
         const url = await ref.getDownloadURL() // GUARDAR URL EN DB (MODELO EMBEBIDO) PARA BUSCARLA LUEGO Y CARGARLA EN LA PANTALLA EDIT
 
-
+        await saveUrl(projectId, trackId!, url)
 
         console.log(url)
 

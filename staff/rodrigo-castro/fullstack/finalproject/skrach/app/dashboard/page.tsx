@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { createProject } from "../logic/client/createProject"
+import createProject from "../logic/client/createProject"
 import { Edition, Button, SearchBar, ProfileData, Projects } from '../components'
 
 export default function Home() {

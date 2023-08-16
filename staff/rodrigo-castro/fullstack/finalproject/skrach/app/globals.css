@@ -25,6 +25,7 @@
   --yellow: rgb(234, 202, 22);
   --transparent: rgba(0, 0, 0, 0);
   --black-transparent: rgba(0, 0, 0, 0.8);
+  --white-transparent: rgba(255, 255, 255, 0.4);
   --transition: 0;
 
   --orange-white: #debc9c;
@@ -95,5 +96,9 @@
 
   .outline-inner {
     outline-offset: -2px;
+  }
+
+  .filter-orange {
+    filter: invert(48%) sepia(47%) saturate(741%) hue-rotate(347deg) brightness(91%) contrast(95%)
   }
 }

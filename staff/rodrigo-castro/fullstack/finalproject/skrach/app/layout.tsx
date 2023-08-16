@@ -6,9 +6,9 @@ import App from './App'
 
 const roboto = Roboto({ subsets: ['latin'], weight: ['700'] })
 
-// export const metadata: Metadata = {
-//   title: 'skrach',
-// }
+export const metadata: Metadata = {
+  title: 'skrach',
+}
 
 export default function RootLayout({ children }: {children: React.ReactNode}) {
   return (
