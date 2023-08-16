@@ -10,6 +10,13 @@ interface IUser {
   projects: typeof ObjectId[]
 }
 
+interface ITrack {
+  project: typeof ObjectId
+  date: Date
+  audio: string
+  instrument: string
+}
+
 interface IProject {
   name: string
   date: Date
@@ -18,13 +25,6 @@ interface IProject {
   tracks: typeof ObjectId[]
   image: string
   key: string
-}
-
-interface ITrack {
-  project: typeof ObjectId
-  date: Date
-  audio: string
-  instrument: string
 }
 
 export interface UserModel extends IUser, Document {}

@@ -48,6 +48,8 @@ const track = new Schema<TrackModel>({
     },
     instrument: {
         type: String,
+        required: true,
+        default: 'note'
     }
 })
 
