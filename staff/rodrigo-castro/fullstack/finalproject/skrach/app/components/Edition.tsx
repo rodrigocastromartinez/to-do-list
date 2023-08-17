@@ -59,7 +59,11 @@ export default function Edition({ onSaveChanges, onGoBack, projectId }: EditionP
 
                     setRecording(mediaRecorder)
 
-                    mediaRecorder.start(2000) // el 2000 son los ms antes de comenzar a grabar entiendo
+                    const audios = document.querySelectorAll('audio')
+
+                    audios.forEach(audio => audio.id !== trackId && audio.play())
+
+                    mediaRecorder.start(2000) // chunk duration in ms
                     console.log(mediaRecorder.state)
                     console.log("recorder started")
 
@@ -106,31 +110,41 @@ export default function Edition({ onSaveChanges, onGoBack, projectId }: EditionP
 }
 
     const handleToggleRec = () => {
-        if(!isRecording) {
-            startRecording()
-
-            setIsRecording(true)
-        } else {
-            stopRecording()
-
-            setIsRecording(false)
+        if(trackId){
+            if(!isRecording) {
+                startRecording()
+    
+                setIsRecording(true)
+            } else {
+                stopRecording()
+    
+                setIsRecording(false)
+            }
         }
+
+    }
+
+    const handlePlay = () => {
+        const audios = document.querySelectorAll('audio')
+
+        audios.forEach(audio => audio.play())
+
     }
 
     return <>
         <div className="w-screen h-full relative pt-20 flex flex-col justify-between px-8 gap-4" >
         <div className="flex flex-col gap-2" >
-            <DynamicTitle></DynamicTitle>
+            <DynamicTitle projectId={projectId} ></DynamicTitle>
             <div className="flex gap-2" >
                 <Button size='wide' type='no-fill' text='Add Track' onClick={handleAddTrack} ></Button>
                 <Button size='wide' type='no-fill' text='Add Member' ></Button>
             </div>
         </div>
         <div className="flex flex-col justify-start h-full gap-4">
-            {tracks && tracks.map(track => <TrackCompo key={track._id} trackData={track} setTrackId={setTrackId} trackId={trackId} /> )}
+            {tracks && tracks.map(track => <TrackCompo key={track._id} trackData={track} setTrackId={setTrackId} trackId={trackId} projectId={projectId} /> )}
         </div>
         <div className="flex flex-col mb-4">
-            <Controls onToggleRec={handleToggleRec}></Controls>
+            <Controls onToggleRec={handleToggleRec} onPlay={handlePlay} ></Controls>
             <div className="flex gap-2" >
                 <Button size='wide' type='primary' text={'Save'} onClick={onSaveChanges} ></Button>
                 <Button size='wide' type='grey' text={'Back'} onClick={onGoBack} ></Button>
