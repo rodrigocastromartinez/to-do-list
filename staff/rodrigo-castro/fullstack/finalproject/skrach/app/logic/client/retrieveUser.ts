@@ -4,7 +4,6 @@ import context from './context'
 
 /**
  * Retrieves the found user
- * @param {string} token user's token
  * @returns {object} user found
  */
 

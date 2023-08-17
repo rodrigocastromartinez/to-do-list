@@ -1,15 +1,8 @@
-import { validateUrl, validateText } from '../../../com'
 import context from './context'
 
 /**
- * Creates a post from an image url and a text, and assign it to a user id
- * @param {string} userId user's id or token
- * @param {string} image url of the image
- * @param {string} text image caption
- * @param {function} callback 
+ * Creates a new project
  */
-
-type Owners = string[]
 
 export default function createProject() {
     return (async () => {

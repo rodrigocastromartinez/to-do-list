@@ -1,9 +1,8 @@
 import context from './context'
 
 /**
- * Retrieves all posts
- * @param {function} callback 
- * @returns {array} an array of objects with all the posts found
+ * Retrieves all the projects that belong to the logged user
+ * @returns {array} an array of objects with all the projects found
  */
 
 export default function retrieveUserProjects() {

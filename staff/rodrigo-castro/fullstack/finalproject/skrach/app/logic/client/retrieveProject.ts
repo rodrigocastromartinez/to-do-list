@@ -3,9 +3,7 @@ import context from './context'
 
 /**
  * Retrieves a specific project
- * @param {string} userId project owner's id
  * @param {string} projectId project id
- * @param {function} callback 
  * @returns {object} the found project
  */
 

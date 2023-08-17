@@ -1,11 +1,10 @@
 import context from './context'
 
 /**
- * Creates a post from an image url and a text, and assign it to a user id
- * @param {string} userId user's id or token
- * @param {string} image url of the image
- * @param {string} text image caption
- * @param {function} callback 
+ * Saves audio file recorded in firebase
+ * @param {FormData} formData data to be uploaded
+ * @param {string} projectId project id
+ * @param {string} trackId track id
  */
 
 export default function saveAudio(formData: FormData, projectId: string, trackId: string) {

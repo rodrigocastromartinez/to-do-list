@@ -1,19 +1,22 @@
 import context from './context'
 
 /**
- * Creates a new track for a specific project
+ * Creates a post from an image url and a text, and assign it to a user id
  * @param {string} projectId project id
- * @returns {string} track id
+ * @param {string} title project title
  */
 
-export default function createTrack(projectId: string) {
+export default function updateTitle(projectId: string, title: string) {
     return (async () => {
-        const res = await fetch(`http://localhost:3000/api/projects/${projectId}/tracks`, {
-            method: 'POST',
+        const res = await fetch(`http://localhost:3000/api/projects/${projectId}`, 
+        {
+            method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${context.token}`
             },
+            body: JSON.stringify({ title })
+
         })
 
         if (res.status !== 200)
