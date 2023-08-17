@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { handleRequest } from '../../../../../handlers'
-import { extractUserId } from '../../../../../../logic/client'
 import saveUrl from '../../../../../../logic/saveUrl'
+import { extractUserId } from '../../../../../handlers'
 
 interface RequestBody {
     url: string,
@@ -13,7 +13,7 @@ export async function POST(req: NextRequest, { params }: { params: any}) {
         
         const { url }: RequestBody = JSON.parse(body)
 
-        const userId = extractUserId()
+        const userId = extractUserId(req)
 
         const { projectId, trackId } = params
 
