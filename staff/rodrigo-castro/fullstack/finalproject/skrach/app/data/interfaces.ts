@@ -14,6 +14,7 @@ interface ITrack {
   project: typeof ObjectId
   date: Date
   audio: string
+  volume: number
   instrument: string
 }
 

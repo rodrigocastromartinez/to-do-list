@@ -46,6 +46,10 @@ const track = new Schema<TrackModel>({
         type: String,
         required: false,
     },
+    volume: {
+        type: Number,
+        required: true
+    },
     instrument: {
         type: String,
         required: true,

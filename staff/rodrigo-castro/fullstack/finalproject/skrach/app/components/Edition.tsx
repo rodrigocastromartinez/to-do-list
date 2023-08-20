@@ -34,11 +34,19 @@ export default function Edition({ onSaveChanges, onGoBack, projectId }: EditionP
     }, [])
 
     const handleAddTrack = async () => {
-        if (projectId) {
-            const { id: trackId } = await createTrack(projectId)
-
-            setTrackId(trackId)
+        try {
+            if (projectId) {
+                const { id: trackId } = await createTrack(projectId)
+    
+                setTrackId(trackId)
+            }
+        } catch(error: any) {
+            alert(error.message)
         }
+    }
+
+    const handleAddMember = async () => {
+
     }
 
     const startRecording = () => {
@@ -58,14 +66,13 @@ export default function Edition({ onSaveChanges, onGoBack, projectId }: EditionP
                     const mediaRecorder = new MediaRecorder(stream);
 
                     setRecording(mediaRecorder)
-
-                    const audios = document.querySelectorAll('audio')
-
-                    audios.forEach(audio => audio.id !== trackId && audio.play())
-
+                    
                     mediaRecorder.start(2000) // chunk duration in ms
                     console.log(mediaRecorder.state)
                     console.log("recorder started")
+                    
+                    const audios = document.querySelectorAll('audio')
+                    audios.forEach(audio => audio.id !== trackId && audio.play())
 
                     let chunks: Blob[] = []
 
@@ -86,7 +93,7 @@ export default function Edition({ onSaveChanges, onGoBack, projectId }: EditionP
     }
 
     const stopRecording = async() => {
-        try {
+    try {
         console.log('handleStopRecording')
 
         recording!.stop()
@@ -110,25 +117,37 @@ export default function Edition({ onSaveChanges, onGoBack, projectId }: EditionP
 }
 
     const handleToggleRec = () => {
-        if(trackId){
-            if(!isRecording) {
-                startRecording()
-    
-                setIsRecording(true)
-            } else {
-                stopRecording()
-    
-                setIsRecording(false)
+        try {
+            if(trackId){
+                if(!isRecording) {
+                    startRecording()
+        
+                    setIsRecording(true)
+                } else {
+                    stopRecording()
+        
+                    setIsRecording(false)
+                }
             }
+        } catch(error: any) {
+            console.log(error.message)
         }
-
     }
 
     const handlePlay = () => {
         const audios = document.querySelectorAll('audio')
 
-        audios.forEach(audio => audio.play())
+        // setTimeout(() => {
+        //     audios[0].play()
+        // }, 100)
+        // audios[1].play()
+        // audios[2].play()
 
+        audios.forEach(audio => {
+        setTimeout(() => {
+            audio.play()
+        }, audio.delay)
+        })
     }
 
     return <>
@@ -137,7 +156,7 @@ export default function Edition({ onSaveChanges, onGoBack, projectId }: EditionP
             <DynamicTitle projectId={projectId} ></DynamicTitle>
             <div className="flex gap-2" >
                 <Button size='wide' type='no-fill' text='Add Track' onClick={handleAddTrack} ></Button>
-                <Button size='wide' type='no-fill' text='Add Member' ></Button>
+                <Button size='wide' type='no-fill' text='Add Member' onClick={handleAddMember} ></Button>
             </div>
         </div>
         <div className="flex flex-col justify-start h-full gap-4">
@@ -146,7 +165,7 @@ export default function Edition({ onSaveChanges, onGoBack, projectId }: EditionP
         <div className="flex flex-col mb-4">
             <Controls onToggleRec={handleToggleRec} onPlay={handlePlay} ></Controls>
             <div className="flex gap-2" >
-                <Button size='wide' type='primary' text={'Save'} onClick={onSaveChanges} ></Button>
+                <Button size='wide' type='primary' text={'Delete'} onClick={onSaveChanges} ></Button>
                 <Button size='wide' type='grey' text={'Back'} onClick={onGoBack} ></Button>
             </div>
         </div>
