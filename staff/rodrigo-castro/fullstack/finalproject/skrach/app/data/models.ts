@@ -50,6 +50,11 @@ const track = new Schema<TrackModel>({
         type: Number,
         required: true
     },
+    delay: {
+        type: Number,
+        required: true,
+        default: 0
+    },
     instrument: {
         type: String,
         required: true,

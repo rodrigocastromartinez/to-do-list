@@ -15,6 +15,7 @@ interface ITrack {
   date: Date
   audio: string
   volume: number
+  delay: number
   instrument: string
 }
 

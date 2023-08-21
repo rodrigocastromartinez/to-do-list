@@ -13,7 +13,7 @@ The aim is to streamline the recording process for what is commonly known as 'de
 ---
 ---
 
-![](https://64.media.tumblr.com/0af36b02db0e8579f795ac6a39951458/tumblr_n33ud0gyKT1sdilswo1_400.gif)
+![](https://i.gifer.com/origin/3a/3a007c6442ca0db127e5a4dd7fe7b569.gif)
 
 ---
 ---

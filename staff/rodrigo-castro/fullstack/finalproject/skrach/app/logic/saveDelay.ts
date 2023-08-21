@@ -1,17 +1,21 @@
-import { validateId } from "../../com"
+import { validateId, validateNumber } from "../../com"
 import { User, Project, Track } from '../data/models'
+import { TrackModel } from "../data/interfaces"
 
 /**
  * 
  * @param {string} userId user's id
- * @param {string} image post's image
- * @param {string} text post's caption
+ * @param {string} projectId project id
+ * @param {string} trackId track id
+ * @param {string} url track url
  * @returns {Promise<>} 
  */
 
-export default function createTrack (userId: string, projectId: string) {
+export default function saveDelay (userId: string, projectId: string, trackId: string, delay: number) {
     validateId(userId)
     validateId(projectId)
+    validateId(trackId)
+    validateNumber(delay)
     
     return (async () => {
         const user = await User.findById(userId)
@@ -22,12 +26,10 @@ export default function createTrack (userId: string, projectId: string) {
         
         if (!project) throw new Error(`project with id ${projectId} not found`)
 
-        const track = new Track({project: projectId, volume: 70, delay: 0})
+        const track = project.tracks.find((track: TrackModel) => track.id === trackId)
 
-        project.tracks.push(track)
+        track.delay = delay
 
         await project.save()
-
-        return track
     })()
 }

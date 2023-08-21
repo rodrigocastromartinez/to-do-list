@@ -37,10 +37,14 @@ function validateToken(token : string, explain = 'token') {
     if (token.split('.').length !== 3) throw new ContentError(`${explain} is not valid`)
 }
 
+function validateNumber(number : number, explain = 'number') {
+    if (typeof number !== 'number') throw new TypeError(`${explain} is not a type of number`)
+}
+
 const userNameExpression = /^[a-z0-9._-]{3,30}$/
 const emailExpression = /^[\w-.]+@[a-zA-Z0-9]+(\.[a-zA-Z]{2,4}){1,2}$/
 const passwordExpression = /^[a-zA-Z\d#$@!%&*?]{8,32}/
 // const tokenExpression = /^[a-zA-Z0-9]+\.[a-zA-Z0-9]+\.[a-zA-Z0-9]+$/
 // const passwordExpression = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%&*?])[a-zA-Z\d#$@!%&*?]{8,16}/
 
-export { validateEmail, validateUrl, validateId, validateUserName, validatePassword, validateText, validateToken }
+export { validateEmail, validateUrl, validateId, validateUserName, validatePassword, validateText, validateToken, validateNumber }

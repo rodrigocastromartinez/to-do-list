@@ -46,7 +46,7 @@ export default function Edition({ onSaveChanges, onGoBack, projectId }: EditionP
     }
 
     const handleAddMember = async () => {
-
+        
     }
 
     const startRecording = () => {
@@ -137,16 +137,10 @@ export default function Edition({ onSaveChanges, onGoBack, projectId }: EditionP
     const handlePlay = () => {
         const audios = document.querySelectorAll('audio')
 
-        // setTimeout(() => {
-        //     audios[0].play()
-        // }, 100)
-        // audios[1].play()
-        // audios[2].play()
-
         audios.forEach(audio => {
-        setTimeout(() => {
-            audio.play()
-        }, audio.delay)
+            setTimeout(() => {
+                audio.play()
+            }, parseInt(audio.textContent!))
         })
     }
 
@@ -160,7 +154,7 @@ export default function Edition({ onSaveChanges, onGoBack, projectId }: EditionP
             </div>
         </div>
         <div className="flex flex-col justify-start h-full gap-4">
-            {tracks && tracks.map(track => <TrackCompo key={track._id} trackData={track} setTrackId={setTrackId} trackId={trackId} projectId={projectId} /> )}
+            {tracks && tracks.map(track => <TrackCompo key={track._id} trackData={track} setTrackId={setTrackId} trackId={trackId!} projectId={projectId} /> )}
         </div>
         <div className="flex flex-col mb-4">
             <Controls onToggleRec={handleToggleRec} onPlay={handlePlay} ></Controls>
