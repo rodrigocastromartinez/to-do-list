@@ -8,6 +8,7 @@ import retrieveProject from './retrieveProject'
 import retrieveUserProjects from './retrieveUserProjects'
 import saveAudio from './saveAudio'
 import saveUrl from './saveUrl'
+import addMember from './addMember'
 
 export {
     registerUser,
@@ -19,5 +20,6 @@ export {
     retrieveProject,
     retrieveUserProjects,
     saveAudio,
-    saveUrl
+    saveUrl,
+    addMember
 }
