@@ -10,6 +10,7 @@ import saveAudio from './saveAudio'
 import saveUrl from './saveUrl'
 import updateTitle from './updateTitle'
 import saveDelay from './saveDelay'
+import retrieveUserEmail from './retrieveUserEmail'
 
 export {
     createProject,
@@ -23,5 +24,6 @@ export {
     saveAudio,
     saveUrl,
     updateTitle,
-    saveDelay
+    saveDelay,
+    retrieveUserEmail
 }
