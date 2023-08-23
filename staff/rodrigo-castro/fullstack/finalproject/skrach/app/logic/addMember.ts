@@ -1,6 +1,5 @@
 import { validateEmail, validateId } from "../../com"
 import { User, Project } from '../data/models'
-import { TrackModel } from "../data/interfaces"
 
 /**
  * 
@@ -25,8 +24,12 @@ export default function addMember (userId: string, projectId: string, email: str
         const project = await Project.findById(projectId)
         
         if (!project) throw new Error(`project with id ${projectId} not found`)
-
+        
         const newUser = await User.findOne({ email })
+
+        if (!newUser) throw new Error(`user with email ${email} not found`)
+
+        if(project.owners.includes(newUser.id)) throw new Error(`user with email ${email} is already a member of the project`)
         
         project.owners.push(newUser.id)
 

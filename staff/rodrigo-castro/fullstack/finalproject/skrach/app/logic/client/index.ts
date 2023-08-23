@@ -12,6 +12,7 @@ import updateTitle from './updateTitle'
 import saveDelay from './saveDelay'
 import retrieveUserEmail from './retrieveUserEmail'
 import addMember from './addMember'
+import deleteMember from './deleteMember'
 
 export {
     createProject,
@@ -27,5 +28,6 @@ export {
     updateTitle,
     saveDelay,
     retrieveUserEmail,
-    addMember
+    addMember,
+    deleteMember
 }
