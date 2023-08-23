@@ -40,7 +40,11 @@ export default function Edition({ onSaveChanges, onGoBack, projectId }: EditionP
             if (projectId) {
                 const { id: trackId } = await createTrack(projectId)
     
-                setTrackId(trackId)
+                // setTrackId(trackId)
+
+                const project = await retrieveProject(projectId)
+
+                setTracks(project.tracks)
             }
         } catch(error: any) {
             alert(error.message)
@@ -161,10 +165,10 @@ export default function Edition({ onSaveChanges, onGoBack, projectId }: EditionP
                 <Button size='wide' type='no-fill' text='Add Member' onClick={handleAddMember} ></Button>
             </div>
         </div>
-        <div className="flex flex-col justify-start h-full gap-4">
+        <div className="flex flex-col justify-start h-auto gap-4">
             {tracks && tracks.map(track => <TrackCompo key={track._id} trackData={track} setTrackId={setTrackId} trackId={trackId!} projectId={projectId} /> )}
         </div>
-        <div className="flex flex-col mb-4">
+        <div className="flex flex-col p-4 fixed bottom-0 left-0 w-screen bg-[var(--black-100)]">
             <Controls onToggleRec={handleToggleRec} onPlay={handlePlay} ></Controls>
             <div className="flex gap-2" >
                 <Button size='wide' type='primary' text={'Delete'} onClick={onSaveChanges} ></Button>
