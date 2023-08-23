@@ -53,7 +53,7 @@
   }
 
   .search {
-    @apply text-base text-[var(--grey-300)] rounded-full bg-[var(--grey-700)] h-fit m-0 font-light py-2 px-4 w-full focus:outline-input
+    @apply text-base text-[var(--grey-300)] rounded-2xl bg-[var(--grey-700)] h-fit m-0 font-light py-2 px-4 w-full focus:outline-input
   }
   
   .submit-buttons{
@@ -88,6 +88,10 @@
 @layer utilities {
   .outline-input {
     outline: 2px solid var(--orange-300);
+  }
+
+  .outline-input-none {
+    outline: none;
   }
 
   .font-large {
