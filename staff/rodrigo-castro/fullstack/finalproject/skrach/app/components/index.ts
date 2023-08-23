@@ -9,5 +9,6 @@ import Projects from "./Projects"
 import ProjectSummary from "./ProjectSummary"
 import SearchBar from "./SearchBar"
 import Track from "./TrackCompo"
+import MembersModal from "./MembersModal"
 
-export { Avatar, Button, Controls, DynamicTitle, Edition, NavigationBar, ProfileData, Projects, ProjectSummary, SearchBar, Track }
+export { Avatar, Button, Controls, DynamicTitle, Edition, NavigationBar, ProfileData, Projects, ProjectSummary, SearchBar, Track, MembersModal }

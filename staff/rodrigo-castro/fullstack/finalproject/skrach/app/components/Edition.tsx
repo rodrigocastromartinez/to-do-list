@@ -4,6 +4,7 @@ import DynamicTitle from "./DynamicTitle"
 import Button from "./Button"
 import TrackCompo from "./TrackCompo"
 import Controls from "./Controls"
+import MembersModal from "./MembersModal"
 import { useState, useEffect } from "react"
 import { firebase } from '../firebase'
 import createTrack from "../logic/client/createTrack"
@@ -24,6 +25,7 @@ export default function Edition({ onSaveChanges, onGoBack, projectId }: EditionP
     const [audioUrl, setAudioUrl] = useState<string>()
     const [trackId, setTrackId] = useState<string | undefined>()
     const [tracks, setTracks] = useState<[TrackModel]>()
+    const [addMember, setAddMember] = useState<boolean>(false)
 
     useEffect(() => {
         const fetchData = (async () => {
@@ -46,7 +48,7 @@ export default function Edition({ onSaveChanges, onGoBack, projectId }: EditionP
     }
 
     const handleAddMember = async () => {
-        
+        setAddMember(true)
     }
 
     const startRecording = () => {
@@ -144,7 +146,13 @@ export default function Edition({ onSaveChanges, onGoBack, projectId }: EditionP
         })
     }
 
+    const handleCloseModal = () => {
+        setAddMember(false)
+    }
+
     return <>
+        {addMember && <MembersModal projectId={projectId} onCloseModal={handleCloseModal} ></MembersModal>}
+
         <div className="w-screen h-full relative pt-20 flex flex-col justify-between px-8 gap-4" >
         <div className="flex flex-col gap-2" >
             <DynamicTitle projectId={projectId} ></DynamicTitle>

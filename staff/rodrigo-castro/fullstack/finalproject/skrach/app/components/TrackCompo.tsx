@@ -4,7 +4,6 @@ import { TrackModel } from "../data/interfaces"
 import { Dispatch, SetStateAction } from "react"
 import { useState, useEffect } from "react"
 import Instruments from "./Instruments"
-import { Project } from "../data"
 import { retrieveProject } from "../logic/client"
 import { Slider, ButtonGroup, Button } from "@mui/material"
 import { saveDelay } from '../logic/client'
@@ -24,15 +23,20 @@ export default function TrackCompo({ trackData, setTrackId, trackId, projectId }
     // const [volume, setVolume] = useState(trackData.volume)
 
     useEffect(() => {
-        const fetchData = (async () => {
-            const project = await retrieveProject(projectId!)
+        try {
+            const fetchData = (async () => {
+                const project = await retrieveProject(projectId!)
+    
+                const track = project.tracks.find((track: TrackModel) => track.id === trackId)
+    
+                setUrl(track.audio)
+    
+                setDelay(trackData.delay)
+            })()
+        } catch(error: any) {
+            alert(error.message)
+        }
 
-            const track = project.tracks.find((track: TrackModel) => track.id === trackId)
-
-            setUrl(track.audio)
-
-            setDelay(trackData.delay)
-        })()
     }, [])
 
     const handleSelectInstrument = () => setSelectInstrument(true)
@@ -46,21 +50,29 @@ export default function TrackCompo({ trackData, setTrackId, trackId, projectId }
     }
 
     const handleLessDelay = async () => {
-        if(delay! < 50) return
-
-        const _delay = delay! - 50
-        
-        await saveDelay(projectId!, trackData._id, _delay)
-
-        setDelay(_delay)
+        try {
+            if(delay! < 50) return
+    
+            const _delay = delay! - 50
+            
+            await saveDelay(projectId!, trackData._id, _delay)
+    
+            setDelay(_delay)
+        } catch(error: any) {
+            alert(error.message)
+        }
     }
 
     const handleMoreDelay = async () => {
-        const _delay = delay! + 50
-        
-        await saveDelay(projectId!, trackData._id, _delay)
-
-        setDelay(_delay)
+        try {
+            const _delay = delay! + 50
+            
+            await saveDelay(projectId!, trackData._id, _delay)
+    
+            setDelay(_delay)
+        } catch(error: any) {
+            alert(error.message)
+        }
     }
 
     return <>
