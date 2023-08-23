@@ -20,10 +20,6 @@ export default function Home() {
         }
     }
 
-    const handleSaveChanges = () => {
-
-    }
-
     const handleGoBack = () => {
         setProjectId(undefined)
         setEdition(false)
@@ -43,6 +39,6 @@ export default function Home() {
         </div>
     </div>}
 
-    {edition && projectId &&  <Edition onSaveChanges={handleSaveChanges} onGoBack={handleGoBack} projectId={projectId} /> }
+    {edition && projectId &&  <Edition onGoBack={handleGoBack} projectId={projectId} /> }
     </>
 }

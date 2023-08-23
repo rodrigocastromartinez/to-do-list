@@ -9,16 +9,16 @@ import { useState, useEffect } from "react"
 import { firebase } from '../firebase'
 import createTrack from "../logic/client/createTrack"
 import retrieveProject from "../logic/client/retrieveProject"
+import deleteTrack from "../logic/client/deleteTrack"
 import { TrackModel } from "../data/interfaces"
 import { saveUrl } from "../logic/client"
 
 interface EditionProps {
-    onSaveChanges: () => void
     onGoBack: () => void
     projectId: string
 }
 
-export default function Edition({ onSaveChanges, onGoBack, projectId }: EditionProps) {
+export default function Edition({ onGoBack, projectId }: EditionProps) {
     const [isRecording, setIsRecording] = useState<boolean>(false)
     const [recording, setRecording] = useState<MediaRecorder>()
     const [chunks, setChunks] = useState<Blob[]>()
@@ -49,6 +49,14 @@ export default function Edition({ onSaveChanges, onGoBack, projectId }: EditionP
         } catch(error: any) {
             alert(error.message)
         }
+    }
+
+    const handleDeleteTrack = async () => {
+        if (!trackId) return
+
+        const res = await deleteTrack(projectId, trackId)
+
+        setTracks(res.tracks)
     }
 
     const handleAddMember = async () => {
@@ -165,13 +173,13 @@ export default function Edition({ onSaveChanges, onGoBack, projectId }: EditionP
                 <Button size='wide' type='no-fill' text='Add Member' onClick={handleAddMember} ></Button>
             </div>
         </div>
-        <div className="flex flex-col justify-start h-auto gap-4">
+        <div className="flex flex-col justify-start h-full gap-4">
             {tracks && tracks.map(track => <TrackCompo key={track._id} trackData={track} setTrackId={setTrackId} trackId={trackId!} projectId={projectId} /> )}
         </div>
         <div className="flex flex-col p-4 fixed bottom-0 left-0 w-screen bg-[var(--black-100)]">
             <Controls onToggleRec={handleToggleRec} onPlay={handlePlay} ></Controls>
             <div className="flex gap-2" >
-                <Button size='wide' type='primary' text={'Delete'} onClick={onSaveChanges} ></Button>
+                <Button size='wide' type='primary' text={'Delete'} onClick={handleDeleteTrack} ></Button>
                 <Button size='wide' type='grey' text={'Back'} onClick={onGoBack} ></Button>
             </div>
         </div>
