@@ -1,21 +1,20 @@
 import { validateId, validateNumber } from "../../com"
-import { User, Project, Track } from '../data/models'
-import { TrackModel } from "../data/interfaces"
+import { User, Project } from '../data/models'
 
 /**
  * 
  * @param {string} userId user's id
  * @param {string} projectId project id
  * @param {string} trackId track id
- * @param {string} url track url
+ * @param {number} volume track volume
  * @returns {Promise<>} 
  */
 
-export default function saveDelay (userId: string, projectId: string, trackId: string, delay: number) {
+export default function updateVolume (userId: string, projectId: string, trackId: string, volume: number) {
     validateId(userId)
     validateId(projectId)
     validateId(trackId)
-    validateNumber(delay)
+    validateNumber(volume)
     
     return (async () => {
         const user = await User.findById(userId)
@@ -26,11 +25,11 @@ export default function saveDelay (userId: string, projectId: string, trackId: s
         
         if (!project) throw new Error(`project with id ${projectId} not found`)
 
-        const track = project.tracks.find((track: TrackModel) => track.id === trackId)
+        const track = project.tracks.find((track: any) => track.id === trackId)
 
         if (!track) throw new Error(`track with id ${trackId} not found in this project`)
 
-        track.delay = delay
+        track.volume = volume
 
         await project.save()
     })()
