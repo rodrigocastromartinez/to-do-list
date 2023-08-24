@@ -2,11 +2,15 @@
 
 import { useState } from 'react'
 import createProject from "../logic/client/createProject"
-import { Edition, Button, SearchBar, ProfileData, Projects } from '../components'
+import { Edition, Button, SearchBar, ProfileData, Projects, NavigationBar } from '../components'
+import logoutUser from '../logic/client/logoutUser'
+import { useRouter } from 'next/navigation'
 
 export default function Home() {
     const [edition, setEdition] = useState(false)
     const [projectId, setProjectId] = useState<string | undefined>()
+
+    const router = useRouter()
 
     const handleNewProject = async () => {
         try {
@@ -25,8 +29,18 @@ export default function Home() {
         setEdition(false)
     }
 
+    const handleLogout = () => {
+        logoutUser()
+
+        router.push('/login')
+    }
+
     return <>
-    {!edition && <div className="w-screen relative top-20 flex flex-col px-8 gap-4">
+    {!edition && <div className="w-screen h-screen flex flex-col px-8 gap-4">
+        <div >
+            <NavigationBar onLogoutClicked={handleLogout} ></NavigationBar>
+        </div>
+        <div className='relative top-16 flex flex-col gap-4'>
         <div>
             <ProfileData></ProfileData>
         </div>
@@ -36,6 +50,7 @@ export default function Home() {
         </div>
         <div>
             <Projects setProjectId={setProjectId} setEdition={setEdition} ></Projects>
+        </div>
         </div>
     </div>}
 
