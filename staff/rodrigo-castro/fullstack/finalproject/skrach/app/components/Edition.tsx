@@ -39,8 +39,6 @@ export default function Edition({ onGoBack, projectId }: EditionProps) {
         try {
             if (projectId) {
                 const { id: trackId } = await createTrack(projectId)
-    
-                // setTrackId(trackId)
 
                 const project = await retrieveProject(projectId)
 
@@ -119,7 +117,7 @@ export default function Edition({ onGoBack, projectId }: EditionProps) {
 
         const { ref } = await firebase.storage().ref().child(`${projectId}/${trackId}.ogg`).put(blob)
 
-        const url = await ref.getDownloadURL() // GUARDAR URL EN DB (MODELO EMBEBIDO) PARA BUSCARLA LUEGO Y CARGARLA EN LA PANTALLA EDIT
+        const url = await ref.getDownloadURL()
 
         await saveUrl(projectId, trackId!, url)
 
@@ -152,6 +150,14 @@ export default function Edition({ onGoBack, projectId }: EditionProps) {
         const audios = document.querySelectorAll('audio')
 
         audios.forEach(audio => {
+            const track = tracks!.find((track: TrackModel) => track._id === audio.id)
+
+            console.log(track!.volume)
+
+            audio.volume = (track!.volume) / 100
+        })
+
+        audios.forEach(audio => {
             setTimeout(() => {
                 audio.play()
             }, parseInt(audio.textContent!))
@@ -174,7 +180,7 @@ export default function Edition({ onGoBack, projectId }: EditionProps) {
             </div>
         </div>
         <div className="flex flex-col justify-start h-full gap-4">
-            {tracks && tracks.map(track => <TrackCompo key={track._id} trackData={track} setTrackId={setTrackId} trackId={trackId!} projectId={projectId} /> )}
+            {tracks && tracks.map(track => <TrackCompo key={track._id} trackData={track} setTrackId={setTrackId} trackId={trackId!} projectId={projectId} setTracks={setTracks} /> )}
         </div>
         <div className="flex flex-col p-4 fixed bottom-0 left-0 w-screen bg-[var(--black-100)]">
             <Controls onToggleRec={handleToggleRec} onPlay={handlePlay} ></Controls>

@@ -6,21 +6,24 @@ import { useState, useEffect } from "react"
 import Instruments from "./Instruments"
 import { retrieveProject } from "../logic/client"
 import { Slider, ButtonGroup, Button } from "@mui/material"
-import { saveDelay } from '../logic/client'
+import { saveDelay, updateVolume } from '../logic/client'
 
 interface TrackProps {
     trackData: TrackModel
     setTrackId: Dispatch<SetStateAction<string | undefined>>
     trackId: string
     projectId: string
+    setTracks: Dispatch<SetStateAction<[TrackModel] | undefined>>
 }
 
-export default function TrackCompo({ trackData, setTrackId, trackId, projectId }: TrackProps) {
+export default function TrackCompo({ trackData, setTrackId, trackId, projectId, setTracks }: TrackProps) {
     const [selectInstrument, setSelectInstrument] = useState(false)
     const [instrument, setInstrument] = useState<string>(trackData.instrument)
     const [url, setUrl] = useState()
     const [delay, setDelay] = useState<number>()
-    const [volume, setVolume] = useState(trackData.volume)
+    const [volume, setVolume] = useState<number>(trackData.volume)
+    const [pendingVolume, setPendingVolume] = useState<number | null>(null)
+    const [timerId, setTimerId] = useState<NodeJS.Timeout | null>(null)
 
     useEffect(() => {
         try {
@@ -39,32 +42,50 @@ export default function TrackCompo({ trackData, setTrackId, trackId, projectId }
 
     }, [])
 
-    let updateVolumeTimeOutId: ReturnType<typeof setTimeout> | null = null
-    let volumeInputId: string
-
-    const handleChange = (event: Event, newValue: number | number[]) => {
+    const handleChange = async (event: Event, value: number | number[], activeThumb: number) => {
         try {
-            console.log(newValue)
+            if (typeof value === 'number') {
+                const newValue = value
     
-            const audio = document.getElementById(trackData._id) as HTMLAudioElement // seleccionarlo con ID para establecer el volumen del audio que corresponda y hacer lo mismo del set time out que con el título dinámico para que no llame a api tan rápido al variar el volumen 
+                const audio = document.getElementById(trackData._id) as HTMLAudioElement
     
-            audio!.volume = (newValue as number)/100
+                audio!.volume = (newValue as number) / 100
     
-            setVolume(newValue as number)
-        } catch(error: any) {
+                setVolume(newValue as number)
+
+                        // Cancela el temporizador existente si existe
+                if (timerId) {
+                    clearTimeout(timerId);
+                }
+        
+                // Configura un nuevo temporizador para ejecutar la actualización después de 500 ms
+                const newTimerId = setTimeout(async () => {
+                    if (pendingVolume !== null) {
+                    // Ejecuta la actualización con el valor pendiente
+                    await updateVolume(projectId, trackData._id, newValue)
+
+                    console.log(newValue)
+
+                    setPendingVolume(null); // Limpia el valor pendiente
+
+                    const project = await retrieveProject(projectId)
+
+                    setTracks(project.tracks)
+                    }
+                }, 500)
+        
+                setTimerId(newTimerId); // Almacena el nuevo ID de temporizador
+                setPendingVolume(newValue); // Almacena el valor pendiente
+            }
+        } catch (error: any) {
             alert(error.message)
         }
     }
+    
 
     const handleSelectInstrument = () => setSelectInstrument(true)
 
     const handleTrackSelected = () => setTrackId(trackData._id)
-
-    const handleSetVolume = (value: number) => {
-        // trackData.volume = value
-
-        // setVolume(value)
-    }
 
     const handleLessDelay = async () => {
         try {
