@@ -20,7 +20,7 @@ export default function TrackCompo({ trackData, setTrackId, trackId, projectId }
     const [instrument, setInstrument] = useState<string>(trackData.instrument)
     const [url, setUrl] = useState()
     const [delay, setDelay] = useState<number>()
-    // const [volume, setVolume] = useState(trackData.volume)
+    const [volume, setVolume] = useState(trackData.volume)
 
     useEffect(() => {
         try {
@@ -38,6 +38,23 @@ export default function TrackCompo({ trackData, setTrackId, trackId, projectId }
         }
 
     }, [])
+
+    let updateVolumeTimeOutId: ReturnType<typeof setTimeout> | null = null
+    let volumeInputId: string
+
+    const handleChange = (event: Event, newValue: number | number[]) => {
+        try {
+            console.log(newValue)
+    
+            const audio = document.getElementById(trackData._id) as HTMLAudioElement // seleccionarlo con ID para establecer el volumen del audio que corresponda y hacer lo mismo del set time out que con el título dinámico para que no llame a api tan rápido al variar el volumen 
+    
+            audio!.volume = (newValue as number)/100
+    
+            setVolume(newValue as number)
+        } catch(error: any) {
+            alert(error.message)
+        }
+    }
 
     const handleSelectInstrument = () => setSelectInstrument(true)
 
@@ -84,14 +101,14 @@ export default function TrackCompo({ trackData, setTrackId, trackId, projectId }
                 <div className="h-4/5" >
                     <Slider
                     size="small"
-                    defaultValue={70}
+                    value={volume}
                     aria-label="Small"
                     valueLabelDisplay="auto"
                     orientation="vertical"
                     sx={{
                         color: 'var(--orange-300)',
                     }}
-                    onChange={(value) => handleSetVolume}
+                    onChange={handleChange}
                     />
                 </div>
             </div>
