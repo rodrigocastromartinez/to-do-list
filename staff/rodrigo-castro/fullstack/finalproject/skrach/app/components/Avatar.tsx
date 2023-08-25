@@ -2,16 +2,14 @@
 
 import { useEffect, useState } from 'react'
 import retrieveUser from '../logic/client/retrieveUser'
-
-interface User {
-    avatar: string;
-  }
+import { UserModel } from '../data/interfaces'
 
 interface AvatarProps {
+  changeAvatar: () => void
 }
 
-export default function Avatar({}: AvatarProps) {
-  const [user, setUser] = useState<User | null>(null)
+export default function Avatar({changeAvatar}: AvatarProps) {
+  const [user, setUser] = useState<UserModel | null>(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -36,8 +34,11 @@ export default function Avatar({}: AvatarProps) {
   if (!user) {
     console.error('Error: Unable to retrieve user data.')
 
-    return <img src='https://i.pinimg.com/originals/f1/0f/f7/f10ff70a7155e5ab666bcdd1b45b726d.jpg'></img>
+    return <img className={`box-border object-cover rounded-3xl`} src='https://i.pinimg.com/originals/f1/0f/f7/f10ff70a7155e5ab666bcdd1b45b726d.jpg' onClick={changeAvatar}></img>
   }
 
-  return <img src={user.avatar} className={`box-border object-cover rounded-3xl`} ></img>
+  return <>
+    {user.avatar && <img src={user.avatar} className={`box-border object-cover rounded-3xl`} onClick={changeAvatar} ></img> ||
+    <img className={`box-border object-cover rounded-3xl`} src='https://i.pinimg.com/originals/f1/0f/f7/f10ff70a7155e5ab666bcdd1b45b726d.jpg' onClick={changeAvatar}></img> }
+  </>
 }

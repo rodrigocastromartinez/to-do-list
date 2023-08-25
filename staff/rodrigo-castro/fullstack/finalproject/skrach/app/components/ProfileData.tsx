@@ -11,7 +11,11 @@ import { User } from '../data/models'
     unfreeze: () => void;
   }
 
-export default function ProfileData() {
+  interface ProfileDataProps {
+    onAvatarChange: () => void
+  }
+
+export default function ProfileData({ onAvatarChange }: ProfileDataProps) {
     const [user, setUser] = useState<typeof User | null>(null)
     const [loading, setLoading] = useState(true)
     
@@ -52,7 +56,7 @@ export default function ProfileData() {
 
     return <div className="flex items-center gap-4">
         <div className="h-24 w-24">
-            <Avatar></Avatar>
+            <Avatar changeAvatar={onAvatarChange} ></Avatar>
         </div>
         <div>
             <p className="font-semibold text-slate-300 text-lg" >{user.name}</p>

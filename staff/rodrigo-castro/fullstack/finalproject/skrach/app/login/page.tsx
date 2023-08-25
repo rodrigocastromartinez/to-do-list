@@ -6,7 +6,6 @@ import { loginUser } from '../logic/client'
 import React, { FormEvent } from 'react'
 import { useRouter } from 'next/navigation'
 import Button from '../components/Button'
-// import { useAppContext } from '../hooks' al usarlo habría que agregar 'warn' en el alerta, luego de error.message
 
 const roboto = Roboto({ subsets: ['latin'], weight: ['300'] })
 

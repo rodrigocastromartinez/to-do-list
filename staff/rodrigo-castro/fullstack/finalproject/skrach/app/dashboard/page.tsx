@@ -2,13 +2,14 @@
 
 import { useState } from 'react'
 import createProject from "../logic/client/createProject"
-import { Edition, Button, SearchBar, ProfileData, Projects, NavigationBar } from '../components'
+import { Edition, Button, SearchBar, ProfileData, Projects, NavigationBar, AvatarModal } from '../components'
 import logoutUser from '../logic/client/logoutUser'
 import { useRouter } from 'next/navigation'
 
 export default function Home() {
     const [edition, setEdition] = useState(false)
     const [projectId, setProjectId] = useState<string | undefined>()
+    const [modal, setModal] = useState<string | undefined>(undefined)
 
     const router = useRouter()
 
@@ -35,14 +36,18 @@ export default function Home() {
         router.push('/login')
     }
 
+    const handleChangeAvatar = () => {
+        setModal('avatar')
+    }
+
     return <>
-    {!edition && <div className="w-screen h-screen flex flex-col px-8 gap-4">
         <div >
             <NavigationBar onLogoutClicked={handleLogout} ></NavigationBar>
         </div>
-        <div className='relative top-16 flex flex-col gap-4'>
+    {!edition && <div className="w-screen h-screen flex flex-col px-8 gap-4">
+        <div className='relative top-20 flex flex-col gap-4'>
         <div>
-            <ProfileData></ProfileData>
+            <ProfileData onAvatarChange={handleChangeAvatar} ></ProfileData>
         </div>
         <div className="flex gap-4" >
             <SearchBar></SearchBar>
@@ -55,5 +60,7 @@ export default function Home() {
     </div>}
 
     {edition && projectId &&  <Edition onGoBack={handleGoBack} projectId={projectId} /> }
+
+    {modal === 'avatar' && <AvatarModal setModal={setModal} ></AvatarModal>}
     </>
 }
