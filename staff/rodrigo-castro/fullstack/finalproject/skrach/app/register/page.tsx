@@ -7,10 +7,20 @@ import registerUser from '../logic/client/registerUser'
 import React, { FormEvent } from 'react'
 import { useRouter } from 'next/navigation'
 import Button from '../components/Button'
+import { useEffect } from 'react'
+import context from '../logic/client/context'
 
 const roboto = Roboto({ subsets: ['latin'], weight: ['300'] })
 
 export default function Register() {
+    useEffect(() => {
+        if(context.token){
+            router.push('/dashboard')
+
+            return
+        }
+    }, [])
+
     const router = useRouter()
 
     async function handleRegister(event: FormEvent) {
@@ -37,14 +47,16 @@ export default function Register() {
         }
     }
 
-    return <Container tag="div" className='flex min-h-screen min-w-screen flex-col justify-center items-center gap-4'>
-    <h1 className="text-4xl font-semibold">Register</h1>
-    <form className="flex flex-col gap-4 items-center w-4/5" onSubmit={handleRegister} >
-        <input className={`input ${roboto.className}`} type="text" name="name" placeholder="User name" />
-        <input className={`input ${roboto.className}`} type="email" name="email" placeholder="Email" />
-        <input className={`input ${roboto.className}`} type="password" name="password" placeholder="Password" />
-        <div>Already registered? <Link href='/login' className='text-blue-700'>Sign in</Link></div>
-        <Button submit={true} size={"wide"} type={"primary"} text='Register'></Button>
-    </form>
-</Container>
+    return <>
+    {!context.token && <Container tag="div" className='flex min-h-screen min-w-screen flex-col justify-center items-center gap-4'>
+        <h1 className="text-4xl font-semibold">Register</h1>
+        <form className="flex flex-col gap-4 items-center w-4/5" onSubmit={handleRegister} >
+            <input className={`input ${roboto.className}`} type="text" name="name" placeholder="User name" />
+            <input className={`input ${roboto.className}`} type="email" name="email" placeholder="Email" />
+            <input className={`input ${roboto.className}`} type="password" name="password" placeholder="Password" />
+            <div>Already registered? <Link href='/login' className='text-blue-700'>Sign in</Link></div>
+            <Button submit={true} size={"wide"} type={"primary"} text='Register'></Button>
+        </form>
+    </Container>}
+    </>
 }

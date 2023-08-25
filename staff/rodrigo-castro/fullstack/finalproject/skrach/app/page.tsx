@@ -4,7 +4,7 @@ import Link from "next/link"
 
 export default function LandingPage() {
   return <div className="flex flex-col gap-4">
-    <div className="flex px-8 mt-20 gap-4">
+    <div className="flex px-8 mt-12 gap-4">
       <h1 className="text-4xl font-semibold">Skrach</h1>
       <Image src="/spite_lightning.svg" width={24} height={24} alt="" ></Image>
     </div>
