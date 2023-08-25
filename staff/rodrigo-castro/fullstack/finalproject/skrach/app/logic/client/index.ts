@@ -14,6 +14,7 @@ import retrieveUserEmail from './retrieveUserEmail'
 import addMember from './addMember'
 import deleteMember from './deleteMember'
 import updateVolume from './updateVolume'
+import updateUserAvatar from './updateUserAvatar'
 
 export {
     createProject,
@@ -31,5 +32,6 @@ export {
     retrieveUserEmail,
     addMember,
     deleteMember,
-    updateVolume
+    updateVolume,
+    updateUserAvatar
 }
