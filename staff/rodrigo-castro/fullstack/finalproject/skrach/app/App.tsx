@@ -1,11 +1,7 @@
 'use client'
 
 import './globals.css'
-import type { Metadata } from 'next'
-import { Roboto } from 'next/font/google'
 import 'material-symbols'
-import NavigationBar from './components/NavigationBar'
-import context from './logic/client/context'
 import AppContext from './AppContext'
 import Loader from './library/Loader'
 import { useState } from 'react'

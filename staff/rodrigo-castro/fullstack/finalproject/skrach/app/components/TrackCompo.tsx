@@ -13,7 +13,7 @@ interface TrackProps {
     setTrackId: Dispatch<SetStateAction<string | undefined>>
     trackId: string
     projectId: string
-    setTracks: Dispatch<SetStateAction<[TrackModel] | undefined>>
+    setTracks: Dispatch<SetStateAction<TrackModel[] | undefined>>
 }
 
 export default function TrackCompo({ trackData, setTrackId, trackId, projectId, setTracks }: TrackProps) {
