@@ -8,22 +8,31 @@ import { useRouter } from 'next/navigation'
 import Button from '../components/Button'
 import { useEffect } from 'react'
 import context from '../logic/client/context'
+import { useAppContext } from '../hooks'
 
 const roboto = Roboto({ subsets: ['latin'], weight: ['300'] })
 
 export default function Login() {
     const router = useRouter()
 
+    const { freeze, unfreeze } = useAppContext()
+
     useEffect(() => {
+        freeze()
         if(context.token){
             router.push('/dashboard')
 
+            unfreeze()
+
             return
         }
+        unfreeze()
     }, [])
 
     async function handleLogin(event: FormEvent) {
         event.preventDefault()
+
+        freeze()
 
         const target = event.target as typeof event.target & {
             email: { value: string }
@@ -39,7 +48,11 @@ export default function Login() {
             console.log('user logged in')
 
             router.push('/dashboard')
+
+            unfreeze()
         } catch (error: any) {
+            unfreeze()
+
             alert(error.message)
         }
     }

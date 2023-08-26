@@ -2,16 +2,11 @@ import { ProjectModel } from "../data/interfaces"
 
 interface ProjectSummaryProps {
     project: ProjectModel
-    setProjectId: (arg0: string) => void
-    setEdition: (arg0: boolean) => void
+    onProjectSelected: (arg0: string) => void
 }
 
-export default function ProjectSummary({project: {_id, name, image}, setEdition, setProjectId}: ProjectSummaryProps) {
-    const handleOnClick = () => {
-        setProjectId(_id)
-
-        setEdition(true)
-    }
+export default function ProjectSummary({project: {_id, name, image}, onProjectSelected}: ProjectSummaryProps) {
+    const random = Math.floor(Math.random() * 999) + 1
 
     return <>
     <div className="flex p-4 bg-[var(--grey-700)] justify-between rounded-lg">
@@ -20,7 +15,7 @@ export default function ProjectSummary({project: {_id, name, image}, setEdition,
                 <p>control buttons</p>
                 <p>progress bar</p>
             </div>
-            <img src={image || "https://picsum.photos/500/500?random=1"} className="w-3/12" onClick={handleOnClick} ></img>
+            <img src={`https://picsum.photos/500/500?random=${random}`} className="w-3/12" onClick={() => onProjectSelected(_id)} ></img>
         </div>
     </>
 }

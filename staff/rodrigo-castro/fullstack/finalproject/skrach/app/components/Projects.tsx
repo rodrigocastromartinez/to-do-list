@@ -8,19 +8,15 @@ import ProjectSummary from "./ProjectSummary"
 import React, { Dispatch, SetStateAction } from 'react'
 
 interface ProjectsProps {
-    setProjectId: Dispatch<SetStateAction<string | undefined>>
-    setEdition: Dispatch<SetStateAction<boolean>>
+    projects: [ProjectModel]
+    onProjectSelected: (arg0: string) => void
 }
 
-export default function Projects({ setProjectId, setEdition }: ProjectsProps) {
+export default function Projects({ projects, onProjectSelected }: ProjectsProps) {
     const [userProjects, setUserProjects] = useState<[ProjectModel]>()
 
     useEffect(() => {
         const fetchData = async () => {
-            const projects = await retrieveUserProjects()
-
-            console.log(projects)
-
             setUserProjects(projects)
         }
 
@@ -31,7 +27,9 @@ export default function Projects({ setProjectId, setEdition }: ProjectsProps) {
 
     console.log(userId)
     
-    return <div className="flex flex-col gap-4">
-        {userProjects && userProjects.map((project: ProjectModel) => project.owners.includes(userId) && <ProjectSummary key={project._id} project={project} setProjectId={setProjectId} setEdition={setEdition} />) }
-    </div>
+    return <>
+    {userProjects && <div className="flex flex-col gap-4">
+        {userProjects && userProjects.map((project: ProjectModel) => project.owners.includes(userId) && <ProjectSummary key={project._id} project={project} onProjectSelected={onProjectSelected} />) }
+    </div>}
+    </>
 }

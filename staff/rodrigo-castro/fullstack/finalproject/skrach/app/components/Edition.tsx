@@ -12,13 +12,15 @@ import retrieveProject from "../logic/client/retrieveProject"
 import deleteTrack from "../logic/client/deleteTrack"
 import { TrackModel } from "../data/interfaces"
 import { saveUrl } from "../logic/client"
+import { Dispatch, SetStateAction } from "react"
 
 interface EditionProps {
     onGoBack: () => void
     projectId: string
+    setModal: Dispatch<SetStateAction<string | undefined>>
 }
 
-export default function Edition({ onGoBack, projectId }: EditionProps) {
+export default function Edition({ onGoBack, projectId, setModal }: EditionProps) {
     const [isRecording, setIsRecording] = useState<boolean>(false)
     const [recording, setRecording] = useState<MediaRecorder>()
     const [chunks, setChunks] = useState<Blob[]>()
@@ -169,7 +171,7 @@ export default function Edition({ onGoBack, projectId }: EditionProps) {
     }
 
     return <>
-        {addMember && <MembersModal projectId={projectId} onCloseModal={handleCloseModal} ></MembersModal>}
+        {addMember && <MembersModal projectId={projectId} setModal={setModal} ></MembersModal>}
 
         <div className="w-screen h-full relative pt-20 flex flex-col justify-between px-8 gap-4" >
         <div className="flex flex-col gap-2" >
