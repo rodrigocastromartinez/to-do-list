@@ -49,11 +49,11 @@
 
 @layer components {
   .input {
-    @apply text-base h-fit m-0 font-extralight py-2 px-4 rounded-2xl w-full text-[var(--black-100)] focus:outline-input
+    @apply text-base h-fit m-0 font-normal py-2 px-4 rounded-2xl w-full text-[var(--black-100)] focus:outline-input
   }
 
   .search {
-    @apply text-base text-[var(--grey-300)] rounded-2xl bg-[var(--grey-700)] h-fit m-0 font-light py-2 px-4 w-full focus:outline-input
+    @apply text-lg text-[var(--grey-300)] rounded-2xl bg-[var(--grey-700)] h-fit m-0 font-light py-2 px-4 w-full focus:outline-input
   }
   
   .submit-buttons{

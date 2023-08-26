@@ -8,6 +8,7 @@ interface IUser {
   password: string
   avatar?: string
   projects: typeof ObjectId[]
+  description: string
 }
 
 interface ITrack {

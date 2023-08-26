@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import {createProject, retrieveUser, retrieveUserProjects, retrieveProject, retrieveUserEmail } from "../logic/client"
-import { Edition, Button, SearchBar, ProfileData, Projects, NavigationBar, AvatarModal, MembersModal } from '../components'
+import { Edition, Button, SearchBar, ProfileData, Projects, NavigationBar, AvatarModal, MembersModal, DescriptionModal } from '../components'
 import logoutUser from '../logic/client/logoutUser'
 import { useRouter } from 'next/navigation'
 import { useAppContext } from '../hooks'
@@ -121,7 +121,7 @@ export default function Home() {
     {!edition && user && projects && <div className="w-screen h-screen flex flex-col px-8 gap-4">
         <div className='relative top-20 flex flex-col gap-4'>
         <div>
-            <ProfileData onAvatarChange={handleChangeAvatar} setModal={setModal} userData={user}></ProfileData>
+            <ProfileData onAvatarChange={handleChangeAvatar} setModal={setModal} setUser={setUser} user={user}></ProfileData>
         </div>
         <div className="flex gap-4" >
             <SearchBar></SearchBar>
@@ -138,5 +138,7 @@ export default function Home() {
     {modal === 'avatar' && <AvatarModal setModal={setModal} ></AvatarModal>}
 
     {modal === 'members' && owners && projectId && <MembersModal projectId={projectId} setModal={setModal} owners={owners} ></MembersModal>}
+
+    {modal === 'description' && user && <DescriptionModal user={user} setModal={setModal} setUser={setUser} />}
     </>
 }

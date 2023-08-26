@@ -11,5 +11,6 @@ import SearchBar from "./SearchBar"
 import Track from "./TrackCompo"
 import MembersModal from "./MembersModal"
 import AvatarModal from "./AvatarModal"
+import DescriptionModal from "./DescriptionModal"
 
-export { Avatar, Button, Controls, DynamicTitle, Edition, NavigationBar, ProfileData, Projects, ProjectSummary, SearchBar, Track, MembersModal, AvatarModal }
+export { Avatar, Button, Controls, DynamicTitle, Edition, NavigationBar, ProfileData, Projects, ProjectSummary, SearchBar, Track, MembersModal, AvatarModal, DescriptionModal }

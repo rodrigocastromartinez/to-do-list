@@ -10,6 +10,7 @@ import saveAudio from './saveAudio'
 import saveUrl from './saveUrl'
 import addMember from './addMember'
 import updateVolume from './updateVolume'
+import updateDescription from './updateDescription'
 
 export {
     registerUser,
@@ -23,5 +24,6 @@ export {
     saveAudio,
     saveUrl,
     addMember,
-    updateVolume
+    updateVolume,
+    updateDescription
 }

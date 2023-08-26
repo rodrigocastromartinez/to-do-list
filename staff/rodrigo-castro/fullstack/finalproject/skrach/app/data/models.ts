@@ -28,6 +28,9 @@ const user = new Schema<UserModel>({
         ref: 'Project',
         required: true,
         default: []
+    },
+    description: {
+        type: String
     }
 })
 

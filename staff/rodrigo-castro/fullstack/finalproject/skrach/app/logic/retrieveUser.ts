@@ -19,7 +19,8 @@ export default function retrieveUser(userId: string) {
             return {
                 name: user.name,
                 email: user.email,
-                avatar: user.avatar
+                avatar: user.avatar,
+                description: user.description
             }
     })()
 }

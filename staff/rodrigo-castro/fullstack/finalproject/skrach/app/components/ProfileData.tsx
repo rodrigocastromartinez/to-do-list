@@ -7,16 +7,15 @@ import { UserModel } from "../data/interfaces"
   interface ProfileDataProps {
     onAvatarChange: () => void
     setModal: (arg1: string | undefined) => void
-    userData: UserModel | undefined
+    user: UserModel | undefined
+    setUser: (arg1: UserModel | undefined) => void
   }
 
-export default function ProfileData({ onAvatarChange, setModal, userData }: ProfileDataProps) {
-    const [user, setUser] = useState<UserModel>()
-  
+export default function ProfileData({ onAvatarChange, setModal, setUser, user }: ProfileDataProps) {
     useEffect(() => {
       const fetchData = (async () => {
         try {
-          setUser(userData)
+          setUser(user)
         } catch (error: any) {
           console.error('Error fetching user data:', error)
         }
@@ -35,7 +34,7 @@ export default function ProfileData({ onAvatarChange, setModal, userData }: Prof
         <div>
             <p className="font-semibold text-slate-300 text-lg" >{user.name}</p>
             <div className="flex gap-1" >
-              <p className="font-normal text-slate-400">Lorem ipsum description</p>
+              <p className="font-normal text-slate-400">{user.description || 'My description'}</p>
               <span className="material-symbols-outlined text-slate-400" onClick={handleEditDescription} >edit</span>
             </div>
             <div className="flex gap-1 items-center"><p className="text-lg text-slate-300" >12</p><p className="text-slate-400" >projects</p></div>
