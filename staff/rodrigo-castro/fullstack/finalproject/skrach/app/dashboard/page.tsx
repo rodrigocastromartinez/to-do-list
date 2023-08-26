@@ -1,8 +1,8 @@
 'use client'
 
 import { useState } from 'react'
-import {createProject, retrieveUser, retrieveUserProjects, retrieveProject } from "../logic/client"
-import { Edition, Button, SearchBar, ProfileData, Projects, NavigationBar, AvatarModal } from '../components'
+import {createProject, retrieveUser, retrieveUserProjects, retrieveProject, retrieveUserEmail } from "../logic/client"
+import { Edition, Button, SearchBar, ProfileData, Projects, NavigationBar, AvatarModal, MembersModal } from '../components'
 import logoutUser from '../logic/client/logoutUser'
 import { useRouter } from 'next/navigation'
 import { useAppContext } from '../hooks'
@@ -16,6 +16,7 @@ export default function Home() {
     const [modal, setModal] = useState<string | undefined>(undefined)
     const [user, setUser] = useState<UserModel>()
     const [projects, setProjects] = useState<[ProjectModel]>()
+    const [owners, setOwners] = useState<{id: string, email: string}[]>()
 
     const { freeze, unfreeze } = useAppContext()
 
@@ -89,6 +90,30 @@ export default function Home() {
         }
     }
 
+    const handleAddMember = async (projectId: string) => {
+        freeze()
+        try {
+            const project = await retrieveProject(projectId)
+    
+            const owners = await Promise.all(project.owners.map(async (owner: string) => {
+                const email = await retrieveUserEmail(owner)
+                
+                return {id: owner, email}
+            }))
+
+            setOwners(owners)
+            
+            setModal('members')
+
+            unfreeze()
+        } catch(error: any) {
+            unfreeze()
+
+            alert(error.message)
+        }
+
+    }
+
     return <>
         <div >
             <NavigationBar onLogoutClicked={handleLogout} ></NavigationBar>
@@ -108,8 +133,10 @@ export default function Home() {
         </div>
     </div>}
 
-    {edition && projectId &&  <Edition onGoBack={handleGoBack} projectId={projectId} setModal={setModal} /> }
+    {edition && projectId &&  <Edition onGoBack={handleGoBack} projectId={projectId} setModal={setModal} onAddMemberClicked={handleAddMember} /> }
 
     {modal === 'avatar' && <AvatarModal setModal={setModal} ></AvatarModal>}
+
+    {modal === 'members' && owners && projectId && <MembersModal projectId={projectId} setModal={setModal} owners={owners} ></MembersModal>}
     </>
 }
