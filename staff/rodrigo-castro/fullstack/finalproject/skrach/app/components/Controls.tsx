@@ -6,9 +6,9 @@ interface ControlsProps {
 }
 
 export default function Controls({ onToggleRec, onPlay }: ControlsProps) {
-    return <ul className="flex justify-center items-center text-slate-400" >
-        <BarActionIcon iconClass={'material-symbols-rounded !text-[48px]'} icon={'skip_previous'} ></BarActionIcon>
-        <BarActionIcon iconClass={'material-symbols-rounded !text-[48px]'} icon={'radio_button_unchecked'} action={onToggleRec} ></BarActionIcon>
-        <BarActionIcon iconClass={'material-symbols-rounded !text-[48px]'} icon={'play_arrow'} action={onPlay} ></BarActionIcon>
+    return <ul className="flex justify-center items-center text-slate-400 p-4 gap-4" >
+        <img src={`/back.svg`} className={`h-10 w-10`} onClick={onPlay}/>
+        <img src={`/rec.svg`} className={`h-10 w-10`} onClick={onToggleRec}/>
+        <img src={`/play.svg`} className={`h-10 w-10`} onClick={onPlay}/>
     </ul>
 }
