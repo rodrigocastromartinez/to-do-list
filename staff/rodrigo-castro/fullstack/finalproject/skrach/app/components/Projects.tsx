@@ -24,8 +24,6 @@ export default function Projects({ projects, onProjectSelected }: ProjectsProps)
     }, [])
 
     const userId = extractUserId()
-
-    console.log(userId)
     
     return <>
     {userProjects && <div className="flex flex-col gap-4">

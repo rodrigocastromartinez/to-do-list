@@ -11,6 +11,7 @@ import saveUrl from './saveUrl'
 import addMember from './addMember'
 import updateVolume from './updateVolume'
 import updateDescription from './updateDescription'
+import updateInstrument from './updateInstrument'
 
 export {
     registerUser,
@@ -25,5 +26,6 @@ export {
     saveUrl,
     addMember,
     updateVolume,
-    updateDescription
+    updateDescription,
+    updateInstrument
 }

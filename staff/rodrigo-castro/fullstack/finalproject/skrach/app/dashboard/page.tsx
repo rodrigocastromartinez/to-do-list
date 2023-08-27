@@ -2,13 +2,13 @@
 
 import { useState } from 'react'
 import {createProject, retrieveUser, retrieveUserProjects, retrieveProject, retrieveUserEmail } from "../logic/client"
-import { Edition, Button, SearchBar, ProfileData, Projects, NavigationBar, AvatarModal, MembersModal, DescriptionModal } from '../components'
+import { Edition, Button, SearchBar, ProfileData, Projects, NavigationBar, AvatarModal, MembersModal, DescriptionModal, Instruments } from '../components'
 import logoutUser from '../logic/client/logoutUser'
 import { useRouter } from 'next/navigation'
 import { useAppContext } from '../hooks'
 import { UserModel } from '../data/interfaces'
 import { useEffect } from 'react'
-import { ProjectModel } from '../data/interfaces'
+import { ProjectModel, TrackModel } from '../data/interfaces'
 
 export default function Home() {
     const [edition, setEdition] = useState(false)
@@ -17,6 +17,7 @@ export default function Home() {
     const [user, setUser] = useState<UserModel>()
     const [projects, setProjects] = useState<[ProjectModel]>()
     const [owners, setOwners] = useState<{id: string, email: string}[]>()
+    const [trackData, setTrackData] = useState<TrackModel>()
 
     const { freeze, unfreeze } = useAppContext()
 
@@ -132,6 +133,12 @@ export default function Home() {
 
     }
 
+    const handleSelectInstrument = (trackData: TrackModel) => {
+        setTrackData(trackData)
+
+        setModal('instrument')
+    }
+
     return <>
         <div >
             <NavigationBar onLogoutClicked={handleLogout} ></NavigationBar>
@@ -146,17 +153,19 @@ export default function Home() {
             <Button size='fit' type='no-fill' rounded={true} text={'New'} onClick={handleNewProject} ></Button>
         </div>
         <div>
-            <Projects projects={projects} onProjectSelected={handleProjectSelected}></Projects>
+            <Projects projects={projects} onProjectSelected={handleProjectSelected} ></Projects>
         </div>
         </div>
     </div>}
 
-    {edition && projectId &&  <Edition onGoBack={handleGoBack} projectId={projectId} setModal={setModal} onAddMemberClicked={handleAddMember} /> }
+    {edition && projectId &&  <Edition onGoBack={handleGoBack} projectId={projectId} modal={modal} onAddMemberClicked={handleAddMember} onSelectInstrument={handleSelectInstrument} /> }
 
     {modal === 'avatar' && <AvatarModal setModal={setModal} ></AvatarModal>}
 
     {modal === 'members' && owners && projectId && <MembersModal projectId={projectId} setModal={setModal} owners={owners} ></MembersModal>}
 
     {modal === 'description' && user && <DescriptionModal user={user} setModal={setModal} setUser={setUser} />}
+
+    {modal === 'instrument' && trackData && projectId && <Instruments trackData={trackData} projectId={projectId} setModal={setModal} ></Instruments>}
     </>
 }

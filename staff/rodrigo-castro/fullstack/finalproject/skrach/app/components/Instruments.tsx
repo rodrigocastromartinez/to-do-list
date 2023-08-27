@@ -1,29 +1,34 @@
-import Image from "next/image"
 import { TrackModel } from "../data/interfaces"
 import { Dispatch, SetStateAction } from "react"
+import { updateInstrument } from "../logic/client"
 
 interface InstrumentsProps {
     trackData: TrackModel
-    setInstrument: Dispatch<SetStateAction<string>>
-    instrument: string
+    projectId: string
+    setModal: Dispatch<SetStateAction<string | undefined>>
 }
 
-export default function Instruments({ trackData, setInstrument, instrument }: InstrumentsProps) {
-    const onNoteSelected = () => {
+export default function Instruments({ trackData, projectId, setModal }: InstrumentsProps) {
+    const onInstrumentSelected = async (selection: string) => {
+        console.log(selection)
+        await updateInstrument(projectId, trackData._id, selection)
 
+        setModal(undefined)
     }
 
     return <>
+    <div className="fixed top-0 left-0 h-screen w-screen bg-[var(--black-transparent)] flex flex-col justify-center items-center z-30 ">
         <div className="flex justify-center items-center h-fit w-fit relative top-0 left-0 z-50">
             <div className="flex justify-center items-center w-80 h-fit p-4 rounded-2xl bg-[var(--grey-700)]">
                 <ul className="flex flex-row gap-6">
-                    <li onClick={onNoteSelected} ><img src="/note.svg" className={`h-8 w-8 ${instrument && instrument === 'note' ? 'filter-orange' : ''}`}/></li>
-                    <li ><img src="/mic.svg" className={`h-8 w-8 ${instrument && instrument === 'mic' ? 'filter-orange' : ''}`}/></li>
-                    <li ><img src="/guitar.svg" className={`h-8 w-8 ${instrument && instrument === 'guitar' ? 'filter-orange' : ''}`}/></li>
-                    <li ><img src="/piano.svg" className={`h-8 w-8 ${instrument && instrument === 'piano' ? 'filter-orange' : ''}`}/></li>
-                    <li ><img src="/drums.svg" className={`h-8 w-8 ${instrument && instrument === 'drums' ? 'filter-orange' : ''}`}/></li>
+                    <li onClick={() => onInstrumentSelected('note')} ><img src="/note.svg" className={`h-8 w-8 ${trackData.instrument && trackData.instrument === 'note' ? 'filter-orange' : ''}`}/></li>
+                    <li onClick={() => onInstrumentSelected('mic')}><img src="/mic.svg" className={`h-8 w-8 ${trackData.instrument && trackData.instrument === 'mic' ? 'filter-orange' : ''}`}/></li>
+                    <li onClick={() => onInstrumentSelected('guitar')}><img src="/guitar.svg" className={`h-8 w-8 ${trackData.instrument && trackData.instrument === 'guitar' ? 'filter-orange' : ''}`}/></li>
+                    <li onClick={() => onInstrumentSelected('piano')}><img src="/piano.svg" className={`h-8 w-8 ${trackData.instrument && trackData.instrument === 'piano' ? 'filter-orange' : ''}`}/></li>
+                    <li onClick={() => onInstrumentSelected('drums')}><img src="/drums.svg" className={`h-8 w-8 ${trackData.instrument && trackData.instrument === 'drums' ? 'filter-orange' : ''}`}/></li>
                 </ul>
             </div>
         </div>
+    </div>
     </>
 }

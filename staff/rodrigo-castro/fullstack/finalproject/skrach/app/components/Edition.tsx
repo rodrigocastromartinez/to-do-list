@@ -17,10 +17,11 @@ interface EditionProps {
     onGoBack: () => void
     onAddMemberClicked: (arg0: string) => void
     projectId: string
-    setModal: Dispatch<SetStateAction<string | undefined>>
+    modal: string | undefined
+    onSelectInstrument: (arg0: TrackModel) => void
 }
 
-export default function Edition({ onGoBack, projectId, setModal, onAddMemberClicked }: EditionProps) {
+export default function Edition({ onGoBack, projectId, modal, onAddMemberClicked, onSelectInstrument }: EditionProps) {
     const [isRecording, setIsRecording] = useState<boolean>(false)
     const [recording, setRecording] = useState<MediaRecorder>()
     const [chunks, setChunks] = useState<Blob[]>()
@@ -29,7 +30,7 @@ export default function Edition({ onGoBack, projectId, setModal, onAddMemberClic
     const [tracks, setTracks] = useState<[TrackModel]>()
 
     useEffect(() => {
-        const fetchData = (async () => {
+        (async () => {
             const project = await retrieveProject(projectId)
 
             setTracks(project.tracks)
@@ -171,7 +172,7 @@ export default function Edition({ onGoBack, projectId, setModal, onAddMemberClic
             </div>
         </div>
         <div className="flex flex-col justify-start h-full gap-4">
-            {tracks && tracks.map(track => <TrackCompo key={track._id} trackData={track} setTrackId={setTrackId} trackId={trackId!} projectId={projectId} setTracks={setTracks} /> )}
+            {tracks && tracks.map(track => <TrackCompo key={track._id} trackData={track} setTrackId={setTrackId} trackId={trackId!} projectId={projectId} setTracks={setTracks} onSelectInstrument={onSelectInstrument} /> )}
         </div>
         <div className="flex flex-col p-4 fixed bottom-0 left-0 w-screen bg-[var(--black-100)]">
             <Controls onToggleRec={handleToggleRec} onPlay={handlePlay} ></Controls>

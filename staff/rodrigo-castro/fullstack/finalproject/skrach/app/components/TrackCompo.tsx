@@ -14,10 +14,10 @@ interface TrackProps {
     trackId: string
     projectId: string
     setTracks: Dispatch<SetStateAction<[TrackModel] | undefined>>
+    onSelectInstrument: (arg0: TrackModel) => void
 }
 
-export default function TrackCompo({ trackData, setTrackId, trackId, projectId, setTracks }: TrackProps) {
-    const [selectInstrument, setSelectInstrument] = useState(false)
+export default function TrackCompo({ trackData, setTrackId, trackId, projectId, setTracks, onSelectInstrument }: TrackProps) {
     const [instrument, setInstrument] = useState<string>(trackData.instrument)
     const [url, setUrl] = useState()
     const [delay, setDelay] = useState<number>()
@@ -81,9 +81,6 @@ export default function TrackCompo({ trackData, setTrackId, trackId, projectId, 
             alert(error.message)
         }
     }
-    
-
-    const handleSelectInstrument = () => setSelectInstrument(true)
 
     const handleTrackSelected = () => setTrackId(trackData._id)
 
@@ -116,7 +113,7 @@ export default function TrackCompo({ trackData, setTrackId, trackId, projectId, 
     return <>
         <div className={`bg-[var(--grey-700)] px-4 py-4 flex flex-col gap-4 rounded-2xl ${trackId === trackData._id ? 'outline-2 outline-[var(--orange-300)] outline outline-inner' : ''}`} onClick={handleTrackSelected} >
             <div className={` flex justify-center items-center gap-4`} >
-                <div className="text-[var(--grey-600)]" onClick={handleSelectInstrument} ><span className="material-symbols-rounded !text-[32px]">music_note</span></div>
+                <div className="text-[var(--grey-600)]" onClick={() => onSelectInstrument(trackData)} ><img src={`/${instrument}.svg`} className={`h-8 w-8`}/></div>
                 <div className="h-16 w-full bg-[var(--grey-600)] rounded-2xl" >{url && <audio id={trackData._id} src={trackData.audio} preload="" >{trackData.delay}</audio> }</div>
                 <div className="flex items-center text-[var(--grey-600)]" ><span className="material-symbols-rounded !text-[32px]">fiber_manual_record</span></div>
                 <div className="h-4/5" >
@@ -156,6 +153,5 @@ export default function TrackCompo({ trackData, setTrackId, trackId, projectId, 
                 </ButtonGroup>
             </div>
         </div>
-        {selectInstrument && <Instruments trackData={trackData} setInstrument={setInstrument} instrument={instrument} ></Instruments> }
     </>
 }

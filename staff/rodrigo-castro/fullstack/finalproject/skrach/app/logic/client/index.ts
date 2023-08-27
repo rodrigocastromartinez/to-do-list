@@ -16,6 +16,7 @@ import deleteMember from './deleteMember'
 import updateVolume from './updateVolume'
 import updateUserAvatar from './updateUserAvatar'
 import updateDescription from './updateDescription'
+import updateInstrument from './updateInstrument'
 
 export {
     createProject,
@@ -35,5 +36,6 @@ export {
     deleteMember,
     updateVolume,
     updateUserAvatar,
-    updateDescription
+    updateDescription,
+    updateInstrument
 }
