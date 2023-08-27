@@ -15,9 +15,10 @@ interface TrackProps {
     projectId: string
     setTracks: Dispatch<SetStateAction<[TrackModel] | undefined>>
     onSelectInstrument: (arg0: TrackModel) => void
+    isRecording: boolean
 }
 
-export default function TrackCompo({ trackData, setTrackId, trackId, projectId, setTracks, onSelectInstrument }: TrackProps) {
+export default function TrackCompo({ trackData, setTrackId, trackId, projectId, setTracks, onSelectInstrument, isRecording }: TrackProps) {
     const [instrument, setInstrument] = useState<string>(trackData.instrument)
     const [url, setUrl] = useState()
     const [delay, setDelay] = useState<number>()
@@ -115,7 +116,7 @@ export default function TrackCompo({ trackData, setTrackId, trackId, projectId, 
             <div className={` flex justify-center items-center gap-4`} >
                 <div className="text-[var(--grey-600)]" onClick={() => onSelectInstrument(trackData)} ><img src={`/${instrument}.svg`} className={`h-8 w-8`}/></div>
                 <div className="h-16 w-full bg-[var(--grey-600)] rounded-2xl" >{url && <audio id={trackData._id} src={trackData.audio} preload="" >{trackData.delay}</audio> }</div>
-                <div className="flex items-center text-[var(--grey-600)]" ><span className="material-symbols-rounded !text-[32px]">fiber_manual_record</span></div>
+                {isRecording && trackId === trackData._id ? <img src={`/recording.svg`} className={`h-6 w-6`}/> : <img src={`/not-recording.svg`} className={`h-6 w-6`}/>}
                 <div className="h-4/5" >
                     <Slider
                     size="small"
