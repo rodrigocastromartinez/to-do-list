@@ -13,5 +13,6 @@ import MembersModal from "./MembersModal"
 import AvatarModal from "./AvatarModal"
 import DescriptionModal from "./DescriptionModal"
 import Instruments from "./Instruments"
+import RoundButton from "./RoundButton"
 
-export { Avatar, Button, Controls, DynamicTitle, Edition, NavigationBar, ProfileData, Projects, ProjectSummary, SearchBar, Track, MembersModal, AvatarModal, DescriptionModal, Instruments }
+export { Avatar, Button, Controls, DynamicTitle, Edition, NavigationBar, ProfileData, Projects, ProjectSummary, SearchBar, Track, MembersModal, AvatarModal, DescriptionModal, Instruments, RoundButton }

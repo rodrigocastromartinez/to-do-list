@@ -7,6 +7,7 @@ import Instruments from "./Instruments"
 import { retrieveProject } from "../logic/client"
 import { Slider, ButtonGroup, Button } from "@mui/material"
 import { saveDelay, updateVolume } from '../logic/client'
+import RoundButton from "./RoundButton"
 
 interface TrackProps {
     trackData: TrackModel
@@ -112,47 +113,35 @@ export default function TrackCompo({ trackData, setTrackId, trackId, projectId, 
     }
 
     return <>
-        <div className={`bg-[var(--grey-700)] px-4 py-4 flex flex-col gap-4 rounded-2xl ${trackId === trackData._id ? 'outline-2 outline-[var(--orange-300)] outline outline-inner' : ''}`} onClick={handleTrackSelected} >
-            <div className={` flex justify-center items-center gap-4`} >
-                <div className="text-[var(--grey-600)]" onClick={() => onSelectInstrument(trackData)} ><img src={`/${instrument}.svg`} className={`h-8 w-8`}/></div>
-                <div className="h-16 w-full bg-[var(--grey-600)] rounded-2xl" >{url && <audio id={trackData._id} src={trackData.audio} preload="" >{trackData.delay}</audio> }</div>
-                {isRecording && trackId === trackData._id ? <img src={`/recording.svg`} className={`h-6 w-6`}/> : <img src={`/not-recording.svg`} className={`h-6 w-6`}/>}
-                <div className="h-4/5" >
-                    <Slider
-                    size="small"
-                    value={volume}
-                    aria-label="Small"
-                    valueLabelDisplay="auto"
-                    orientation="vertical"
-                    sx={{
-                        color: 'var(--orange-300)',
-                    }}
-                    onChange={handleChange}
-                    />
+        <div className={`bg-[var(--grey-700)] px-4 py-4 flex items-center gap-4 rounded-2xl ${trackId === trackData._id ? 'outline-2 outline-[var(--orange-300)] outline outline-inner' : ''}`} onClick={handleTrackSelected} >
+            <div className="text-[var(--grey-600)]" onClick={() => onSelectInstrument(trackData)} ><img src={`/${instrument}.svg`} className={`h-8 w-8`}/></div>
+            <div className="w-full flex flex-col gap-2" >
+                <div className={` flex justify-center items-center gap-4`} >
+                    <div className="h-16 w-full bg-[var(--grey-600)] rounded-2xl" >{url && <audio id={trackData._id} src={trackData.audio} preload="" >{trackData.delay}</audio> }</div>
+                    {isRecording && trackId === trackData._id ? <img src={`/recording.svg`} className={`h-6 w-6`}/> : <img src={`/not-recording.svg`} className={`h-6 w-6`}/>}
+                </div>
+                <div className="flex justify-center items-center gap-4 text-[var(--grey-600)]" >
+                    <p className="font-semibold text-base flex items-center" >Delay:</p>
+                    <p className="font-semibold text-xl flex items-center" >{delay || '0'} ms</p>
+                    <div className="flex gap-1" >
+                        <RoundButton text="-" heigth={6} width={6} onClick={handleLessDelay} />
+                        <RoundButton text="+" heigth={6} width={6} onClick={handleMoreDelay} />
+                    </div>
                 </div>
             </div>
-            <div className="flex justify-center items-center gap-4 text-[var(--grey-600)]" >
-                <p className="font-semibold" >Delay:</p>
-                <p className="font-semibold" >{delay || '0'} ms</p>
-                <ButtonGroup variant="outlined" aria-label="outlined button group" size="small" >
-                    <Button 
-                    onClick={handleLessDelay}
-                    sx={{
-                        outline: "2px solid var(--orange-300)",
-                        outlineOffset: "-1px",
-                        color: "var(--orange-300)",
-                        fontWeight: "700"
-                    }}>-</Button>
-                    <Button 
-                    onClick={handleMoreDelay}
-                    sx={{
-                        outline: "2px solid var(--orange-300)",
-                        outlineOffset: "-1px",
-                        color: "var(--orange-300)",
-                        fontWeight: "700"
-                    }}>+</Button>
-                </ButtonGroup>
-            </div>
+            <div className="h-4/5" >
+                        <Slider
+                        size="small"
+                        value={volume}
+                        aria-label="Small"
+                        valueLabelDisplay="auto"
+                        orientation="vertical"
+                        sx={{
+                            color: 'var(--orange-300)',
+                        }}
+                        onChange={handleChange}
+                        />
+                    </div>
         </div>
     </>
 }
