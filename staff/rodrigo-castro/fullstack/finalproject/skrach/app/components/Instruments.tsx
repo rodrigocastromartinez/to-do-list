@@ -1,18 +1,25 @@
 import { TrackModel } from "../data/interfaces"
 import { Dispatch, SetStateAction } from "react"
-import { updateInstrument } from "../logic/client"
+import { retrieveProject, updateInstrument } from "../logic/client"
 import Button from './Button'
 
 interface InstrumentsProps {
     trackData: TrackModel
     projectId: string
     setModal: Dispatch<SetStateAction<string | undefined>>
+    setTrackData: Dispatch<SetStateAction<TrackModel | undefined>>
 }
 
-export default function Instruments({ trackData, projectId, setModal }: InstrumentsProps) {
+export default function Instruments({ trackData, projectId, setModal, setTrackData }: InstrumentsProps) {
     const onInstrumentSelected = async (selection: string) => {
         console.log(selection)
         await updateInstrument(projectId, trackData._id, selection)
+
+        const project = await retrieveProject(projectId)
+
+        const track = project.tracks.find((track: TrackModel) => track._id === trackData._id)
+
+        setTrackData(track)
 
         setModal(undefined)
     }

@@ -121,6 +121,9 @@ export default function Edition({ onGoBack, projectId, modal, onAddMemberClicked
 
         console.log(url)
 
+        const project = await retrieveProject(projectId)
+
+        setTracks(project.tracks)
     } catch (error: any) {
         console.log(error.message)
     }
@@ -144,7 +147,7 @@ export default function Edition({ onGoBack, projectId, modal, onAddMemberClicked
         }
     }
 
-    const handlePlay = () => {
+    const handlePlay = async () => {
         const audios = document.querySelectorAll('audio')
 
         audios.forEach(audio => {
@@ -163,7 +166,7 @@ export default function Edition({ onGoBack, projectId, modal, onAddMemberClicked
     }
 
     return <>
-        {projectId && <div className="w-screen h-full relative pt-20 flex flex-col justify-between px-8 gap-4" >
+        {projectId && <div className="w-screen h-full relative top-16 flex flex-col justify-between px-8 gap-4 pt-4" >
         <div className="flex flex-col gap-2" >
             <DynamicTitle projectId={projectId} ></DynamicTitle>
             <div className="flex gap-2" >

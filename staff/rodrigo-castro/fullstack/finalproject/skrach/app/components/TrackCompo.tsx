@@ -95,6 +95,10 @@ export default function TrackCompo({ trackData, setTrackId, trackId, projectId, 
             await saveDelay(projectId!, trackData._id, _delay)
     
             setDelay(_delay)
+
+            const project = await retrieveProject(projectId)
+
+            setTracks(project.tracks)
         } catch(error: any) {
             alert(error.message)
         }
@@ -107,6 +111,10 @@ export default function TrackCompo({ trackData, setTrackId, trackId, projectId, 
             await saveDelay(projectId!, trackData._id, _delay)
     
             setDelay(_delay)
+
+            const project = await retrieveProject(projectId)
+
+            setTracks(project.tracks)
         } catch(error: any) {
             alert(error.message)
         }

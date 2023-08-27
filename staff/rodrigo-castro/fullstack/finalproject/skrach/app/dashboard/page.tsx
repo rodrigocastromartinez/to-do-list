@@ -166,6 +166,6 @@ export default function Home() {
 
     {modal === 'description' && user && <DescriptionModal user={user} setModal={setModal} setUser={setUser} />}
 
-    {modal === 'instrument' && trackData && projectId && <Instruments trackData={trackData} projectId={projectId} setModal={setModal} ></Instruments>}
+    {modal === 'instrument' && trackData && projectId && <Instruments trackData={trackData} projectId={projectId} setModal={setModal} setTrackData={setTrackData} ></Instruments>}
     </>
 }
