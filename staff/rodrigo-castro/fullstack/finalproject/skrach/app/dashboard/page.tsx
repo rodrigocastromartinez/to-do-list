@@ -54,19 +54,37 @@ export default function Home() {
         }
     }
 
-    const handleGoBack = () => {
-        setProjectId(undefined)
-        setEdition(false)
+    const handleGoBack = async () => {
+        freeze()
+        try {
+            setProjectId(undefined)
+    
+            const projects = await retrieveUserProjects()
+    
+            setEdition(false)
+            
+            setProjects(projects)
+
+            unfreeze()
+        } catch(error: any) {
+            unfreeze()
+
+            alert(error.message)
+        }
     }
 
     const handleLogout = () => {
         freeze()
 
-        logoutUser()
+        try {
+            logoutUser()
+    
+            router.push('/login')
 
-        router.push('/login')
-
-        unfreeze()
+            unfreeze()
+        } catch(error: any) {
+            alert(error.message)
+        }
     }
 
     const handleChangeAvatar = () => {

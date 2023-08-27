@@ -20,7 +20,8 @@ export default function retrieveUser(userId: string) {
                 name: user.name,
                 email: user.email,
                 avatar: user.avatar,
-                description: user.description
+                description: user.description,
+                projects: user.projects
             }
     })()
 }

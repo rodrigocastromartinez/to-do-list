@@ -37,7 +37,7 @@ export default function ProfileData({ onAvatarChange, setModal, setUser, user }:
               <p className="font-normal text-slate-400">{user.description || 'My description'}</p>
               <span className="material-symbols-outlined text-slate-400" onClick={handleEditDescription} >edit</span>
             </div>
-            <div className="flex gap-1 items-center"><p className="text-lg text-slate-300" >12</p><p className="text-slate-400" >projects</p></div>
+            <div className="flex gap-1 items-center"><p className="text-lg text-slate-300" >{user.projects.length}</p><p className="text-slate-400" >{user.projects.length === 1 ? 'project' : 'projects'}</p></div>
         </div>
     </div>}
     </>
