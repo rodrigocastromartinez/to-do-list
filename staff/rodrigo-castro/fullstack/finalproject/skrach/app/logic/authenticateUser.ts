@@ -23,7 +23,7 @@ export default function authenticateUser(email: string, password: string) {
 
             if (!user) throw new ExistenceError('user not found')
 
-            if (password !== user.password) throw new AuthError('wrong credentials')
+            if (password !== user.password) throw new Error('wrong credentials')
 
             return user.id
     })()

@@ -20,7 +20,7 @@ export default function Home() {
     const [owners, setOwners] = useState<{id: string, email: string}[]>()
     const [trackData, setTrackData] = useState<TrackModel>()
 
-    const { freeze, unfreeze } = useAppContext()
+    const { freeze, unfreeze, alert } = useAppContext()
 
     useEffect(() => {
         freeze()
@@ -141,11 +141,15 @@ export default function Home() {
     }
 
     const handleDeleteProject = async (id: string) => {
-        await deleteProject(id)
-
-        const projects = await retrieveUserProjects()
-
-        setProjects(projects)
+        try {
+            await deleteProject(id)
+    
+            const projects = await retrieveUserProjects()
+    
+            setProjects(projects)
+        } catch(error: any) {
+            alert(error.message)
+        }
     }
 
     return <>

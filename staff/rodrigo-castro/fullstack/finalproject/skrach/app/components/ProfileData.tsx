@@ -14,11 +14,7 @@ import { UserModel } from "../data/interfaces"
 export default function ProfileData({ onAvatarChange, setModal, setUser, user }: ProfileDataProps) {
     useEffect(() => {
       const fetchData = (async () => {
-        try {
           setUser(user)
-        } catch (error: any) {
-          console.error('Error fetching user data:', error)
-        }
       })()
     }, [])
 

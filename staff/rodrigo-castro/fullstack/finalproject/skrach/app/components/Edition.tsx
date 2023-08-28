@@ -11,7 +11,7 @@ import retrieveProject from "../logic/client/retrieveProject"
 import deleteTrack from "../logic/client/deleteTrack"
 import { TrackModel } from "../data/interfaces"
 import { saveUrl } from "../logic/client"
-import { Dispatch, SetStateAction } from "react"
+import { useAppContext } from "../hooks"
 
 interface EditionProps {
     onGoBack: () => void
@@ -25,16 +25,21 @@ export default function Edition({ onGoBack, projectId, modal, onAddMemberClicked
     const [isRecording, setIsRecording] = useState<boolean>(false)
     const [recording, setRecording] = useState<MediaRecorder>()
     const [chunks, setChunks] = useState<Blob[]>()
-    const [audioUrl, setAudioUrl] = useState<string>()
     const [trackId, setTrackId] = useState<string | undefined>()
     const [tracks, setTracks] = useState<[TrackModel]>()
 
-    useEffect(() => {
-        (async () => {
-            const project = await retrieveProject(projectId)
+    const { alert } = useAppContext()
 
-            setTracks(project.tracks)
-        })()
+    useEffect(() => {
+        try{
+            (async () => {
+                const project = await retrieveProject(projectId)
+    
+                setTracks(project.tracks)
+            })()
+        } catch(error: any) {
+            alert(error.message)
+        }
     }, [])
 
     const handleAddTrack = async () => {
@@ -52,11 +57,15 @@ export default function Edition({ onGoBack, projectId, modal, onAddMemberClicked
     }
 
     const handleDeleteTrack = async () => {
-        if (!trackId) return
-
-        const res = await deleteTrack(projectId, trackId)
-
-        setTracks(res.tracks)
+        try{
+            if (!trackId) return
+    
+            const res = await deleteTrack(projectId, trackId)
+    
+            setTracks(res.tracks)
+        } catch(error: any) {
+            alert(error.message)
+        }
     }
 
     const startRecording = () => {
@@ -125,7 +134,7 @@ export default function Edition({ onGoBack, projectId, modal, onAddMemberClicked
 
         setTracks(project.tracks)
     } catch (error: any) {
-        console.log(error.message)
+        alert(error.message)
     }
 }
 
@@ -143,26 +152,30 @@ export default function Edition({ onGoBack, projectId, modal, onAddMemberClicked
                 }
             }
         } catch(error: any) {
-            console.log(error.message)
+            alert(error.message)
         }
     }
 
     const handlePlay = async () => {
-        const audios = document.querySelectorAll('audio')
-
-        audios.forEach(audio => {
-            const track = tracks!.find((track: TrackModel) => track._id === audio.id)
-
-            console.log(track!.volume)
-
-            audio.volume = (track!.volume) / 100
-        })
-
-        audios.forEach(audio => {
-            setTimeout(() => {
-                audio.play()
-            }, parseInt(audio.textContent!))
-        })
+        try{
+            const audios = document.querySelectorAll('audio')
+    
+            audios.forEach(audio => {
+                const track = tracks!.find((track: TrackModel) => track._id === audio.id)
+    
+                console.log(track!.volume)
+    
+                audio.volume = (track!.volume) / 100
+            })
+    
+            audios.forEach(audio => {
+                setTimeout(() => {
+                    audio.play()
+                }, parseInt(audio.textContent!))
+            })
+        } catch(error: any) {
+            alert(error.message)
+        } 
     }
 
     return <>

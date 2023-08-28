@@ -1,6 +1,7 @@
 import { retrieveUser, updateDescription } from "../logic/client"
 import Button from "./Button"
 import { UserModel } from "../data/interfaces"
+import { useAppContext } from "../hooks"
 
 interface DescriptionModalProps {
     setModal: (arg1: string | undefined) => void
@@ -9,20 +10,32 @@ interface DescriptionModalProps {
 }
 
 export default function DescriptionModal({setModal, user, setUser}: DescriptionModalProps) {
+    const { freeze, unfreeze, alert } = useAppContext()
+
     const handleCloseModal = () => setModal(undefined)
 
     const handleUpdateDescription = async (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault()
+        freeze()
 
-        const description = event.currentTarget.description.value
+        try{
+            event.preventDefault()
+    
+            const description = event.currentTarget.description.value
+    
+            await updateDescription(description)
+    
+            const _user = await retrieveUser()
+    
+            setUser(_user)
+    
+            setModal(undefined)
 
-        await updateDescription(description)
+            unfreeze()
+        } catch(error: any) {
+            unfreeze()
 
-        const _user = await retrieveUser()
-
-        setUser(_user)
-
-        setModal(undefined)
+            alert(error.message)
+        }
     }
 
     return <>

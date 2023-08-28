@@ -1,21 +1,34 @@
 import { updateUserAvatar } from "../logic/client"
 import Button from "./Button"
+import { useAppContext } from "../hooks"
 
 interface AvatarModalProps {
     setModal: (arg1: string | undefined) => void
 }
 
 export default function AvatarModal({setModal}: AvatarModalProps) {
+    const { freeze, unfreeze, alert } = useAppContext()
+
     const handleCloseModal = () => setModal(undefined)
 
     const handleChangeAvatar = async (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault()
+        freeze()
 
-        const avatar = event.currentTarget.avatarurl.value
+        try{
+            event.preventDefault()
+    
+            const avatar = event.currentTarget.avatarurl.value
+    
+            await updateUserAvatar(avatar)
+    
+            setModal(undefined)
 
-        await updateUserAvatar(avatar)
+            unfreeze()
+        } catch(error: any) {
+            unfreeze()
 
-        setModal(undefined)
+            alert(error.message)
+        }
     }
 
     return <>

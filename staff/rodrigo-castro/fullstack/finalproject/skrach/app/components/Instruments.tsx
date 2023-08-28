@@ -2,6 +2,7 @@ import { TrackModel } from "../data/interfaces"
 import { Dispatch, SetStateAction } from "react"
 import { retrieveProject, updateInstrument } from "../logic/client"
 import Button from './Button'
+import { useAppContext } from "../hooks"
 
 interface InstrumentsProps {
     trackData: TrackModel
@@ -11,17 +12,22 @@ interface InstrumentsProps {
 }
 
 export default function Instruments({ trackData, projectId, setModal, setTrackData }: InstrumentsProps) {
+    const { alert } = useAppContext()
+
     const onInstrumentSelected = async (selection: string) => {
-        console.log(selection)
-        await updateInstrument(projectId, trackData._id, selection)
-
-        const project = await retrieveProject(projectId)
-
-        const track = project.tracks.find((track: TrackModel) => track._id === trackData._id)
-
-        setTrackData(track)
-
-        setModal(undefined)
+        try{
+            await updateInstrument(projectId, trackData._id, selection)
+    
+            const project = await retrieveProject(projectId)
+    
+            const track = project.tracks.find((track: TrackModel) => track._id === trackData._id)
+    
+            setTrackData(track)
+    
+            setModal(undefined)
+        } catch(error: any) {
+            alert(error.message)
+        }
     }
 
     const handleCloseModal = () => setModal(undefined)

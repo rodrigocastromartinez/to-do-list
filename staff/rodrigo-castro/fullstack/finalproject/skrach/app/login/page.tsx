@@ -15,18 +15,24 @@ const roboto = Roboto({ subsets: ['latin'], weight: ['300'] })
 export default function Login() {
     const router = useRouter()
 
-    const { freeze, unfreeze } = useAppContext()
+    const { freeze, unfreeze, alert } = useAppContext()
 
     useEffect(() => {
         freeze()
-        if(context.token){
-            router.push('/dashboard')
-
+        try{
+            if(context.token){
+                router.push('/dashboard')
+    
+                unfreeze()
+    
+                return
+            }
+            unfreeze()
+        } catch(error: any) {
             unfreeze()
 
-            return
+            alert(error.message)
         }
-        unfreeze()
     }, [])
 
     async function handleLogin(event: FormEvent) {

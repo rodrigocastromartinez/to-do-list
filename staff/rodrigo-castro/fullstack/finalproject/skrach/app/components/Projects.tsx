@@ -1,11 +1,10 @@
 'use client'
 
 import { useState, useEffect } from "react"
-import retrieveUserProjects from "../logic/client/retrieveUserProjects"
-import extractUserId from "../logic/client/extractUserId"
 import { ProjectModel } from "../data/interfaces"
 import ProjectSummary from "./ProjectSummary"
-import React, { Dispatch, SetStateAction } from 'react'
+import React from 'react'
+import { useAppContext } from "../hooks"
 
 interface ProjectsProps {
     projects: [ProjectModel]
@@ -16,19 +15,21 @@ interface ProjectsProps {
 export default function Projects({ projects, onProjectSelected, onDeleteClicked }: ProjectsProps) {
     const [userProjects, setUserProjects] = useState<[ProjectModel]>()
 
-    useEffect(() => {
-        const fetchData = async () => {
-            setUserProjects(projects)
-        }
+    const { alert } = useAppContext()
 
-        fetchData()
+    useEffect(() => {
+        try {
+            (async () => {    
+                setUserProjects(projects)
+            })()
+        } catch(error: any) {
+            alert(error.message)
+        }
     }, [])
 
-    const userId = extractUserId()
-    
     return <>
     {userProjects && <div className="flex flex-col gap-4">
-        {userProjects && userProjects.map((project: ProjectModel) => project.owners.includes(userId) && <ProjectSummary key={project._id} project={project} onProjectSelected={onProjectSelected} onDelete={onDeleteClicked}/>) }
+        {userProjects && userProjects.map((project: ProjectModel) => <ProjectSummary key={project._id} project={project} onProjectSelected={onProjectSelected} onDelete={onDeleteClicked}/>) }
     </div>}
     </>
 }

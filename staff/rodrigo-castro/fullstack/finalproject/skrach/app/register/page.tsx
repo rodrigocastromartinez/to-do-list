@@ -9,15 +9,26 @@ import { useRouter } from 'next/navigation'
 import Button from '../components/Button'
 import { useEffect } from 'react'
 import context from '../logic/client/context'
+import { useAppContext } from '../hooks'
 
 const roboto = Roboto({ subsets: ['latin'], weight: ['300'] })
 
 export default function Register() {
-    useEffect(() => {
-        if(context.token){
-            router.push('/dashboard')
+    const { freeze, unfreeze, alert } = useAppContext()
 
-            return
+    useEffect(() => {
+        freeze()
+        try{
+            if(context.token){
+                router.push('/dashboard')
+    
+                return
+            }
+            unfreeze()
+        } catch(error: any) {
+            unfreeze()
+            
+            alert(error.message)
         }
     }, [])
 

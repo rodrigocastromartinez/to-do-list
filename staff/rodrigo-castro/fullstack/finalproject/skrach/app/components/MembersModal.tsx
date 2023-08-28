@@ -3,6 +3,7 @@ import { retrieveProject, retrieveUserEmail, addMember, extractUserId, retrieveU
 import { FormEvent, useEffect, useState } from "react"
 import { Chip } from "@mui/material"
 import { Dispatch, SetStateAction } from "react"
+import { useAppContext } from "../hooks"
 
 interface MembersModalParams {
     projectId: string
@@ -13,6 +14,8 @@ interface MembersModalParams {
 export default function MembersModal({ projectId, setModal, owners }: MembersModalParams) {
     const [ownersData, setOwnersData] = useState<{ id: string, email: string }[]>()
     const [emailInput, setEmailInput] = useState('')
+
+    const { alert } = useAppContext()
 
     useEffect(() => {
             try {
@@ -46,7 +49,6 @@ export default function MembersModal({ projectId, setModal, owners }: MembersMod
         } catch(error: any) {
             alert(error.message)
         }
-
     }
 
     const handleDelete = async (owner: { id: string, email: string }) => {

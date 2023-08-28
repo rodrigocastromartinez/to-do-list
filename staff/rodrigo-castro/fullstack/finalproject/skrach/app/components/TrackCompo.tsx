@@ -3,11 +3,11 @@
 import { TrackModel } from "../data/interfaces"
 import { Dispatch, SetStateAction } from "react"
 import { useState, useEffect } from "react"
-import Instruments from "./Instruments"
 import { retrieveProject } from "../logic/client"
-import { Slider, ButtonGroup, Button } from "@mui/material"
+import { Slider } from "@mui/material"
 import { saveDelay, updateVolume } from '../logic/client'
 import RoundButton from "./RoundButton"
+import { useAppContext } from "../hooks"
 
 interface TrackProps {
     trackData: TrackModel
@@ -27,9 +27,11 @@ export default function TrackCompo({ trackData, setTrackId, trackId, projectId, 
     const [pendingVolume, setPendingVolume] = useState<number | null>(null)
     const [timerId, setTimerId] = useState<NodeJS.Timeout | null>(null)
 
+    const { alert } = useAppContext()
+
     useEffect(() => {
         try {
-            const fetchData = (async () => {
+            (async () => {
                 const project = await retrieveProject(projectId!)
     
                 const track = project.tracks.find((track: TrackModel) => track.id === trackId)
@@ -41,7 +43,6 @@ export default function TrackCompo({ trackData, setTrackId, trackId, projectId, 
         } catch(error: any) {
             alert(error.message)
         }
-
     }, [])
 
     const handleChange = async (event: Event, value: number | number[], activeThumb: number) => {
@@ -55,20 +56,17 @@ export default function TrackCompo({ trackData, setTrackId, trackId, projectId, 
     
                 setVolume(newValue as number)
 
-                        // Cancela el temporizador existente si existe
                 if (timerId) {
                     clearTimeout(timerId);
                 }
         
-                // Configura un nuevo temporizador para ejecutar la actualización después de 500 ms
                 const newTimerId = setTimeout(async () => {
                     if (pendingVolume !== null) {
-                    // Ejecuta la actualización con el valor pendiente
                     await updateVolume(projectId, trackData._id, newValue)
 
                     console.log(newValue)
 
-                    setPendingVolume(null); // Limpia el valor pendiente
+                    setPendingVolume(null)
 
                     const project = await retrieveProject(projectId)
 
@@ -76,8 +74,8 @@ export default function TrackCompo({ trackData, setTrackId, trackId, projectId, 
                     }
                 }, 500)
         
-                setTimerId(newTimerId); // Almacena el nuevo ID de temporizador
-                setPendingVolume(newValue); // Almacena el valor pendiente
+                setTimerId(newTimerId)
+                setPendingVolume(newValue)
             }
         } catch (error: any) {
             alert(error.message)
