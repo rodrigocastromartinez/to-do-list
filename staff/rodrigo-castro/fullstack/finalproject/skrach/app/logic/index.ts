@@ -12,6 +12,8 @@ import addMember from './addMember'
 import updateVolume from './updateVolume'
 import updateDescription from './updateDescription'
 import updateInstrument from './updateInstrument'
+import deleteProject from './deleteProject'
+import updateTitle from './updateTitle'
 
 export {
     registerUser,
@@ -27,5 +29,7 @@ export {
     addMember,
     updateVolume,
     updateDescription,
-    updateInstrument
+    updateInstrument,
+    deleteProject,
+    updateTitle
 }

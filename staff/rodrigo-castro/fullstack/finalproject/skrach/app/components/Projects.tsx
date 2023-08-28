@@ -10,9 +10,10 @@ import React, { Dispatch, SetStateAction } from 'react'
 interface ProjectsProps {
     projects: [ProjectModel]
     onProjectSelected: (arg0: string) => void
+    onDeleteClicked: (arg0: string) => void
 }
 
-export default function Projects({ projects, onProjectSelected }: ProjectsProps) {
+export default function Projects({ projects, onProjectSelected, onDeleteClicked }: ProjectsProps) {
     const [userProjects, setUserProjects] = useState<[ProjectModel]>()
 
     useEffect(() => {
@@ -27,7 +28,7 @@ export default function Projects({ projects, onProjectSelected }: ProjectsProps)
     
     return <>
     {userProjects && <div className="flex flex-col gap-4">
-        {userProjects && userProjects.map((project: ProjectModel) => project.owners.includes(userId) && <ProjectSummary key={project._id} project={project} onProjectSelected={onProjectSelected} />) }
+        {userProjects && userProjects.map((project: ProjectModel) => project.owners.includes(userId) && <ProjectSummary key={project._id} project={project} onProjectSelected={onProjectSelected} onDelete={onDeleteClicked}/>) }
     </div>}
     </>
 }

@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import {createProject, retrieveUser, retrieveUserProjects, retrieveProject, retrieveUserEmail } from "../logic/client"
+import {createProject, retrieveUser, retrieveUserProjects, retrieveProject, retrieveUserEmail, deleteProject } from "../logic/client"
 import { Edition, Button, SearchBar, ProfileData, Projects, NavigationBar, AvatarModal, MembersModal, DescriptionModal, Instruments } from '../components'
 import logoutUser from '../logic/client/logoutUser'
 import { useRouter } from 'next/navigation'
@@ -9,6 +9,7 @@ import { useAppContext } from '../hooks'
 import { UserModel } from '../data/interfaces'
 import { useEffect } from 'react'
 import { ProjectModel, TrackModel } from '../data/interfaces'
+import { getStorage, ref, deleteObject } from "firebase/storage"
 
 export default function Home() {
     const [edition, setEdition] = useState(false)
@@ -139,6 +140,14 @@ export default function Home() {
         setModal('instrument')
     }
 
+    const handleDeleteProject = async (id: string) => {
+        await deleteProject(id)
+
+        const projects = await retrieveUserProjects()
+
+        setProjects(projects)
+    }
+
     return <>
         <div >
             <NavigationBar onLogoutClicked={handleLogout} ></NavigationBar>
@@ -153,7 +162,7 @@ export default function Home() {
             <Button size='fit' type='no-fill' rounded={true} text={'New'} onClick={handleNewProject} ></Button>
         </div>
         <div>
-            <Projects projects={projects} onProjectSelected={handleProjectSelected} ></Projects>
+            <Projects projects={projects} onProjectSelected={handleProjectSelected} onDeleteClicked={handleDeleteProject} ></Projects>
         </div>
         </div>
     </div>}

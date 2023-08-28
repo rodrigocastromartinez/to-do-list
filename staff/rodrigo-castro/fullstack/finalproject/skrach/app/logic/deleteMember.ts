@@ -1,4 +1,4 @@
-import { validateEmail, validateId } from "../../com"
+import { validateId } from "../../com"
 import { User, Project } from '../data/models'
 
 /**
@@ -6,7 +6,7 @@ import { User, Project } from '../data/models'
  * @param {string} userId user's id
  * @param {string} projectId project id
  * @param {string} email email to delete
- * @returns {Promise<>} NOT TRUE, MUST BE CORRECTED
+ * @returns {[]} array of objetc ids
  */
 
 export default function deleteMember (userId: string, projectId: string, newUserId: string) {

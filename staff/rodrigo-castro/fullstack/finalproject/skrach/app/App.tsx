@@ -10,12 +10,15 @@ const { Provider} = AppContext
 
 export default function App({ children }: {children: React.ReactNode}) {
   const [loader, setLoader] = useState<boolean>()
+  const [feedback, setFeedback] = useState<{message: string, level: string}>()
 
   const freeze = () => setLoader(true)
 
   const unfreeze = () => setLoader(false)
 
-    return <Provider value={{ freeze, unfreeze }}>
+  const handleShowAlert = (message: string, level = 'warn') => setFeedback({ message, level })
+
+    return <Provider value={{ alert: handleShowAlert, freeze, unfreeze }}>
         {children}
         {loader && <Loader />}
   </Provider>

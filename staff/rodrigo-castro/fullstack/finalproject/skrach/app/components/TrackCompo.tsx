@@ -34,7 +34,7 @@ export default function TrackCompo({ trackData, setTrackId, trackId, projectId, 
     
                 const track = project.tracks.find((track: TrackModel) => track.id === trackId)
     
-                setUrl(track.audio)
+                if(track.audio) setUrl(track.audio)
     
                 setDelay(trackData.delay)
             })()
