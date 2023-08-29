@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import {createProject, retrieveUser, retrieveUserProjects, retrieveProject, retrieveUserEmail, deleteProject } from "../logic/client"
-import { Edition, Button, SearchBar, ProfileData, Projects, NavigationBar, AvatarModal, MembersModal, DescriptionModal, Instruments } from '../components'
+import { Edition, Button, SearchBar, ProfileData, Projects, NavigationBar, AvatarModal, MembersModal, DescriptionModal, Instruments, Settings } from '../components'
 import logoutUser from '../logic/client/logoutUser'
 import { useRouter } from 'next/navigation'
 import { useAppContext } from '../hooks'
@@ -10,6 +10,7 @@ import { UserModel } from '../data/interfaces'
 import { useEffect } from 'react'
 import { ProjectModel, TrackModel } from '../data/interfaces'
 import { getStorage, ref, deleteObject } from "firebase/storage"
+import PasswordModal from '../components/PasswordModal'
 
 export default function Home() {
     const [edition, setEdition] = useState(false)
@@ -152,12 +153,14 @@ export default function Home() {
         }
     }
 
+    const handleSetPasswordModal = () => setModal('password')
+
+    const handleChangePassword = () => {}
+
     return <>
-        <div >
-            <NavigationBar onLogoutClicked={handleLogout} ></NavigationBar>
-        </div>
-    {!edition && user && projects && <div className="w-screen h-screen flex flex-col px-8 gap-4">
-        <div className='relative top-20 flex flex-col gap-4'>
+            <NavigationBar onLogoutClicked={handleLogout} setModal={setModal} ></NavigationBar>
+    {!edition && user && projects && <div className="absolute top-16 w-screen h-screen flex flex-col px-8 gap-4">
+        <div className='relative pt-4 flex flex-col gap-4'>
         <div>
             <ProfileData onAvatarChange={handleChangeAvatar} setModal={setModal} setUser={setUser} user={user}></ProfileData>
         </div>
@@ -180,5 +183,9 @@ export default function Home() {
     {modal === 'description' && user && <DescriptionModal user={user} setModal={setModal} setUser={setUser} />}
 
     {modal === 'instrument' && trackData && projectId && <Instruments trackData={trackData} projectId={projectId} setModal={setModal} setTrackData={setTrackData} ></Instruments>}
+
+    {modal === 'settings' && <Settings onChangePasswordClicked={handleSetPasswordModal} setModal={setModal} ></Settings>}
+
+    {modal === 'password' && <PasswordModal setModal={setModal} ></PasswordModal>}
     </>
 }

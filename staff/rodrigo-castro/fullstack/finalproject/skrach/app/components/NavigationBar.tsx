@@ -1,23 +1,17 @@
 'use client'
 
-import SettingsMenu from "./SettingsMenu"
+import SettingsMenu from "./Settings"
 import { useState } from "react"
+import { Dispatch, SetStateAction } from "react"
 
 interface NavigationBarProps {
     onLogoutClicked: () => void
+    setModal: Dispatch<SetStateAction<string | undefined>>
 }
 
-export default function NavigationBar({onLogoutClicked} : NavigationBarProps) {
-    const [menu, setMenu] = useState(false)
-
-    const handleSettings = () => {
-
-    }
-
-    const handleCloseMenu = () => {
-        setMenu(false)
-    }
-
+export default function NavigationBar({onLogoutClicked, setModal} : NavigationBarProps) {
+    const handleSettings = () => setModal('settings')
+    
     return <header className="fixed top-0 left-0 w-screen h-16 bg-[var(--black-100)] z-100">
         <nav className="h-full w-full border-solid border-b border-slate-800">
             <ul className="flex px-8 py-4 h-full justify-between items-center">

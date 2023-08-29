@@ -14,6 +14,7 @@ import updateDescription from './updateDescription'
 import updateInstrument from './updateInstrument'
 import deleteProject from './deleteProject'
 import updateTitle from './updateTitle'
+import updatePassword from './updatePassword'
 
 export {
     registerUser,
@@ -31,5 +32,6 @@ export {
     updateDescription,
     updateInstrument,
     deleteProject,
-    updateTitle
+    updateTitle,
+    updatePassword
 }

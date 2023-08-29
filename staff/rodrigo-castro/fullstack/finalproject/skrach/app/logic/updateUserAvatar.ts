@@ -17,6 +17,6 @@ export default function updateUserAvatar (userId: string, avatarUrl: string) {
 
         if (!user) throw new ExistenceError(`user with id ${userId} not found`)
 
-        return User.updateOne({ _id: userId }, { $set: { avatar: avatarUrl } })
+        return await User.updateOne({ _id: userId }, { $set: { avatar: avatarUrl } })
     })()
 }

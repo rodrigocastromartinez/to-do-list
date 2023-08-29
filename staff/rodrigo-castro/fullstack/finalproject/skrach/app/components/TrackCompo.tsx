@@ -62,15 +62,15 @@ export default function TrackCompo({ trackData, setTrackId, trackId, projectId, 
         
                 const newTimerId = setTimeout(async () => {
                     if (pendingVolume !== null) {
-                    await updateVolume(projectId, trackData._id, newValue)
+                        await updateVolume(projectId, trackData._id, newValue)
 
-                    console.log(newValue)
+                        console.log(newValue)
 
-                    setPendingVolume(null)
+                        setPendingVolume(null)
 
-                    const project = await retrieveProject(projectId)
+                        const project = await retrieveProject(projectId)
 
-                    setTracks(project.tracks)
+                        setTracks(project.tracks)
                     }
                 }, 500)
         
