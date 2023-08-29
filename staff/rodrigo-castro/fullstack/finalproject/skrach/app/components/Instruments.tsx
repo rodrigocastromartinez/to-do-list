@@ -3,6 +3,7 @@ import { Dispatch, SetStateAction } from "react"
 import { retrieveProject, updateInstrument } from "../logic/client"
 import Button from './Button'
 import { useAppContext } from "../hooks"
+import context from "../logic/client/context"
 
 interface InstrumentsProps {
     trackData: TrackModel
@@ -25,6 +26,10 @@ export default function Instruments({ trackData, projectId, setModal, setTrackDa
             setTrackData(track)
     
             setModal(undefined)
+
+            context.instrument = selection
+
+            console.log(context.instrument)
         } catch(error: any) {
             alert(error.message)
         }

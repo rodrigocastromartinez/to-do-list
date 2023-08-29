@@ -12,6 +12,18 @@ const context = {
     },
     get token() {
         return sessionStorage.token
+    },
+    set instrument(instrument) {
+        if (!instrument) {
+            delete sessionStorage.instrument
+
+            return
+        }
+
+        sessionStorage.instrument = instrument
+    },
+    get instrument() {
+        return sessionStorage.instrument
     }
 }
 

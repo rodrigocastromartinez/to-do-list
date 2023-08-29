@@ -109,4 +109,8 @@
   .filter-orange {
     filter: invert(48%) sepia(47%) saturate(741%) hue-rotate(347deg) brightness(91%) contrast(95%)
   }
+
+  .overall {
+    z-index: 999;
+  }
 }
