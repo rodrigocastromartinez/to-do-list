@@ -158,6 +158,8 @@ export default function TrackCompo({ trackData, setTrackId, trackId, projectId, 
             await updateInstrument(projectId, trackData._id, selection)
     
             const project = await retrieveProject(projectId)
+
+            setTracks(project.tracks)
     
             const track = project.tracks.find((track: TrackModel) => track._id === trackData._id)
     
