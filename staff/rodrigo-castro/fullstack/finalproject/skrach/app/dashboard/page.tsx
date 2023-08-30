@@ -20,6 +20,7 @@ export default function Home() {
     const [projects, setProjects] = useState<[ProjectModel]>()
     const [owners, setOwners] = useState<{id: string, email: string}[]>()
     const [trackData, setTrackData] = useState<TrackModel>()
+    const [search, setSearch] = useState<string>('')
 
     const { freeze, unfreeze, alert } = useAppContext()
 
@@ -165,11 +166,11 @@ export default function Home() {
             <ProfileData onAvatarChange={handleChangeAvatar} setModal={setModal} setUser={setUser} user={user}></ProfileData>
         </div>
         <div className="flex gap-4" >
-            <SearchBar></SearchBar>
-            <Button size='fit' type='no-fill' rounded={true} text={'New'} onClick={handleNewProject} ></Button>
+            <SearchBar onChange={(e) => setSearch(e.target.value)}></SearchBar>
+            <Button size='fit' type='no-fill' rounded={true} text={'New'} onClick={handleNewProject}></Button>
         </div>
         <div>
-            <Projects projects={projects} onProjectSelected={handleProjectSelected} onDeleteClicked={handleDeleteProject} ></Projects>
+            <Projects projects={projects} onProjectSelected={handleProjectSelected} onDeleteClicked={handleDeleteProject} search={search} ></Projects>
         </div>
         </div>
     </div>}

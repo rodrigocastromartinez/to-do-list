@@ -40,7 +40,7 @@ export default function TrackCompo({ trackData, setTrackId, trackId, projectId, 
     
                 const track = project.tracks.find((track: TrackModel) => track.id === trackId)
     
-                if(track.audio) setUrl(track.audio)
+                if(track.audio !== '') setUrl(track.audio)
 
                 setInstrument(trackData.instrument)
     
@@ -67,7 +67,7 @@ export default function TrackCompo({ trackData, setTrackId, trackId, projectId, 
     
                 const track = project.tracks.find((track: TrackModel) => track.id === trackId)
     
-                if(track.audio) setUrl(track.audio)
+                if(track.audio !== '') setUrl(track.audio)
 
                 setInstrument(trackData.instrument)
             })()

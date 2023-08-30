@@ -22,7 +22,7 @@ export default function createTrack (userId: string, projectId: string) {
         
         if (!project) throw new Error(`project with id ${projectId} not found`)
 
-        const track = new Track({project: projectId, volume: 70, delay: 0})
+        const track = new Track({project: projectId, volume: 70, delay: 0, audio:''})
 
         project.tracks.push(track)
 
