@@ -28,6 +28,8 @@ export default function saveUrl (userId: string, projectId: string, trackId: str
 
         const track = project.tracks.find((track: TrackModel) => track.id === trackId)
 
+        if(!track) throw new Error(`track with id ${trackId} not found in this project`)
+
         track.audio = url
 
         await project.save()

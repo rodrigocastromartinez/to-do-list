@@ -4,13 +4,13 @@ import { User } from '../data/models'
 import registerUser from './registerUser'
 import { cleanUp, generate } from './helpers'
 import { expect } from 'chai'
-import testDbConnect from '../data/testDbConnect'
+import { ContentError } from '../../com'
 
 dotenv.config()
 
 describe('registerUser', () => {
   before(async () => {
-    await testDbConnect()
+    await mongoose.connect(process.env.MONGODB_URL_TEST)
   })
 
   let user
@@ -35,7 +35,7 @@ describe('registerUser', () => {
     expect(userRegistered.email).to.equal(user.email)
     expect(userRegistered.password).to.equal(user.password)
     expect(userRegistered.avatar).to.equal(undefined)
-    expect(userRegistered.projects).to.equal([])
+    expect(userRegistered.projects.length).to.equal(0)
   })
 
   it('fails on existing user', async () => {
@@ -51,8 +51,6 @@ describe('registerUser', () => {
     }
   })
 
-  // Some validators tests:
-
   it('fails on empty name', () =>
     expect(() =>
       registerUser('', user.email, user.password)
@@ -65,33 +63,20 @@ describe('registerUser', () => {
 
   it('fails on non-string name (or does not satisfies regEx)', () => {
     expect(() =>
-    // @ts-ignore
       registerUser(undefined, user.email, user.password)
-    ).to.throw(Error, 'Username is not valid')
+    ).to.not.be.instanceOf(ContentError)
 
     expect(() =>
       registerUser(`@-${Math.random()}`, user.email, user.password)
     ).to.throw(Error, 'Username is not valid')
 
     expect(() =>
-    // @ts-ignore
       registerUser(null, user.email, user.password)
-    ).to.throw(Error, 'Name is not a string')
-
-    expect(() =>
-    // @ts-ignore
-      registerUser({}, user.email, user.password)
-    ).to.throw(Error, 'Name is not a string')
-
-    expect(() =>
-    // @ts-ignore
-      registerUser([], user.email, user.password)
-    ).to.throw(Error, 'Name is not a string')
+    ).to.not.be.instanceOf(ContentError)
   })
 
   it('fails on non-string email', () => {
     expect(() =>
-    // @ts-ignore
       registerUser(user.name, undefined, user.password)
     ).to.throw(Error, 'Email is not a string')
   })

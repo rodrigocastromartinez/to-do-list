@@ -23,6 +23,8 @@ export default function deleteProject (userId: string, projectId: string) {
         
         if (!project) throw new Error(`project with id ${projectId} not found`)
 
+        if (!project.owners.includes(userId)) throw new Error(`user with id ${userId} not an owner`)
+
         project.owners.forEach(async (owner: string) => {            
             const user = await  User.findById(owner)
 

@@ -9,8 +9,6 @@ import { User, Project } from '../data/models'
  * @returns {Promise<>} 
  */
 
-type Owners = string[]
-
 export default function createProject (userId: string) {
     validateId(userId)
     

@@ -25,11 +25,11 @@ export default function deleteMember (userId: string, projectId: string, newUser
         
         if (!project) throw new Error(`project with id ${projectId} not found`)
 
-        if(!project.owners.includes(newUserId)) throw new Error(`user with id ${newUserId} is not a project member`)
-
         const _user = await User.findById(newUserId)
-
+        
         if (!_user) throw new Error(`user with id ${newUserId} not found`)
+        
+        if(!project.owners.includes(newUserId)) throw new Error(`user with id ${newUserId} is not a project member`)
         
         const index = project.owners.indexOf(newUserId)
 

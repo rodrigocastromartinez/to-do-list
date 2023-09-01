@@ -18,6 +18,7 @@ function validateId(id : string, explain = 'id') {
 }
 
 function validateUserName(userName : string) {
+    if (userName === undefined || userName === null) throw new ContentError('Username is not valid')
     if (userName.trim().length < 1) throw new ContentError('Name is empty')
     if (!userNameExpression.test(userName)) throw new ContentError('Username is not valid')
 }

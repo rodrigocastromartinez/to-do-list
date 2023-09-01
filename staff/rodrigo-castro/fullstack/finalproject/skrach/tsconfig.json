@@ -23,6 +23,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/api/logic/registerUserapi/logic/registerUser.test.ts", "app/library/BarActionIcon.tsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/api/logic/registerUserapi/logic/registerUser.test.ts", "app/library/BarActionIcon.tsx", "app/logic/helpers/cleanUp.js", "app/logic/helpers/generate.js"],
   "exclude": ["node_modules"]
 }

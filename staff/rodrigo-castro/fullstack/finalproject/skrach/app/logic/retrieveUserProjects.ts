@@ -12,7 +12,7 @@ export default function retrieveUserProjects(userId: string) {
 
     return (async () => {
         const user = await User.findById(userId)
-        console.log(user)
+        
         if (!user) throw new ExistenceError(`User with id ${userId} not found`)
 
         const projects = await Promise.all(user.projects.map((project: typeof Project) => Project.findById(project)))

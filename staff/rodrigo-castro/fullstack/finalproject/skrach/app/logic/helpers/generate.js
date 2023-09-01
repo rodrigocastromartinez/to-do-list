@@ -1,34 +1,35 @@
-import { TrackModel } from "../../data/interfaces"
+import { Types } from "mongoose"
+const { ObjectId } = Types
 
 const generate = {
-    track: (projectId: string) => ({
-      id: `track-${Math.random()}`,
-      project: projectId,
-      date: `date-${Math.random()}`,
+    track: () => ({
+      id: new ObjectId(),
+      project: new ObjectId(),
+      date: new Date(),
       audio: `audio-${Math.random()}`,
       volume: Math.random(),
       delay: Math.random(),
       instrument: `instrument-${Math.random()}`,
     }),
 
-    project: (track: TrackModel, userId: string) => ({
-      id: `project-${Math.random()}`,
+    project: () => ({
+      id: new ObjectId(),
       name: `name-${Math.random()}`,
-      date: `date-${Math.random()}`,
-      owners: [userId],
+      date: new Date(),
+      owners: [],
       privacy: `privacy-${Math.random()}`,
-      tracks: [track],
+      tracks: [],
       image: `image-${Math.random()}`,
       key: `key-${Math.random()}`,
     }),
 
-    user: (projectId?: string) => ({
-      id: `user-${Math.random()}`,
+    user: () => ({
+      id: new ObjectId(),
       name: `name-${Math.random()}`,
       email: `email-${Math.random()}@mail.com`,
       password: `password-${Math.random()}`,
       avatar: `avatar-${Math.random()}`,
-      projects: [projectId],
+      projects: [],
       description: `description-${Math.random()}`,
     }),
   }

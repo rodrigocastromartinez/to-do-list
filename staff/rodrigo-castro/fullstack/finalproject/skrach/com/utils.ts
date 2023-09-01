@@ -1,4 +1,4 @@
-const { validateToken } = require('./validators')
+import { validateToken } from './validators'
 
 function extractPayload(token: string) {
     return JSON.parse(atob(token.split('.')[1]))
