@@ -113,4 +113,125 @@
   .overall {
     z-index: 999;
   }
+
+  .music {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-inline: 6px;
+  }
+
+  .stop {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-inline: 6px;
+  }
+
+  .music .bar {
+    width: 6px;
+    border-radius: 10px;
+    background-color: var(--orange-300);
+    animation: movement 1.5s ease-in-out infinite;
+  }
+
+  .stop .bar {
+    width: 6px;
+    border-radius: 10px;
+    background-color: var(--orange-300);
+  }
+
+  @keyframes movement {
+    0%, 100% {
+      height: 2px;
+    }
+
+    50% {
+      height: 45px;
+    }
+  }
+
+  .music .bar:nth-child(1){
+    background-color: var(--orange-300);
+    animation-delay: 1s;
+  }
+  .music .bar:nth-child(2){
+    background-color: var(--orange-200);
+    animation-delay: .8s;
+  }
+  .music .bar:nth-child(3){
+    background-color: var(--orange-300);
+    animation-delay: .6s;
+  }
+  .music .bar:nth-child(4){
+    background-color: var(--orange-200);
+    animation-delay: .4s;
+  }
+  .music .bar:nth-child(5){
+    background-color: var(--orange-300);
+    animation-delay: .2s;
+  }
+  .music .bar:nth-child(6){
+    background-color: var(--orange-200);
+    animation-delay: .2s;
+  }
+  .music .bar:nth-child(7){
+    background-color: var(--orange-300);
+    animation-delay: .4s;
+  }
+  .music .bar:nth-child(8){
+    background-color: var(--orange-200);
+    animation-delay: .6s;
+  }
+  .music .bar:nth-child(9){
+    background-color: var(--orange-300);
+    animation-delay: .8s;
+  }
+  .music .bar:nth-child(10){
+    background-color: var(--orange-200);
+    animation-delay: 1s;
+  }
+
+  .stop .bar:nth-child(1){
+    background-color: var(--orange-300);
+    height: 4px;
+  }
+  .stop .bar:nth-child(2){
+    background-color: var(--orange-200);
+    height: 4px;
+  }
+  .stop .bar:nth-child(3){
+    background-color: var(--orange-300);
+    height: 4px;
+  }
+  .stop .bar:nth-child(4){
+    background-color: var(--orange-200);
+    height: 4px;
+  }
+  .stop .bar:nth-child(5){
+    background-color: var(--orange-300);
+    height: 4px;
+  }
+  .stop .bar:nth-child(6){
+    background-color: var(--orange-200);
+    height: 4px;
+  }
+  .stop .bar:nth-child(7){
+    background-color: var(--orange-300);
+    height: 4px;
+  }
+  .stop .bar:nth-child(8){
+    background-color: var(--orange-200);
+    height: 4px;
+  }
+  .stop .bar:nth-child(9){
+    background-color: var(--orange-300);
+    height: 4px;
+  }
+  .stop .bar:nth-child(10){
+    background-color: var(--orange-200);
+    height: 4px;
+  }
 }

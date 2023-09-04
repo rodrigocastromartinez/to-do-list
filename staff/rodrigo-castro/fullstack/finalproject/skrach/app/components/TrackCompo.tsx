@@ -19,9 +19,10 @@ interface TrackProps {
     projectId: string
     setTracks: Dispatch<SetStateAction<[TrackModel] | undefined>>
     isRecording: boolean
+    isPlaying: boolean
 }
 
-export default function TrackCompo({ trackData, setTrackId, trackId, projectId, setTracks, isRecording }: TrackProps) {
+export default function TrackCompo({ trackData, setTrackId, trackId, projectId, setTracks, isRecording, isPlaying }: TrackProps) {
     const [instrument, setInstrument] = useState<string>(trackData.instrument)
     const [url, setUrl] = useState()
     const [delay, setDelay] = useState<number>()
@@ -30,6 +31,7 @@ export default function TrackCompo({ trackData, setTrackId, trackId, projectId, 
     const [timerId, setTimerId] = useState<NodeJS.Timeout | null>(null)
     const [wave, setWave] = useState<WaveSurfer>()
     const [selectInstrument, setSelectInstrument] = useState(false)
+    const [audioIsPlaying, setAudioIsPlaying] = useState<boolean>(false)
 
     const { alert } = useAppContext()
 
@@ -44,7 +46,7 @@ export default function TrackCompo({ trackData, setTrackId, trackId, projectId, 
 
                 setInstrument(trackData.instrument)
     
-                // setDelay(trackData.delay)
+                setDelay(trackData.delay)
 
                 // const wavesurfer = WaveSurfer.create({
                 //     container: `#${trackId}`,
@@ -67,7 +69,7 @@ export default function TrackCompo({ trackData, setTrackId, trackId, projectId, 
     
                 const track = project.tracks.find((track: TrackModel) => track.id === trackId)
     
-                if(track.audio !== '') setUrl(track.audio)
+                if(track.audio && track.audio !== '') setUrl(track.audio)
 
                 setInstrument(trackData.instrument)
             })()
@@ -175,13 +177,27 @@ export default function TrackCompo({ trackData, setTrackId, trackId, projectId, 
         }
     }
 
+
+
     return <>
         <div className={`bg-[var(--grey-700)] px-4 py-4 flex flex-col items-center gap-4 rounded-2xl ${trackId === trackData._id ? 'outline-2 outline-[var(--orange-300)] outline outline-inner' : ''}`} onClick={handleTrackSelected} >
             <div className="flex items-center gap-4 ">
-                <div className="text-[var(--grey-600)]" onClick={onSelectInstrument} ><img src={`/${instrument}.svg`} className={`h-8 w-8`}/></div>
                 <div className="w-full flex flex-col gap-2" >
                     <div className={` flex justify-center items-center gap-4`} >
-                        <div className="h-16 w-full bg-[var(--grey-600)] rounded-2xl" >{url && <audio id={trackData._id} src={trackData.audio} preload="" >{trackData.delay}</audio> }</div>
+                        <div >{url && <audio id={trackData._id} src={trackData.audio} preload="" >{trackData.delay}</audio> }</div>
+                        <div className={`h-16 w-full bg-[var(--grey-600)] rounded-2xl ${trackData.audio !== '' && isPlaying ? 'music' :
+                            trackData.audio !== '' && !isPlaying ? 'stop' : ''}`}>
+                            <div className="bar" ></div>
+                            <div className="bar" ></div>
+                            <div className="bar" ></div>
+                            <div className="bar" ></div>
+                            <div className="bar" ></div>
+                            <div className="bar" ></div>
+                            <div className="bar" ></div>
+                            <div className="bar" ></div>
+                            <div className="bar" ></div>
+                            <div className="bar" ></div>
+                        </div>
                         {/* {trackId && <div id={`${trackId}`}></div>} */}
                         {isRecording && trackId === trackData._id ? <img src={`/recording.svg`} className={`h-6 w-6`}/> : <img src={`/not-recording.svg`} className={`h-6 w-6`}/>}
                     </div>
@@ -207,6 +223,7 @@ export default function TrackCompo({ trackData, setTrackId, trackId, projectId, 
                             onChange={handleChange}
                             />
                 </div>
+                <div className="text-[var(--grey-600)]" onClick={onSelectInstrument} ><img src={`/${instrument}.svg`} className={`h-8 w-8`}/></div>
             </div>
             {selectInstrument && trackId === trackData._id && <div className="flex justify-center items-center h-fit w-fit relative top-0 left-0 z-50">
                 <div className="flex flex-col gap-2 justify-center items-center w-80 h-fit p-4 rounded-2xl bg-[var(--grey-700)]">

@@ -27,6 +27,7 @@ export default function Edition({ onGoBack, projectId, modal, onAddMemberClicked
     const [chunks, setChunks] = useState<Blob[]>()
     const [trackId, setTrackId] = useState<string | undefined>()
     const [tracks, setTracks] = useState<[TrackModel]>()
+    const [isPlaying, setIsPlaying] = useState(false)
 
     const { alert } = useAppContext()
 
@@ -170,12 +171,31 @@ export default function Edition({ onGoBack, projectId, modal, onAddMemberClicked
     
             audios.forEach(audio => {
                 setTimeout(() => {
-                    audio.play()
+                    if(audio.src !== 'http://localhost:3000/dashboard')
+                        audio.play()
+                        if (audio.ended) handleStop()
                 }, parseInt(audio.textContent!))
             })
+
+            setIsPlaying(true)
         } catch(error: any) {
             alert(error.message)
         } 
+    }
+
+    const handleStop = async () => {
+        try {
+            const audios = document.querySelectorAll('audio')
+    
+            audios.forEach(audio => {
+                    audio.load()
+                    // audio.currentTime = 0
+            })
+
+            setIsPlaying(false)
+        } catch(error: any) {
+            alert(error.message)
+        }
     }
 
     return <>
@@ -188,10 +208,10 @@ export default function Edition({ onGoBack, projectId, modal, onAddMemberClicked
             </div>
         </div>
         <div className="flex flex-col justify-start h-full gap-4">
-            {tracks && tracks.map(track => <TrackCompo key={track._id} trackData={track} setTrackId={setTrackId} trackId={trackId!} projectId={projectId} setTracks={setTracks} isRecording={isRecording} /> )}
+            {tracks && tracks.map(track => <TrackCompo key={track._id} trackData={track} setTrackId={setTrackId} trackId={trackId!} projectId={projectId} setTracks={setTracks} isRecording={isRecording} isPlaying={isPlaying} /> )}
         </div>
         <div className="flex flex-col p-4 fixed bottom-0 left-0 w-screen bg-[var(--black-100)]">
-            <Controls onToggleRec={handleToggleRec} onPlay={handlePlay} ></Controls>
+            <Controls onToggleRec={handleToggleRec} onPlay={handlePlay} onStop={handleStop} ></Controls>
             <div className="flex gap-2" >
                 <Button size='wide' type='primary' text={'Delete'} onClick={handleDeleteTrack} ></Button>
                 <Button size='wide' type='grey' text={'Back'} onClick={onGoBack} ></Button>
