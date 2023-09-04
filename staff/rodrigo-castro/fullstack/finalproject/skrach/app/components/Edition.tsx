@@ -189,7 +189,6 @@ export default function Edition({ onGoBack, projectId, modal, onAddMemberClicked
     
             audios.forEach(audio => {
                     audio.load()
-                    // audio.currentTime = 0
             })
 
             setIsPlaying(false)

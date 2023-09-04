@@ -23,7 +23,7 @@ export default function registerUser(email : string, name : string, password : s
             body: JSON.stringify({ name, email, password })
         })
 
-        if(res.status === 201)
+        if(res.status === 200)
             return
 
         const { message } = await res.json()

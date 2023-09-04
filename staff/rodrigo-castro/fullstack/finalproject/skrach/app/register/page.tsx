@@ -14,6 +14,8 @@ import { useAppContext } from '../hooks'
 const roboto = Roboto({ subsets: ['latin'], weight: ['300'] })
 
 export default function Register() {
+    const router = useRouter()
+
     const { freeze, unfreeze, alert } = useAppContext()
 
     useEffect(() => {
@@ -31,8 +33,6 @@ export default function Register() {
             alert(error.message)
         }
     }, [])
-
-    const router = useRouter()
 
     async function handleRegister(event: FormEvent) {
         event.preventDefault()
