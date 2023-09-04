@@ -20,9 +20,10 @@ interface TrackProps {
     setTracks: Dispatch<SetStateAction<[TrackModel] | undefined>>
     isRecording: boolean
     isPlaying: boolean
+    onAudioEnded: () => void
 }
 
-export default function TrackCompo({ trackData, setTrackId, trackId, projectId, setTracks, isRecording, isPlaying }: TrackProps) {
+export default function TrackCompo({ trackData, setTrackId, trackId, projectId, setTracks, isRecording, isPlaying, onAudioEnded }: TrackProps) {
     const [instrument, setInstrument] = useState<string>(trackData.instrument)
     const [url, setUrl] = useState()
     const [delay, setDelay] = useState<number>()
@@ -47,15 +48,6 @@ export default function TrackCompo({ trackData, setTrackId, trackId, projectId, 
                 setInstrument(trackData.instrument)
     
                 setDelay(trackData.delay)
-
-                // const wavesurfer = WaveSurfer.create({
-                //     container: `#${trackId}`,
-                //     waveColor: '#4F4A85',
-                //     progressColor: '#383351',
-                //     url: `${track.audio}`,
-                //   })
-
-                // setWave(wavesurfer)
             })()
         } catch(error: any) {
             alert(error.message)
@@ -177,14 +169,12 @@ export default function TrackCompo({ trackData, setTrackId, trackId, projectId, 
         }
     }
 
-
-
     return <>
         <div className={`bg-[var(--grey-700)] px-4 py-4 flex flex-col items-center gap-4 rounded-2xl ${trackId === trackData._id ? 'outline-2 outline-[var(--orange-300)] outline outline-inner' : ''}`} onClick={handleTrackSelected} >
             <div className="flex items-center gap-4 ">
                 <div className="w-full flex flex-col gap-2" >
                     <div className={` flex justify-center items-center gap-4`} >
-                        <div >{url && <audio id={trackData._id} src={trackData.audio} preload="" >{trackData.delay}</audio> }</div>
+                        <div >{url && <audio onEnded={onAudioEnded} id={trackData._id} src={trackData.audio} preload="" >{trackData.delay}</audio> }</div>
                         <div className={`h-16 w-full bg-[var(--grey-600)] rounded-2xl ${trackData.audio !== '' && isPlaying ? 'music' :
                             trackData.audio !== '' && !isPlaying ? 'stop' : ''}`}>
                             <div className="bar" ></div>

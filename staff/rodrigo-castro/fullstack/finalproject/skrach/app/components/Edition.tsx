@@ -208,7 +208,7 @@ export default function Edition({ onGoBack, projectId, modal, onAddMemberClicked
             </div>
         </div>
         <div className="flex flex-col justify-start h-full gap-4">
-            {tracks && tracks.map(track => <TrackCompo key={track._id} trackData={track} setTrackId={setTrackId} trackId={trackId!} projectId={projectId} setTracks={setTracks} isRecording={isRecording} isPlaying={isPlaying} /> )}
+            {tracks && tracks.map(track => <TrackCompo key={track._id} trackData={track} setTrackId={setTrackId} trackId={trackId!} projectId={projectId} setTracks={setTracks} isRecording={isRecording} isPlaying={isPlaying} onAudioEnded={handleStop} /> )}
         </div>
         <div className="flex flex-col p-4 fixed bottom-0 left-0 w-screen bg-[var(--black-100)]">
             <Controls onToggleRec={handleToggleRec} onPlay={handlePlay} onStop={handleStop} ></Controls>
