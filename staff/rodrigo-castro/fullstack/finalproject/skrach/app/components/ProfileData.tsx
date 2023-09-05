@@ -9,9 +9,10 @@ import { UserModel } from "../data/interfaces"
     setModal: (arg1: string | undefined) => void
     user: UserModel | undefined
     setUser: (arg1: UserModel | undefined) => void
+    modal: string | undefined
   }
 
-export default function ProfileData({ onAvatarChange, setModal, setUser, user }: ProfileDataProps) {
+export default function ProfileData({ onAvatarChange, setModal, setUser, user, modal }: ProfileDataProps) {
     useEffect(() => {
       const fetchData = (async () => {
           setUser(user)
@@ -25,7 +26,7 @@ export default function ProfileData({ onAvatarChange, setModal, setUser, user }:
     return <>
     {user && <div className="flex items-center gap-4">
         <div className="h-24 w-24">
-            <Avatar changeAvatar={onAvatarChange} ></Avatar>
+            <Avatar changeAvatar={onAvatarChange} modal={modal} setModal={setModal} ></Avatar>
         </div>
         <div>
             <p className="font-semibold text-slate-300 text-lg" >{user.name}</p>

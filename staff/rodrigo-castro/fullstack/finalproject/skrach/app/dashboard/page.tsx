@@ -1,8 +1,8 @@
 'use client'
 
 import { useState } from 'react'
-import {createProject, retrieveUser, retrieveUserProjects, retrieveProject, retrieveUserEmail, deleteProject } from "../logic/client"
-import { Edition, Button, SearchBar, ProfileData, Projects, NavigationBar, AvatarModal, MembersModal, DescriptionModal, Instruments, Settings } from '../components'
+import {createProject, retrieveUser, retrieveUserProjects, retrieveProject, retrieveUserEmail } from "../logic/client"
+import { Edition, Button, SearchBar, ProfileData, Projects, NavigationBar, AvatarModal, MembersModal, DescriptionModal, Settings } from '../components'
 import logoutUser from '../logic/client/logoutUser'
 import { useRouter } from 'next/navigation'
 import { useAppContext } from '../hooks'
@@ -142,18 +142,6 @@ export default function Home() {
         setModal('instrument')
     }
 
-    const handleDeleteProject = async (id: string) => {
-        try {
-            await deleteProject(id)
-    
-            const projects = await retrieveUserProjects()
-    
-            setProjects(projects)
-        } catch(error: any) {
-            alert(error.message)
-        }
-    }
-
     const handleSetPasswordModal = () => setModal('password')
 
     const handleChangePassword = () => {}
@@ -163,21 +151,21 @@ export default function Home() {
     {!edition && user && projects && <div className="absolute top-16 w-screen h-screen flex flex-col px-8 gap-4">
         <div className='relative pt-4 flex flex-col gap-4'>
         <div>
-            <ProfileData onAvatarChange={handleChangeAvatar} setModal={setModal} setUser={setUser} user={user}></ProfileData>
+            <ProfileData onAvatarChange={handleChangeAvatar} setModal={setModal} setUser={setUser} user={user} modal={modal} ></ProfileData>
         </div>
         <div className="flex gap-4" >
             <SearchBar onChange={(e) => setSearch(e.target.value)}></SearchBar>
             <Button size='fit' type='no-fill' rounded={true} text={'New'} onClick={handleNewProject}></Button>
         </div>
         <div>
-            <Projects projects={projects} onProjectSelected={handleProjectSelected} onDeleteClicked={handleDeleteProject} search={search} ></Projects>
+            <Projects projects={projects} onProjectSelected={handleProjectSelected} search={search} ></Projects>
         </div>
         </div>
     </div>}
 
     {edition && projectId &&  <Edition onGoBack={handleGoBack} projectId={projectId} modal={modal} onAddMemberClicked={handleAddMember} onSelectInstrument={handleSelectInstrument} /> }
 
-    {modal === 'avatar' && <AvatarModal setModal={setModal} ></AvatarModal>}
+    {/* {modal === 'avatar' && <AvatarModal setModal={setModal} ></AvatarModal>} */}
 
     {modal === 'members' && owners && projectId && <MembersModal projectId={projectId} setModal={setModal} owners={owners} ></MembersModal>}
 

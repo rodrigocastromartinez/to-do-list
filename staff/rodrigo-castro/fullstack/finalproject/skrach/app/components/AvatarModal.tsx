@@ -4,9 +4,10 @@ import { useAppContext } from "../hooks"
 
 interface AvatarModalProps {
     setModal: (arg1: string | undefined) => void
+    onSave: () => void
 }
 
-export default function AvatarModal({setModal}: AvatarModalProps) {
+export default function AvatarModal({setModal, onSave}: AvatarModalProps) {
     const { freeze, unfreeze, alert } = useAppContext()
 
     const handleCloseModal = () => setModal(undefined)
@@ -20,6 +21,8 @@ export default function AvatarModal({setModal}: AvatarModalProps) {
             const avatar = event.currentTarget.avatarurl.value
     
             await updateUserAvatar(avatar)
+
+            onSave()
     
             setModal(undefined)
 
