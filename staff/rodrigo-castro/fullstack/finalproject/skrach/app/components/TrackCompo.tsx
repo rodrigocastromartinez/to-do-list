@@ -89,7 +89,7 @@ export default function TrackCompo({ trackData, setTrackId, trackId, projectId, 
                     if (pendingVolume !== null) {
                         await updateVolume(projectId, trackData._id, newValue)
 
-                        console.log(newValue)
+                        
 
                         setPendingVolume(null)
 
@@ -161,7 +161,7 @@ export default function TrackCompo({ trackData, setTrackId, trackId, projectId, 
 
             context.instrument = selection
 
-            console.log(context.instrument)
+            
 
             setSelectInstrument(false)
         } catch(error: any) {

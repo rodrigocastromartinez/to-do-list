@@ -1,4 +1,4 @@
-# APP SKRACH
+# APP SKRACH ⚡️
 
 ## INTRO
 
@@ -13,7 +13,7 @@ The aim is to streamline the recording process for what is commonly known as 'de
 ---
 ---
 
-![](https://i.gifer.com/origin/3a/3a007c6442ca0db127e5a4dd7fe7b569.gif)
+![](https://odisejastudio.com/wp-content/uploads/2020/04/MIXING.gif)
 
 ---
 ---
@@ -116,7 +116,7 @@ https://www.notion.so/SKRACH-Project-3355f5c9f8d7480493c90527e86468aa
 
 #### Project opened
 
-- Record on an empty channel
+- Record on an empty channel or overwrite a used channel
 - Delete a recorded track
 - Set relative volume of the tracks
 - Play the mix

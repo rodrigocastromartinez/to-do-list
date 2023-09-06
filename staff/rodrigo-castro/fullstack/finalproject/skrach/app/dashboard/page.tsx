@@ -50,6 +50,10 @@ export default function Home() {
         try {
             const res = await createProject()
 
+            const user = await retrieveUser()
+
+            setUser(user)
+
             setProjectId(res.id)
 
             setEdition(true)
