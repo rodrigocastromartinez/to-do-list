@@ -2,7 +2,7 @@
 
 ## Intro
 
-This app is the final result of the work done during ISDI Coders Online Full-Stack Development Bootcamp
+This app is a social network where users can post pictures and see posts from other users. They can interact, liking or saving posts, filter posts, update personal information, or select between dark and ligth mode. It was designed to be used in every dispositive including desktop, tablet or mobile.
 
 ![](https://i.giphy.com/media/4JXNjv3MR21YXfsaqQ/giphy.webp)
 
@@ -81,7 +81,7 @@ As a client, I want to write a text and choose an image from disk to create a po
 
 #### Save / unsave in posts
 
-- TODO add save button in each post
+- add save button in each post
 - call save post on save button click
 - re render posts
 - implement save post logic

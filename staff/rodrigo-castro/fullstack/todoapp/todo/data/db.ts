@@ -1,6 +1,6 @@
 import { MongoClient, Db } from 'mongodb';
 
-const uri = 'mongodb://127.0.0.1:27017/data-todo';
+const uri = process.env.MONGODB_URL;
 
 async function connectToDatabase(): Promise<Db> {
   const client = new MongoClient(uri);
